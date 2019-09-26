@@ -1,0 +1,52 @@
+<?php
+/**
+ * This file is part of the Systemic package
+ * @license http://opensource.org/licenses/MIT
+ */
+declare(strict_types=1);
+namespace DecodeLabs\Systemic\Plugins;
+
+use DecodeLabs\Systemic\Context;
+use DecodeLabs\Veneer\FacadePlugin;
+
+use DecodeLabs\Glitch\Inspectable;
+
+use DateTimeZone;
+
+class Timezone implements FacadePlugin, Inspectable
+{
+    use GetterSetterPluginTrait;
+
+    protected $timezone;
+
+    /**
+     * Init with parent factory
+     */
+    public function __construct(Context $context)
+    {
+        $this->context = $context;
+        date_default_timezone_set('UTC');
+        $this->timezone = new \DateTimeZone('UTC');
+    }
+
+    /**
+     * Set current value
+     */
+    protected function setCurrent($value): DateTimeZone
+    {
+        if (!$value instanceof DateTimeZone) {
+            $value = new DateTimeZone((string)$value);
+        }
+
+        $this->timezone = $value;
+        return $value;
+    }
+
+    /**
+     * Get current value
+     */
+    protected function getCurrent(): DateTimeZone
+    {
+        return $this->timezone;
+    }
+}
