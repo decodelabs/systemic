@@ -16,7 +16,7 @@
         "symfony/polyfill-mbstring": "^1.7",
 
         "decodelabs/glitch": "<2",
-        "decodelabs/veneer": "~0.3"
+        "decodelabs/veneer": "~0.4"
     },
     "autoload": {
         "psr-4": {
