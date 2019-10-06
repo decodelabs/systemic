@@ -207,7 +207,7 @@ abstract class Base implements Launcher
      */
     public function setR7Multiplexer(IMultiplexer $multiplexer): Launcher
     {
-        if (!class_exists('DecodeLabs\\Atlas')) {
+        if (!class_exists('\\DecodeLabs\\Atlas\\Context')) {
             throw Glitch::EComponentUnavailable('Atlas is not available');
         }
 
