@@ -27,4 +27,7 @@ interface Os extends FacadePlugin, Inspectable
     public function groupNameToGroupId(string $name): int;
 
     public function which(string $binaryName): ?string;
+
+    public function getShellWidth(): int;
+    public function getShellHeight(): int;
 }

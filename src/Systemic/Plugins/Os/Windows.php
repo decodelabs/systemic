@@ -99,4 +99,21 @@ class Windows extends Base
     {
         Glitch::incomplete($binaryName);
     }
+
+    /**
+     * Get connected shell columns
+     * TODO: mode con /status
+     */
+    public function getShellWidth(): int
+    {
+        Glitch::incomplete($binaryName);
+    }
+
+    /**
+     * Get connected shell lines
+     */
+    public function getShellHeight(): int
+    {
+        Glitch::incomplete($binaryName);
+    }
 }
