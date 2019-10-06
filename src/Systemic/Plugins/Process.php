@@ -15,6 +15,8 @@ use DecodeLabs\Systemic\Process\Launcher;
 use DecodeLabs\Systemic\Process\Launcher\Base as LauncherBase;
 use DecodeLabs\Systemic\Process\Base as BaseProcess;
 
+use DecodeLabs\Atlas\Broker;
+
 class Process implements FacadePlugin
 {
     protected $context;
@@ -46,40 +48,40 @@ class Process implements FacadePlugin
     /**
      * Launch standard process
      */
-    public function launch(string $process, $args=null, string $path=null, string $user=null): Result
+    public function launch(string $process, $args=null, string $path=null, ?Broker $ioBroker=null, string $user=null): Result
     {
-        return $this->newLauncher($process, $args, $path, $user)->launch();
+        return $this->newLauncher($process, $args, $path, $ioBroker, $user)->launch();
     }
 
     /**
      * Launch PHP script
      */
-    public function launchScript(string $path, $args=null, string $user=null): Result
+    public function launchScript(string $path, $args=null, ?Broker $ioBroker=null, string $user=null): Result
     {
-        return $this->newScriptLauncher($path, $args, $user)->launch();
+        return $this->newScriptLauncher($path, $args, $ioBroker, $user)->launch();
     }
 
     /**
      * Launch background process
      */
-    public function launchBackground(string $process, $args=null, string $path=null, string $user=null): Process
+    public function launchBackground(string $process, $args=null, string $path=null, ?Broker $ioBroker=null, string $user=null): Process
     {
-        return $this->newLauncher($process, $args, $path, $user)->launchBackground();
+        return $this->newLauncher($process, $args, $path, $ioBroker, $user)->launchBackground();
     }
 
     /**
      * Launch background PHP script
      */
-    public function launchBackgroundScript(string $path, $args=null, $user=null): Process
+    public function launchBackgroundScript(string $path, $args=null, ?Broker $ioBroker=null, string $user=null): Process
     {
-        return $this->newScriptLauncher($path, $args, $user)->launchBackground();
+        return $this->newScriptLauncher($path, $args, $ioBroker, $user)->launchBackground();
     }
 
 
     /**
      * Create a new launcher object
      */
-    public function newLauncher(string $process, $args=[], string $path=null, string $user=null): Launcher
+    public function newLauncher(string $process, $args=[], string $path=null, ?Broker $ioBroker=null, string $user=null): Launcher
     {
         if ($args === null) {
             $args = [];
@@ -87,13 +89,13 @@ class Process implements FacadePlugin
             $args = (array)$args;
         }
 
-        return LauncherBase::create($process, $args, $path)->setUser($user);
+        return LauncherBase::create($process, $args, $path, $ioBroker, $user);
     }
 
     /**
      * Create a new launcher for php scripts
      */
-    public function newScriptLauncher(string $path, $args=[], string $user=null): Launcher
+    public function newScriptLauncher(string $path, $args=[], ?Broker $ioBroker=null, string $user=null): Launcher
     {
         if ($args === null) {
             $args = [];
@@ -114,6 +116,6 @@ class Process implements FacadePlugin
             $phpPath = dirname($binaryPath);
         }
 
-        return LauncherBase::create($phpName, [trim($path), $args], $phpPath)->setUser($user);
+        return LauncherBase::create($phpName, [trim($path), $args], $phpPath, $ioBroker, $user);
     }
 }
