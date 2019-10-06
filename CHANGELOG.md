@@ -1,4 +1,4 @@
-## v0.5.0 (2019-10-06)
+## v0.6.0 (2019-10-06)
 * Added Atlas Io Broker support to Process Launcher
 * Added shell width and height fetcher
 
