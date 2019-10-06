@@ -80,6 +80,38 @@ abstract class Base implements Os
     }
 
     /**
+     * Is a windows platform?
+     */
+    public function isWindows(): bool
+    {
+        return $this instanceof Windows;
+    }
+
+    /**
+     * Is this a unix platform?
+     */
+    public function isUnix(): bool
+    {
+        return $this instanceof Unix;
+    }
+
+    /**
+     * Is this a Linux platform?
+     */
+    public function isLinux(): bool
+    {
+        return $this instanceof Linux;
+    }
+
+    /**
+     * Is this a Mac platform?
+     */
+    public function isMac(): bool
+    {
+        return $this instanceof Darwin;
+    }
+
+    /**
      * Get OS version
      */
     public function getVersion(): string

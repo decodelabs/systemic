@@ -32,21 +32,24 @@ class Unix extends Base
             realpath($this->workingDirectory) : null;
 
         $result = new Result();
-        $processHandle = proc_open($command, $descriptors, $pipes, $workingDirectory);
+
+        $env = $this->prepareEnv();
+        $processHandle = proc_open($command, $descriptors, $pipes, $workingDirectory, $env);
 
         if (!is_resource($processHandle)) {
             return $result->registerFailure();
         }
 
-        $outputBuffer = $errorBuffer = $input = false;
+        $outputBuffer = $errorBuffer = $input = null;
         $outputPipe = $pipes[1];
         $errorPipe = $pipes[2];
 
         stream_set_blocking($outputPipe, false);
         stream_set_blocking($errorPipe, false);
 
-        if ($this->multiplexer) {
-            $this->multiplexer->setReadBlocking(false);
+        if ($this->broker) {
+            $brokerBlocking = $this->broker->isBlocking();
+            $this->broker->setBlocking(false);
         }
 
         while (true) {
@@ -55,38 +58,32 @@ class Unix extends Base
             $outputBuffer = $this->readChunk($outputPipe, $this->readChunkSize);
             $errorBuffer = $this->readChunk($errorPipe, $this->readChunkSize);
 
-            if ($this->multiplexer) {
-                $input = $this->multiplexer->readChunk($this->readChunkSize);
-            } elseif ($this->inputReader) {
-                $input = ($this->inputReader)($this->readChunkSize);
+            if ($this->broker) {
+                $input = $this->broker->read($this->readChunkSize);
             }
 
-            if ($outputBuffer !== false) {
+            if ($outputBuffer !== null) {
                 $result->appendOutput($outputBuffer);
 
-                if ($this->multiplexer) {
-                    $this->multiplexer->write($outputBuffer);
-                } elseif ($this->outputWriter) {
-                    ($this->outputWriter)($outputBuffer);
+                if ($this->broker) {
+                    $this->broker->write($outputBuffer);
                 }
             }
 
-            if ($errorBuffer !== false) {
+            if ($errorBuffer !== null) {
                 $result->appendError($errorBuffer);
 
-                if ($this->multiplexer) {
-                    $this->multiplexer->writeError($errorBuffer);
-                } elseif ($this->errorWriter) {
-                    ($this->errorWriter)($errorBuffer);
+                if ($this->broker) {
+                    $this->broker->writeError($errorBuffer);
                 }
             }
 
-            if ($input !== false) {
+            if ($input !== null) {
                 fwrite($pipes[0], $input);
-                $input = false;
+                $input = null;
             }
 
-            if (!$status['running'] && $outputBuffer === false && $errorBuffer === false && $input === false) {
+            if (!$status['running'] && $outputBuffer === null && $errorBuffer === null && $input === null) {
                 break;
             }
 
@@ -102,8 +99,8 @@ class Unix extends Base
         proc_close($processHandle);
         $result->registerCompletion();
 
-        if ($this->multiplexer) {
-            $this->multiplexer->setReadBlocking(true);
+        if ($this->broker) {
+            $this->broker->setBlocking($brokerBlocking);
         }
 
         return $result;
@@ -123,7 +120,7 @@ class Unix extends Base
         if ($output === ''
         || $output === null
         || $output === false) {
-            return false;
+            return null;
         }
 
         return $output;
@@ -190,6 +187,38 @@ class Unix extends Base
             $command = 'sudo -u '.$this->user.' '.$command;
         }
 
+        if (Systemic::$os->which('script')) {
+            if (Systemic::$os->isMac()) {
+                $command = 'script -q /dev/null '.$command;
+            } else {
+                $command = 'script -e -q -c "'.$command.'" /dev/null';
+            }
+        }
+
         return $command;
+    }
+
+    /**
+     * Prepare env for proc_open
+     */
+    protected function prepareEnv(): ?array
+    {
+        if (!in_array(\PHP_SAPI, ['cli', 'phpdbg'])) {
+            return null;
+        }
+
+        $env = $_SERVER;
+        unset($env['argv']);
+        unset($env['argc']);
+
+        if (!isset($env['COLUMNS'])) {
+            $env['COLUMNS'] = Systemic::$os->getShellWidth();
+        }
+
+        if (!isset($env['ROWS'])) {
+            $env['ROWS'] = Systemic::$os->getShellHeight();
+        }
+
+        return $env;
     }
 }

@@ -7,7 +7,9 @@ declare(strict_types=1);
 namespace DecodeLabs\Systemic\Process\Launcher;
 
 use DecodeLabs\Systemic\Process;
+
 use DecodeLabs\Systemic\Process\Launcher;
+use DecodeLabs\Atlas\Broker;
 
 abstract class Base implements Launcher
 {
@@ -18,16 +20,12 @@ abstract class Base implements Launcher
     protected $title;
     protected $priority;
     protected $workingDirectory;
-
-    protected $multiplexer;
-    protected $outputWriter;
-    protected $errorWriter;
-    protected $inputReader;
+    protected $broker;
 
     /**
      * Create process launcher for specific OS
      */
-    public static function create(string $processName, array $args=[], string $path=null, string $user=null): Launcher
+    public static function create(string $processName, array $args=[], string $path=null, ?Broker $broker=null, string $user=null): Launcher
     {
         $class = '\\DecodeLabs\\Systemic\\Process\\Launcher\\'.Systemic::$os->getName();
 
@@ -41,19 +39,20 @@ abstract class Base implements Launcher
             }
         }
 
-        return new $class($processName, $args, $path);
+        return new $class($processName, $args, $path, $broker, $user);
     }
 
 
     /**
      * Init with main params
      */
-    protected function __construct(string $processName, array $args=[], stirng $path=null, string $user=null)
+    protected function __construct(string $processName, array $args=[], string $path=null, ?Broker $broker=null, string $user=null)
     {
         $this->setProcessName($processName);
         $this->setArgs($args);
         $this->setPath($path);
         $this->setTitle($this->processName);
+        $this->setIoBroker($broker);
         $this->setUser($user);
     }
 
@@ -181,53 +180,19 @@ abstract class Base implements Launcher
 
 
     /**
-     * Set callback to pass on output to another stream
-     */
-    public function setOutputWriter(?callable $writer): Launcher
-    {
-        $this->outputWriter = $writer;
-        return $this;
-    }
-
-    /**
-     * Get the output writer
-     */
-    public function getOutputWriter(): ?callable
-    {
-        return $this->outputWriter;
-    }
-
-    /**
-     * Set callback to pass on error output to another stream
-     */
-    public function setErrorWriter(?callable $writer): Launcher
-    {
-        $this->errorWriter = $writer;
-        return $this;
-    }
-
-    /**
-     * Get error writer
-     */
-    public function getErrorWriter(): ?callable
-    {
-        return $this->errorWriter;
-    }
-
-    /**
      * Set callback to read user input
      */
-    public function setInputReader(?callable $reader): Launcher
+    public function setIoBroker(?Broker $broker): Launcher
     {
-        $this->inputReader = $reader;
+        $this->broker = $broker;
         return $this;
     }
 
     /**
      * Get input reader
      */
-    public function getInputReader(): ?callable
+    public function getIoBroker(): ?Broker
     {
-        return $this->inputReader;
+        return $this->broker;
     }
 }

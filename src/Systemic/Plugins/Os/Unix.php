@@ -112,17 +112,16 @@ class Unix extends Base
             }
         }
 
-
-        $result = Systemic::$process->launch('which '.$binaryName)->getOutput();
+        exec('which '.$binaryName, $result);
 
         if (empty($result)) {
-            $result = Systemic::$process->launch('type '.$binaryName)->getOutput();
+            exec('type '.$binaryName, $result);
 
             if (empty($result)) {
                 return $binaryName;
             }
 
-            $result = trim($result);
+            $result = trim($result[0]);
 
             if (!preg_match('/^[^ ]+ is (.*)$/', $result, $matches)) {
                 return $binaryName;
@@ -130,9 +129,27 @@ class Unix extends Base
 
             return $matches[1];
         } else {
-            $result = trim($result);
+            $result = trim($result[0]);
         }
 
         return $result;
+    }
+
+    /**
+     * Get connected shell columns
+     */
+    public function getShellWidth(): int
+    {
+        exec('tput cols', $result);
+        return (int)($result[0] ?? 80);
+    }
+
+    /**
+     * Get connected shell lines
+     */
+    public function getShellHeight(): int
+    {
+        exec('tput lines', $result);
+        return (int)($result[0] ?? 30);
     }
 }

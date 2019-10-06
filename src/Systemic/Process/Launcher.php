@@ -7,6 +7,7 @@ declare(strict_types=1);
 namespace DecodeLabs\Systemic\Process;
 
 use DecodeLabs\Systemic\Process;
+use DecodeLabs\Atlas\Broker;
 
 interface Launcher
 {
@@ -25,12 +26,8 @@ interface Launcher
     public function setWorkingDirectory(?string $path);
     public function getWorkingDirectory(): ?string;
 
-    public function setOutputWriter(?callable $writer): Launcher;
-    public function getOutputWriter(): ?callable;
-    public function setErrorWriter(?callable $writer): Launcher;
-    public function getErrorWriter(): ?callable;
-    public function setInputReader(?callable $reader): Launcher;
-    public function getInputReader(): ?callable;
+    public function setIoBroker(?Broker $broker): Launcher;
+    public function getIoBroker(): ?Broker;
 
     public function launch(): Result;
     public function launchBackground(): Process;

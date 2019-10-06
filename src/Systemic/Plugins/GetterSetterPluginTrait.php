@@ -115,8 +115,7 @@ trait GetterSetterPluginTrait
     public function glitchInspect(Entity $entity, Inspector $inspector): void
     {
         $entity
-            ->setValues([$inspector($this->get())])
-            ->setShowKeys(false)
+            ->setSingleValue($inspector($this->get()))
             ->setSectionVisible('properties', false);
 
         $inspector->inspectClassMembers($this, new \ReflectionClass($this), $entity, ['context']);
