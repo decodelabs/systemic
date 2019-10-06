@@ -7,9 +7,14 @@ declare(strict_types=1);
 namespace DecodeLabs\Systemic\Process\Launcher;
 
 use DecodeLabs\Systemic\Process;
-
 use DecodeLabs\Systemic\Process\Launcher;
+
+use DecodeLabs\Atlas;
 use DecodeLabs\Atlas\Broker;
+use DecodeLabs\Atlas\Channel\Stream;
+
+use df\core\io\IMultiplexer;
+use df\core\io\IMultiplexReaderChannel;
 
 abstract class Base implements Launcher
 {
@@ -194,5 +199,33 @@ abstract class Base implements Launcher
     public function getIoBroker(): ?Broker
     {
         return $this->broker;
+    }
+
+
+    /**
+     * TEMP: Wrap r7 multiplexer
+     */
+    public function setR7Multiplexer(IMultiplexer $multiplexer): Launcher
+    {
+        if (!class_exists('DecodeLabs\\Atlas')) {
+            throw Glitch::EComponentUnavailable('Atlas is not available');
+        }
+
+        $broker = Atlas::newBroker();
+
+        foreach ($multiplexer->getChannels() as $channel) {
+            if ($channel instanceof IMultiplexReaderChannel) {
+                $broker
+                    ->addInputChannel(Atlas::openCliInputStream())
+                    ->addOutputChannel(Atlas::openCliOutputStream())
+                    ->addErrorChannel(Atlas::openCliErrorStream());
+            } else {
+                $stream = new Stream($channel->getStreamDescriptor());
+                $broker->addOutputChannel($stream);
+                $broker->addErrorChannel($stream);
+            }
+        }
+
+        return $this->setIoBroker($broker);
     }
 }
