@@ -170,7 +170,7 @@ class Unix extends Base
             chdir($cwd);
         }
 
-        return new UnixProcess($pid, $command);
+        return new UnixProcess((int)$pid, $command);
     }
 
     /**
