@@ -31,6 +31,10 @@ class Unix extends Base
         $workingDirectory = $this->workingDirectory !== null ?
             realpath($this->workingDirectory) : null;
 
+        if ($workingDirectory === false) {
+            $workingDirectory = $this->workingDirectory;
+        }
+
         $result = new Result();
 
         $env = $this->prepareEnv();
@@ -223,7 +227,13 @@ class Unix extends Base
     protected function prepareEnv(): ?array
     {
         if (!in_array(\PHP_SAPI, ['cli', 'phpdbg'])) {
-            return null;
+            $output = $_ENV;
+
+            if (!isset($output['PATH'])) {
+                $output['PATH'] = '/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin';
+            }
+
+            return $output;
         }
 
         $env = $_SERVER;
