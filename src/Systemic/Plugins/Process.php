@@ -11,6 +11,7 @@ use DecodeLabs\Veneer\FacadePlugin;
 
 use DecodeLabs\Systemic\Process as ProcessInterface;
 use DecodeLabs\Systemic\Process\Result;
+use DecodeLabs\Systemic\Process\Signal;
 use DecodeLabs\Systemic\Process\Launcher;
 use DecodeLabs\Systemic\Process\Launcher\Base as LauncherBase;
 use DecodeLabs\Systemic\Process\Base as BaseProcess;
@@ -67,6 +68,15 @@ class Process implements FacadePlugin
     public function fromPid(int $pid): ProcessInterface
     {
         return BaseProcess::fromPid($pid);
+    }
+
+
+    /**
+     * New signal object
+     */
+    public function newSignal($signal): Signal
+    {
+        return Signal::create($signal);
     }
 
 
