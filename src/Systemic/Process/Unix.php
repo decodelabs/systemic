@@ -67,7 +67,7 @@ class Unix extends Base
      */
     public function sendSignal($signal): bool
     {
-        $signal = Signal::factory($signal);
+        $signal = Signal::create($signal);
 
         if (extension_loaded('posix')) {
             return posix_kill($this->processId, $signal->getNumber());
