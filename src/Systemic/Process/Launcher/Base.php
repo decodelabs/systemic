@@ -27,6 +27,7 @@ abstract class Base implements Launcher
     protected $workingDirectory;
     protected $broker;
     protected $inputGenerator;
+    protected $decoratable = true;
 
     /**
      * Create process launcher for specific OS
@@ -217,6 +218,24 @@ abstract class Base implements Launcher
     public function getInputGenerator(): ?callable
     {
         return $this->inputGenerator;
+    }
+
+
+    /**
+     * Set whether to try to make this a true interactive shell for the command
+     */
+    public function setDecoratable(bool $flag): Launcher
+    {
+        $this->decoratable = $flag;
+        return $this;
+    }
+
+    /**
+     * Can we try to make this a true interactive shell?
+     */
+    public function isDecoratable(): bool
+    {
+        return $this->decoratable;
     }
 
 
