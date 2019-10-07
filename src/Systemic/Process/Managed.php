@@ -15,7 +15,7 @@ interface Managed extends Process
     public function setPriority(int $priority): Managed;
     public function getPriority(): int;
 
-    public function setIdentity(int $uid, int $gid): Managed;
+    public function setIdentity($uid, $gid): Managed;
 
     public function setOwnerId(int $id): Managed;
     public function getOwnerId(): int;
