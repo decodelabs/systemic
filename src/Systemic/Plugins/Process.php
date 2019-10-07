@@ -46,6 +46,15 @@ class Process implements FacadePlugin
 
 
     /**
+     * Wrap process from PID
+     */
+    public function fromPid(int $pid): ProcessInterface
+    {
+        return BaseProcess::fromPid($pid);
+    }
+
+
+    /**
      * Launch standard process
      */
     public function launch(string $process, $args=null, string $path=null, ?Broker $ioBroker=null, string $user=null): Result
