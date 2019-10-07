@@ -125,6 +125,7 @@ class Process implements FacadePlugin
             $phpPath = dirname($binaryPath);
         }
 
-        return LauncherBase::create($phpName, [trim($path), $args], $phpPath, $ioBroker, $user);
+        array_unshift($args, trim($path));
+        return LauncherBase::create($phpName, $args, $phpPath, $ioBroker, $user);
     }
 }
