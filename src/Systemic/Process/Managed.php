@@ -34,5 +34,5 @@ interface Managed extends Process
     public function getPidFilePath(): ?string;
 
     public function canFork(): bool;
-    public function fork(): Managed;
+    public function fork(): ?Managed;
 }

@@ -309,7 +309,7 @@ class UnixManaged extends Unix implements Managed
     /**
      * Fork this process
      */
-    public function fork(): Managed
+    public function fork(): ?Managed
     {
         if (!$this->canFork()) {
             throw Glitch::EComponentUnavailable(
