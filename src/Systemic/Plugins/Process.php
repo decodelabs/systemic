@@ -44,6 +44,22 @@ class Process implements FacadePlugin
         return $this->current;
     }
 
+    /**
+     * Get current process owner
+     */
+    public function getCurrentOwner(): string
+    {
+        return $this->getCurrent()->getOwnerName();
+    }
+
+    /**
+     * Get current process group
+     */
+    public function getCurrentGroup(): string
+    {
+        return $this->getCurrent()->getGroupName();
+    }
+
 
     /**
      * Wrap process from PID
