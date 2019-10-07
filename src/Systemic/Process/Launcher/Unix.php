@@ -56,10 +56,11 @@ class Unix extends Base
         while (true) {
             $status = proc_get_status($processHandle);
 
+            // Get output & error
             $outputBuffer = $this->readChunk($outputPipe, $this->readChunkSize);
             $errorBuffer = $this->readChunk($errorPipe, $this->readChunkSize);
 
-            // Input
+            // Get input
             if ($this->inputGenerator) {
                 if (!$generatorCalled) {
                     $input = ($this->inputGenerator)();
@@ -69,6 +70,8 @@ class Unix extends Base
                 $input = $this->broker->read($this->readChunkSize);
             }
 
+
+            // Write output
             if ($outputBuffer !== null) {
                 $result->appendOutput($outputBuffer);
 
@@ -77,6 +80,8 @@ class Unix extends Base
                 }
             }
 
+
+            // Write error
             if ($errorBuffer !== null) {
                 $result->appendError($errorBuffer);
 
@@ -85,6 +90,8 @@ class Unix extends Base
                 }
             }
 
+
+            // Write input
             if ($input !== null) {
                 fwrite($pipes[0], $input);
                 $input = null;
