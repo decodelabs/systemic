@@ -205,8 +205,12 @@ abstract class Base implements Launcher
     /**
      * TEMP: Wrap r7 multiplexer
      */
-    public function setR7Multiplexer(IMultiplexer $multiplexer): Launcher
+    public function setR7Multiplexer(?IMultiplexer $multiplexer): Launcher
     {
+        if (!$multiplexer) {
+            return $this;
+        }
+        
         if (!class_exists(Broker::class)) {
             throw Glitch::EComponentUnavailable('Atlas Broker is not available');
         }
