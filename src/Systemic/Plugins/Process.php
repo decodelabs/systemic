@@ -99,7 +99,7 @@ class Process implements FacadePlugin
     /**
      * Launch background process
      */
-    public function launchBackground(string $process, $args=null, string $path=null, ?Broker $ioBroker=null, string $user=null): Process
+    public function launchBackground(string $process, $args=null, string $path=null, ?Broker $ioBroker=null, string $user=null): ProcessInterface
     {
         return $this->newLauncher($process, $args, $path, $ioBroker, $user)->launchBackground();
     }
@@ -107,7 +107,7 @@ class Process implements FacadePlugin
     /**
      * Launch background PHP script
      */
-    public function launchBackgroundScript(string $path, $args=null, ?Broker $ioBroker=null, string $user=null): Process
+    public function launchBackgroundScript(string $path, $args=null, ?Broker $ioBroker=null, string $user=null): ProcessInterface
     {
         return $this->newScriptLauncher($path, $args, $ioBroker, $user)->launchBackground();
     }
