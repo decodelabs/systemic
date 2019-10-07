@@ -206,16 +206,16 @@ class Unix extends Base
             $command .= ' '.implode(' ', $temp);
         }
 
-        if ($this->user) {
-            $command = 'sudo -u '.$this->user.' '.$command;
-        }
-
-        if ($this->decoratable && !$this->user && Systemic::$os->which('script')) {
+        if ($this->decoratable && Systemic::$os->which('script')) {
             if (Systemic::$os->isMac()) {
                 $command = 'script -q /dev/null '.$command;
             } else {
                 $command = 'script -e -q -c "'.$command.'" /dev/null';
             }
+        }
+
+        if ($this->user) {
+            $command = 'sudo -u '.$this->user.' '.$command;
         }
 
         return $command;
