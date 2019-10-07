@@ -93,6 +93,7 @@ class Unix extends Base
 
             // Write input
             if ($input !== null) {
+                dd($input);
                 fwrite($pipes[0], $input);
                 $input = null;
 
