@@ -29,7 +29,7 @@ trait PidFileProviderTrait
         $pid = $this->getProcessId();
 
         if (is_file($path)) {
-            $oldPid = file_get_contents($path);
+            $oldPid = (int)file_get_contents($path);
 
             if ($oldPid == $pid) {
                 $write = false;
