@@ -43,6 +43,7 @@ class Unix extends Base
         $outputBuffer = $errorBuffer = $input = null;
         $outputPipe = $pipes[1];
         $errorPipe = $pipes[2];
+        $generatorCalled = false;
 
         stream_set_blocking($outputPipe, false);
         stream_set_blocking($errorPipe, false);
@@ -58,7 +59,13 @@ class Unix extends Base
             $outputBuffer = $this->readChunk($outputPipe, $this->readChunkSize);
             $errorBuffer = $this->readChunk($errorPipe, $this->readChunkSize);
 
-            if ($this->broker) {
+            // Input
+            if ($this->inputGenerator) {
+                if (!$generatorCalled) {
+                    $input = ($this->inputGenerator)();
+                    $generatorCalled = true;
+                }
+            } elseif ($this->broker) {
                 $input = $this->broker->read($this->readChunkSize);
             }
 
@@ -81,6 +88,11 @@ class Unix extends Base
             if ($input !== null) {
                 fwrite($pipes[0], $input);
                 $input = null;
+
+                if ($generatorCalled) {
+                    fclose($pipes[0]);
+                    $pipes[0] = null;
+                }
             }
 
             if (!$status['running'] && $outputBuffer === null && $errorBuffer === null && $input === null) {

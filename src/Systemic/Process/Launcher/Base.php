@@ -26,6 +26,7 @@ abstract class Base implements Launcher
     protected $priority;
     protected $workingDirectory;
     protected $broker;
+    protected $inputGenerator;
 
     /**
      * Create process launcher for specific OS
@@ -201,6 +202,23 @@ abstract class Base implements Launcher
         return $this->broker;
     }
 
+    /**
+     * Set input generator callable
+     */
+    public function setInputGenerator(?callable $generator): Launcher
+    {
+        $this->inputGenerator = $generator;
+        return $this;
+    }
+
+    /**
+     * Get input generator callable
+     */
+    public function getInputGenerator(): ?callable
+    {
+        return $this->inputGenerator;
+    }
+
 
     /**
      * TEMP: Wrap r7 multiplexer
@@ -210,7 +228,7 @@ abstract class Base implements Launcher
         if (!$multiplexer) {
             return $this;
         }
-        
+
         if (!class_exists(Broker::class)) {
             throw Glitch::EComponentUnavailable('Atlas Broker is not available');
         }
