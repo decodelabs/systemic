@@ -206,7 +206,7 @@ class Unix extends Base
             $command = 'sudo -u '.$this->user.' '.$command;
         }
 
-        if (Systemic::$os->which('script')) {
+        if (!$this->inputGenerator && Systemic::$os->which('script')) {
             if (Systemic::$os->isMac()) {
                 $command = 'script -q /dev/null '.$command;
             } else {
