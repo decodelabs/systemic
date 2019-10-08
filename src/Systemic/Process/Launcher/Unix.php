@@ -209,7 +209,7 @@ class Unix extends Base
         if ($this->decoratable && Systemic::$os->which('script')) {
             if (Systemic::$os->isMac()) {
                 $command = 'script -q /dev/null '.$command;
-            } elseif (!$this->user) {
+            } else {
                 $command = 'script -e -q -c "'.$command.'" /dev/null';
             }
         }
