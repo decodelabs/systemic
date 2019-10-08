@@ -79,6 +79,14 @@ class Process implements FacadePlugin
         return Signal::create($signal);
     }
 
+    /**
+     * Normalize signal id
+     */
+    public function normalizeSignal($signal): int
+    {
+        return Signal::create($signal)->getNumber();
+    }
+
 
     /**
      * Launch standard process
