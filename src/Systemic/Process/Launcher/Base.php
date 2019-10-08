@@ -12,6 +12,7 @@ use DecodeLabs\Systemic\Process\Launcher;
 use DecodeLabs\Atlas;
 use DecodeLabs\Atlas\Broker;
 use DecodeLabs\Atlas\Channel\Stream;
+use DecodeLabs\Atlas\Channel\ReceiverProxy;
 
 use df\core\io\IMultiplexer;
 use df\core\io\IMultiplexReaderChannel;
@@ -265,6 +266,16 @@ abstract class Base implements Launcher
                 $broker->addOutputChannel($stream);
                 $broker->addErrorChannel($stream);
             }
+        }
+
+        foreach ($multiplexer->getChunkReceivers() as $receiver) {
+            $channel = new ReceiverProxy($receiver, function ($receiver, $data) {
+                $receiver->writeChunk($data);
+            });
+
+            $broker
+                ->addOutputChannel($channel)
+                ->addErrorChannel($channel);
         }
 
         return $this->setIoBroker($broker);
