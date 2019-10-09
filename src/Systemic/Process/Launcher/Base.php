@@ -16,6 +16,7 @@ use DecodeLabs\Atlas\Channel\ReceiverProxy;
 
 use df\core\io\IMultiplexer;
 use df\core\io\IMultiplexReaderChannel;
+use df\core\io\IStreamChannel;
 
 abstract class Base implements Launcher
 {
@@ -261,7 +262,7 @@ abstract class Base implements Launcher
                     ->addInputChannel(Atlas::openCliInputStream())
                     ->addOutputChannel(Atlas::openCliOutputStream())
                     ->addErrorChannel(Atlas::openCliErrorStream());
-            } else {
+            } elseif ($channel instanceof IStreamChannel) {
                 $stream = new Stream($channel->getStreamDescriptor());
                 $broker->addOutputChannel($stream);
                 $broker->addErrorChannel($stream);
