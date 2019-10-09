@@ -58,7 +58,7 @@ class Signal
             return $signal;
         }
 
-        $signal = self::normalizeSignalName($signal);
+        $signal = self::normalizeSignalName((string)$signal);
 
         if (!$signal) {
             throw Glitch::EInvalidArgument(
@@ -96,15 +96,9 @@ class Signal
             }
         }
 
-        if (is_string($signal)) {
-            $signal = strtoupper($signal);
+        if (is_numeric($signal)) {
+            $signal = (int)$signal;
 
-            if (!array_key_exists($signal, self::$signalMap)) {
-                throw Glitch::EInvalidArgument(
-                    $signal.' is not a valid signal identifier'
-                );
-            }
-        } elseif (is_numeric($signal)) {
             if (false !== ($t = array_search($signal, self::$signalMap))) {
                 $signal = $t;
             } else {
@@ -113,9 +107,13 @@ class Signal
                 );
             }
         } else {
-            throw Glitch::EInvalidArgument(
-                $signal.' is not a valid signal identifier'
-            );
+            $signal = strtoupper($signal);
+
+            if (!array_key_exists($signal, self::$signalMap)) {
+                throw Glitch::EInvalidArgument(
+                    $signal.' is not a valid signal identifier'
+                );
+            }
         }
 
         return $signal;
