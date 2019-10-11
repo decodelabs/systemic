@@ -92,7 +92,7 @@ class UnixManaged extends Unix implements Managed
     /**
      * Set process identity
      */
-    public function setIdentity(int $uid, int $gid): Managed
+    public function setIdentity($uid, $gid): Managed
     {
         if (!is_numeric($uid)) {
             $uid = Systemic::$os->userNameToUserId($uid);
@@ -309,7 +309,7 @@ class UnixManaged extends Unix implements Managed
     /**
      * Fork this process
      */
-    public function fork(): Managed
+    public function fork(): ?Managed
     {
         if (!$this->canFork()) {
             throw Glitch::EComponentUnavailable(

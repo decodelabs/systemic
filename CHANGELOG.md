@@ -1,4 +1,11 @@
-## v0.5.0 (2019-10-06)
+## v0.6.1 (2019-10-11)
+* Added r7 Multiplexer import support
+* Added input generator to process launcher
+* Added decoratable flag to launcher
+* Added default path for HTTP process launching
+* Various bug fixes in process launcher
+
+## v0.6.0 (2019-10-06)
 * Added Atlas Io Broker support to Process Launcher
 * Added shell width and height fetcher
 

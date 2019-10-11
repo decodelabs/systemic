@@ -28,6 +28,10 @@ interface Launcher
 
     public function setIoBroker(?Broker $broker): Launcher;
     public function getIoBroker(): ?Broker;
+    public function setInputGenerator(?callable $generator): Launcher;
+    public function getInputGenerator(): ?callable;
+    public function setDecoratable(bool $flag): Launcher;
+    public function isDecoratable(): bool;
 
     public function launch(): Result;
     public function launchBackground(): Process;

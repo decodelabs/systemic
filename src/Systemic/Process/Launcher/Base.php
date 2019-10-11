@@ -7,9 +7,16 @@ declare(strict_types=1);
 namespace DecodeLabs\Systemic\Process\Launcher;
 
 use DecodeLabs\Systemic\Process;
-
 use DecodeLabs\Systemic\Process\Launcher;
+
+use DecodeLabs\Atlas;
 use DecodeLabs\Atlas\Broker;
+use DecodeLabs\Atlas\Channel\Stream;
+use DecodeLabs\Atlas\Channel\ReceiverProxy;
+
+use df\core\io\IMultiplexer;
+use df\core\io\IMultiplexReaderChannel;
+use df\core\io\IStreamChannel;
 
 abstract class Base implements Launcher
 {
@@ -21,6 +28,8 @@ abstract class Base implements Launcher
     protected $priority;
     protected $workingDirectory;
     protected $broker;
+    protected $inputGenerator;
+    protected $decoratable = true;
 
     /**
      * Create process launcher for specific OS
@@ -194,5 +203,82 @@ abstract class Base implements Launcher
     public function getIoBroker(): ?Broker
     {
         return $this->broker;
+    }
+
+    /**
+     * Set input generator callable
+     */
+    public function setInputGenerator(?callable $generator): Launcher
+    {
+        $this->inputGenerator = $generator;
+        return $this;
+    }
+
+    /**
+     * Get input generator callable
+     */
+    public function getInputGenerator(): ?callable
+    {
+        return $this->inputGenerator;
+    }
+
+
+    /**
+     * Set whether to try to make this a true interactive shell for the command
+     */
+    public function setDecoratable(bool $flag): Launcher
+    {
+        $this->decoratable = $flag;
+        return $this;
+    }
+
+    /**
+     * Can we try to make this a true interactive shell?
+     */
+    public function isDecoratable(): bool
+    {
+        return $this->decoratable;
+    }
+
+
+    /**
+     * TEMP: Wrap r7 multiplexer
+     */
+    public function setR7Multiplexer(?IMultiplexer $multiplexer): Launcher
+    {
+        if (!$multiplexer) {
+            return $this;
+        }
+
+        if (!class_exists(Broker::class)) {
+            throw Glitch::EComponentUnavailable('Atlas Broker is not available');
+        }
+
+        $broker = Atlas::newBroker();
+
+        foreach ($multiplexer->getChannels() as $channel) {
+            if ($channel instanceof IMultiplexReaderChannel) {
+                $broker
+                    ->addInputChannel(Atlas::openCliInputStream())
+                    ->addOutputChannel(Atlas::openCliOutputStream())
+                    ->addErrorChannel(Atlas::openCliErrorStream());
+            } elseif ($channel instanceof IStreamChannel) {
+                $stream = new Stream($channel->getStreamDescriptor());
+                $broker->addOutputChannel($stream);
+                $broker->addErrorChannel($stream);
+            }
+        }
+
+        foreach ($multiplexer->getChunkReceivers() as $receiver) {
+            $channel = new ReceiverProxy($receiver, function ($receiver, $data) {
+                $receiver->writeChunk($data);
+            });
+
+            $broker
+                ->addOutputChannel($channel)
+                ->addErrorChannel($channel);
+        }
+
+        return $this->setIoBroker($broker);
     }
 }

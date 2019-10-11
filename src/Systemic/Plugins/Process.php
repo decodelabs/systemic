@@ -11,6 +11,7 @@ use DecodeLabs\Veneer\FacadePlugin;
 
 use DecodeLabs\Systemic\Process as ProcessInterface;
 use DecodeLabs\Systemic\Process\Result;
+use DecodeLabs\Systemic\Process\Signal;
 use DecodeLabs\Systemic\Process\Launcher;
 use DecodeLabs\Systemic\Process\Launcher\Base as LauncherBase;
 use DecodeLabs\Systemic\Process\Base as BaseProcess;
@@ -44,6 +45,48 @@ class Process implements FacadePlugin
         return $this->current;
     }
 
+    /**
+     * Get current process owner
+     */
+    public function getCurrentOwner(): string
+    {
+        return $this->getCurrent()->getOwnerName();
+    }
+
+    /**
+     * Get current process group
+     */
+    public function getCurrentGroup(): string
+    {
+        return $this->getCurrent()->getGroupName();
+    }
+
+
+    /**
+     * Wrap process from PID
+     */
+    public function fromPid(int $pid): ProcessInterface
+    {
+        return BaseProcess::fromPid($pid);
+    }
+
+
+    /**
+     * New signal object
+     */
+    public function newSignal($signal): Signal
+    {
+        return Signal::create($signal);
+    }
+
+    /**
+     * Normalize signal id
+     */
+    public function normalizeSignal($signal): int
+    {
+        return Signal::create($signal)->getNumber();
+    }
+
 
     /**
      * Launch standard process
@@ -64,7 +107,7 @@ class Process implements FacadePlugin
     /**
      * Launch background process
      */
-    public function launchBackground(string $process, $args=null, string $path=null, ?Broker $ioBroker=null, string $user=null): Process
+    public function launchBackground(string $process, $args=null, string $path=null, ?Broker $ioBroker=null, string $user=null): ProcessInterface
     {
         return $this->newLauncher($process, $args, $path, $ioBroker, $user)->launchBackground();
     }
@@ -72,7 +115,7 @@ class Process implements FacadePlugin
     /**
      * Launch background PHP script
      */
-    public function launchBackgroundScript(string $path, $args=null, ?Broker $ioBroker=null, string $user=null): Process
+    public function launchBackgroundScript(string $path, $args=null, ?Broker $ioBroker=null, string $user=null): ProcessInterface
     {
         return $this->newScriptLauncher($path, $args, $ioBroker, $user)->launchBackground();
     }
@@ -116,6 +159,7 @@ class Process implements FacadePlugin
             $phpPath = dirname($binaryPath);
         }
 
-        return LauncherBase::create($phpName, [trim($path), $args], $phpPath, $ioBroker, $user);
+        array_unshift($args, trim($path));
+        return LauncherBase::create($phpName, $args, $phpPath, $ioBroker, $user);
     }
 }
