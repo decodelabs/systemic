@@ -6,6 +6,8 @@
 declare(strict_types=1);
 namespace DecodeLabs\Systemic\Plugins\Os;
 
+use DecodeLabs\Glitch;
+
 class Unix extends Base
 {
     protected $platformType = 'Unix';
@@ -23,18 +25,21 @@ class Unix extends Base
             }
 
             return $output['name'];
-        } else {
-            exec('getent passwd '.escapeshellarg($id), $output);
+        }
 
-            if (isset($output[0])) {
-                $parts = explode(':', $output[0]);
-                return array_shift($parts);
-            } else {
-                throw Glitch::ERuntime(
-                    'Unable to extract owner name'
-                );
+        exec('getent passwd '.escapeshellarg((string)$id), $output);
+
+        if (isset($output[0])) {
+            $parts = explode(':', $output[0]);
+
+            if (null !== ($output = array_shift($parts))) {
+                return $output;
             }
         }
+
+        throw Glitch::ERuntime(
+            'Unable to extract owner name'
+        );
     }
 
     /**
@@ -50,9 +55,9 @@ class Unix extends Base
             }
 
             return $output['uid'];
-        } else {
-            throw Glitch::EComponentUnavailable('POSIX extension is not available');
         }
+
+        throw Glitch::EComponentUnavailable('POSIX extension is not available');
     }
 
     /**
@@ -68,18 +73,21 @@ class Unix extends Base
             }
 
             return $output['name'];
-        } else {
-            exec('getent group '.escapeshellarg($id), $output);
+        }
 
-            if (isset($output[0])) {
-                $parts = explode(':', $output[0]);
-                return array_shift($parts);
-            } else {
-                throw Glitch::ERuntime(
-                    'Unable to extract process group name'
-                );
+        exec('getent group '.escapeshellarg((string)$id), $output);
+
+        if (isset($output[0])) {
+            $parts = explode(':', $output[0]);
+
+            if (null !== ($output = array_shift($parts))) {
+                return $output;
             }
         }
+
+        throw Glitch::ERuntime(
+            'Unable to extract process group name'
+        );
     }
 
     /**
@@ -94,9 +102,9 @@ class Unix extends Base
                 );
             }
             return $output['gid'];
-        } else {
-            throw Glitch::EComponentUnavailable('POSIX extension is not available');
         }
+
+        throw Glitch::EComponentUnavailable('POSIX extension is not available');
     }
 
     /**

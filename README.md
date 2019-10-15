@@ -111,5 +111,9 @@ Systemic::$process->newLauncher('binary', ['-a1', '--arg2=stuff'], 'path/to/thin
 ```
 
 
+## Windows
+Please note, OS and Process support on Windows is currently extremely sketchy - this will be fleshed out soon!
+
+
 ## Licensing
 Systemic is licensed under the MIT License. See [LICENSE](./LICENSE) for the full license text.

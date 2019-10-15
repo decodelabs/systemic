@@ -8,6 +8,7 @@ namespace DecodeLabs\Systemic;
 
 interface Process
 {
+    public static function isProcessIdLive(int $pid): bool;
     public static function getCurrentProcessId(): int;
 
     public function getTitle(): ?string;

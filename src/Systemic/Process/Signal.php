@@ -6,6 +6,8 @@
 declare(strict_types=1);
 namespace DecodeLabs\Systemic\Process;
 
+use DecodeLabs\Glitch;
+
 class Signal
 {
     protected static $signalMap = [
@@ -84,7 +86,7 @@ class Signal
                     }
                 }
             } else {
-                $list = explode(' ', trim(shell_exec("kill -l")));
+                $list = explode(' ', trim((string)shell_exec("kill -l")));
 
                 foreach ($list as $i => $name) {
                     $name = 'SIG'.$name;

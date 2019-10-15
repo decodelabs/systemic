@@ -6,10 +6,12 @@
 declare(strict_types=1);
 namespace DecodeLabs\Systemic\Plugins;
 
+use DecodeLabs\Systemic;
 use DecodeLabs\Systemic\Context;
 use DecodeLabs\Veneer\FacadePlugin;
 
 use DecodeLabs\Systemic\Process as ProcessInterface;
+use DecodeLabs\Systemic\Process\Managed as ManagedProcessInterface;
 use DecodeLabs\Systemic\Process\Result;
 use DecodeLabs\Systemic\Process\Signal;
 use DecodeLabs\Systemic\Process\Launcher;
@@ -17,6 +19,7 @@ use DecodeLabs\Systemic\Process\Launcher\Base as LauncherBase;
 use DecodeLabs\Systemic\Process\Base as BaseProcess;
 
 use DecodeLabs\Atlas\Broker;
+use DecodeLabs\Glitch;
 
 class Process implements FacadePlugin
 {
@@ -34,10 +37,10 @@ class Process implements FacadePlugin
     /**
      * Get current PHP process
      */
-    public function getCurrent(): ProcessInterface
+    public function getCurrent(): ManagedProcessInterface
     {
         if (!$this->current) {
-            $class = BaseProcess::getSystemClass();
+            $class = $this->getProcessSystemClass();
             $pid = $class::getCurrentProcessId();
             $this->current = new $class($pid, 'Current process');
         }
@@ -67,9 +70,9 @@ class Process implements FacadePlugin
      */
     public function fromPid(int $pid): ProcessInterface
     {
-        return BaseProcess::fromPid($pid);
+        $class = $this->getProcessSystemClass();
+        return new $class($pid, 'PID: '.$pid);
     }
-
 
     /**
      * New signal object
@@ -132,7 +135,8 @@ class Process implements FacadePlugin
             $args = (array)$args;
         }
 
-        return LauncherBase::create($process, $args, $path, $ioBroker, $user);
+        $class = $this->getLauncherSystemClass();
+        return new $class($process, $args, $path, $ioBroker, $user);
     }
 
     /**
@@ -160,6 +164,52 @@ class Process implements FacadePlugin
         }
 
         array_unshift($args, trim($path));
-        return LauncherBase::create($phpName, $args, $phpPath, $ioBroker, $user);
+
+        $class = $this->getLauncherSystemClass();
+        return new $class($phpName, $args, $phpPath, $ioBroker, $user);
+    }
+
+
+
+
+
+    /**
+     * Get class for current system's managed process
+     */
+    protected function getProcessSystemClass(): string
+    {
+        $class = '\\DecodeLabs\\Systemic\\Process\\'.$this->context->os->getName().'Managed';
+
+        if (!class_exists($class)) {
+            $class = '\\DecodeLabs\\Systemic\\Process\\'.$this->context->os->getPlatformType().'Managed';
+
+            if (!class_exists($class)) {
+                throw Glitch::EComponentUnavailable(
+                    'Managed processes aren\'t currently supported on this platform!'
+                );
+            }
+        }
+
+        return $class;
+    }
+
+    /**
+     * Get class for process launcher for specific OS
+     */
+    protected function getLauncherSystemClass(): string
+    {
+        $class = '\\DecodeLabs\\Systemic\\Process\\Launcher\\'.$this->context->os->getName();
+
+        if (!class_exists($class)) {
+            $class = '\\DecodeLabs\\Systemic\\Process\\Launcher\\'.$this->context->os->getPlatformType();
+
+            if (!class_exists($class)) {
+                throw Glitch::EComponentUnavailable(
+                    'Sorry, I don\'t know how to launch processes on this platform!'
+                );
+            }
+        }
+
+        return $class;
     }
 }

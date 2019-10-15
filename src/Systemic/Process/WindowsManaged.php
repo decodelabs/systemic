@@ -1,113 +1,163 @@
 <?php
 /**
- * This file is part of the Decode Framework
+ * This file is part of the Systemic package
  * @license http://opensource.org/licenses/MIT
  */
-namespace df\halo\process;
+declare(strict_types=1);
+namespace DecodeLabs\Systemic\Process;
 
-use df;
-use df\core;
-use df\halo;
+use DecodeLabs\Systemic\Process;
+use DecodeLabs\Glitch;
 
-class WindowsManaged extends Windows implements IManagedProcess {
+use Variant;
 
-    use TPidFileProvider;
+class WindowsManaged extends Windows implements Managed
+{
+    use PidFileProviderTrait;
 
-    protected $_parentProcessId;
+    protected $parentProcessId;
 
-    public function getParentProcessId() {
-        if($this->_parentProcessId === null) {
-            $wmi = $this->_getWmi();
+    /**
+     * Get parent process id
+     */
+    public function getParentProcessId(): int
+    {
+        if ($this->parentProcessId === null) {
+            $wmi = $this->getWmi();
             $procs = $wmi->ExecQuery('SELECT * FROM Win32_Process WHERE ProcessId=\''.$this->getProcessId().'\'');
 
-            foreach($procs as $process) {
-                $this->_parentProcessId = $process->ParentProcessId;
+            foreach ($procs as $process) {
+                $this->parentProcessId = $process->ParentProcessId;
                 break;
             }
         }
 
-        return $this->_parentProcessId;
+        return $this->parentProcessId;
     }
 
-
-// Title
-    public function setTitle(?string $title) {
-        $this->_title = $title;
+    /**
+     * Set process title
+     */
+    public function setTitle(?string $title): Managed
+    {
+        $this->title = $title;
         return $this;
     }
 
-// Priority
-    public function setPriority($priority) {
-        core\stub();
+    /**
+     * Set process priority
+     */
+    public function setPriority(int $priority): Managed
+    {
+        Glitch::incomplete();
     }
 
-    public function getPriority() {
-        core\stub();
+    /**
+     * Get process priority
+     */
+    public function getPriority(): int
+    {
+        Glitch::incomplete();
     }
 
 
-// Identity
-    public function setIdentity($uid, $gid) {
+    /**
+     * Set process identity
+     */
+    public function setIdentity($uid, $gid): Managed
+    {
         return $this->setOwnerId($uid)->setGroupId($gid);
     }
 
-// Owner
-    public function setOwnerId($id) {
-        core\stub($id);
+    /**
+     * Set process owner
+     */
+    public function setOwnerId(int $id): Managed
+    {
+        Glitch::incomplete();
     }
 
-    public function getOwnerId() {
-        $wmi = $this->_getWmi();
+    /**
+     * Get current process owner
+     */
+    public function getOwnerId(): int
+    {
+        Glitch::incomplete();
+    }
+
+    /**
+     * Set process owner by name
+     */
+    public function setOwnerName(string $name): Managed
+    {
+        Glitch::incomplete();
+    }
+
+    /**
+     * Get current owner name
+     */
+    public function getOwnerName(): string
+    {
+        $wmi = $this->getWmi();
         $procs = $wmi->ExecQuery('SELECT * FROM Win32_Process WHERE ProcessId=\''.$this->getProcessId().'\'');
 
-        foreach($procs as $process) {
-            $owner = new \Variant(null);
+        foreach ($procs as $process) {
+            $owner = new Variant(null);
             $process->GetOwner($owner);
             return (string)$owner;
         }
 
-        return null;
+        throw Glitch::ERuntime('Owner name could not be found for process');
     }
 
-    public function setOwnerName($name) {
-        core\stub($name);
+    /**
+     * Set process group
+     */
+    public function setGroupId(int $id): Managed
+    {
+        Glitch::incomplete();
     }
 
-    public function getOwnerName() {
-        return $this->getOwnerId();
+    /**
+     * Get process group id
+     */
+    public function getGroupId(): int
+    {
+        Glitch::incomplete();
+    }
+
+    /**
+     * Set process group by name
+     */
+    public function setGroupName(string $name): Managed
+    {
+        Glitch::incomplete();
+    }
+
+    /**
+     * Get process group name
+     */
+    public function getGroupName(): string
+    {
+        Glitch::incomplete();
     }
 
 
-// Group
-    public function setGroupId($id) {
-        core\stub($id);
-    }
-
-    public function getGroupId() {
-        core\stub();
-    }
-
-    public function setGroupName($name) {
-        core\stub($name);
-    }
-
-    public function getGroupName() {
-        core\stub();
-    }
-
-
-// Fork
-    public function canFork() {
+    /**
+     * Is system capable of forking processes?
+     */
+    public function canFork(): bool
+    {
         return false;
     }
 
-    public function fork() {
-        throw new RuntimeException(
+    /**
+     * Fork this process
+     */
+    public function fork(): ?Managed
+    {
+        throw Glitch::ERuntime(
             'PHP on windows is currently not able to fork processes'
         );
-    }
-
-    public function delegate() {
-        core\stub();
     }
 }

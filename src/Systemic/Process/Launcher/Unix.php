@@ -6,13 +6,17 @@
 declare(strict_types=1);
 namespace DecodeLabs\Systemic\Process\Launcher;
 
+use DecodeLabs\Systemic;
 use DecodeLabs\Systemic\Process;
 use DecodeLabs\Systemic\Process\Unix as UnixProcess;
 use DecodeLabs\Systemic\Process\Result;
 use DecodeLabs\Systemic\Process\Launcher;
+use DecodeLabs\Systemic\Process\LauncherTrait;
 
-class Unix extends Base
+class Unix implements Launcher
 {
+    use LauncherTrait;
+
     protected $readChunkSize = 2048;
 
     /**
@@ -47,7 +51,7 @@ class Unix extends Base
         $outputBuffer = $errorBuffer = $input = null;
         $outputPipe = $pipes[1];
         $errorPipe = $pipes[2];
-        $generatorCalled = false;
+        $generatorCalled = $brokerBlocking = false;
 
         stream_set_blocking($outputPipe, false);
         stream_set_blocking($errorPipe, false);
@@ -140,9 +144,7 @@ class Unix extends Base
             return false;
         }
 
-        if ($output === ''
-        || $output === null
-        || $output === false) {
+        if ($output === '' || $output === false) {
             return null;
         }
 
@@ -157,17 +159,21 @@ class Unix extends Base
     {
         $command = $this->prepareCommand();
         $activeCommand = $command.' > /dev/null 2>&1 & echo $!';
+        $cwd = null;
 
         if ($this->workingDirectory !== null) {
             $cwd = getcwd();
-            chdir(realpath($this->workingDirectory));
+
+            if (false !== ($dir = realpath($this->workingDirectory))) {
+                chdir($dir);
+            }
         }
 
         exec($activeCommand, $pidArr);
         $pid = $pidArr[0];
 
-        if ($this->workingDirectory) {
-            chdir($cwd);
+        if ($this->workingDirectory !== null) {
+            chdir((string)$cwd);
         }
 
         return new UnixProcess((int)$pid, $command);

@@ -1,0 +1,8 @@
+parameters:
+    paths:
+        - src
+    level: max
+    ignoreErrors:
+        - '#Instantiated class Variant not found#'
+        - '#Instantiated class COM not found#'
+        - '#invalid type COM#'

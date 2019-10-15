@@ -7,6 +7,7 @@ declare(strict_types=1);
 namespace DecodeLabs\Systemic\Process;
 
 use DecodeLabs\Systemic\Process;
+use DecodeLabs\Glitch;
 
 trait PidFileProviderTrait
 {
@@ -19,6 +20,11 @@ trait PidFileProviderTrait
 
     public function setPidFilePath(?string $path): Managed
     {
+        if ($path === null) {
+            $this->pidFile = null;
+            return $this;
+        }
+
         $dirname = dirname($path);
 
         if (!is_dir($dirname)) {

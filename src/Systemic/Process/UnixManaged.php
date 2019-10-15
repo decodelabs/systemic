@@ -6,7 +6,9 @@
 declare(strict_types=1);
 namespace DecodeLabs\Systemic\Process;
 
+use DecodeLabs\Systemic;
 use DecodeLabs\Systemic\Process;
+use DecodeLabs\Glitch;
 
 class UnixManaged extends Unix implements Managed
 {
@@ -55,7 +57,7 @@ class UnixManaged extends Unix implements Managed
      */
     public function setTitle(?string $title): Managed
     {
-        $this->_title = $title;
+        $this->title = $title;
 
         if ($title && extension_loaded('proctitle')) {
             setproctitle($title);
@@ -190,7 +192,7 @@ class UnixManaged extends Unix implements Managed
      */
     public function setOwnerName(string $name): Managed
     {
-        return $this->setOwnerId(halo\system\Base::getInstance()->userNameToUserId($name));
+        return $this->setOwnerId(Systemic::$os->userNameToUserId($name));
     }
 
     /**
@@ -203,11 +205,14 @@ class UnixManaged extends Unix implements Managed
             return $output['name'];
         }
 
-        exec('getent passwd '.escapeshellarg($this->getOwnerId()), $output);
+        exec('getent passwd '.escapeshellarg((string)$this->getOwnerId()), $output);
 
         if (isset($output[0])) {
             $parts = explode(':', $output[0]);
-            return array_shift($parts);
+
+            if (null !== ($output = array_shift($parts))) {
+                return $output;
+            }
         }
 
         throw Glitch::ERuntime(
@@ -255,7 +260,7 @@ class UnixManaged extends Unix implements Managed
             return posix_getegid();
         }
 
-        exec('ps -o egid --no-heading --pid '.escapeshellarg($this->processId), $output);
+        exec('ps -o egid --no-heading --pid '.escapeshellarg((string)$this->processId), $output);
 
         if (isset($output[0])) {
             return (int)trim($output[0]);
@@ -271,7 +276,7 @@ class UnixManaged extends Unix implements Managed
      */
     public function setGroupName(string $name): Managed
     {
-        return $this->setGroupId(halo\system\Base::getInstance()->groupNameToGroupId($name));
+        return $this->setGroupId(Systemic::$os->groupNameToGroupId($name));
     }
 
     /**
@@ -284,11 +289,14 @@ class UnixManaged extends Unix implements Managed
             return $output['name'];
         }
 
-        exec('getent group '.escapeshellarg($this->getGroupId()), $output);
+        exec('getent group '.escapeshellarg((string)$this->getGroupId()), $output);
 
         if (isset($output[0])) {
             $parts = explode(':', $output[0]);
-            return array_shift($parts);
+
+            if (null !== ($output = array_shift($parts))) {
+                return $output;
+            }
         }
 
         throw Glitch::ERuntime(
