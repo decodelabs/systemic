@@ -4,8 +4,9 @@
  * @license http://opensource.org/licenses/MIT
  */
 declare(strict_types=1);
-namespace DecodeLabs\Systemic\Process\Launcher;
+namespace DecodeLabs\Systemic\Process;
 
+use DecodeLabs\Systemic;
 use DecodeLabs\Systemic\Process;
 use DecodeLabs\Systemic\Process\Launcher;
 
@@ -14,12 +15,14 @@ use DecodeLabs\Atlas\Broker;
 use DecodeLabs\Atlas\Channel\Stream;
 use DecodeLabs\Atlas\Channel\ReceiverProxy;
 
-use df\core\io\IMultiplexer;
-use df\core\io\IMultiplexReaderChannel;
-use df\core\io\IStreamChannel;
+use DecodeLabs\Glitch;
+use DecodeLabs\Gadgets\Then;
+use DecodeLabs\Gadgets\ThenTrait;
 
-abstract class Base implements Launcher
+trait LauncherTrait
 {
+    use ThenTrait;
+
     protected $processName;
     protected $args = [];
     protected $path;
@@ -32,30 +35,9 @@ abstract class Base implements Launcher
     protected $decoratable = true;
 
     /**
-     * Create process launcher for specific OS
-     */
-    public static function create(string $processName, array $args=[], string $path=null, ?Broker $broker=null, string $user=null): Launcher
-    {
-        $class = '\\DecodeLabs\\Systemic\\Process\\Launcher\\'.Systemic::$os->getName();
-
-        if (!class_exists($class)) {
-            $class = '\\DecodeLabs\\Systemic\\Process\\Launcher\\'.Systemic::$os->getPlatformType();
-
-            if (!class_exists($class)) {
-                throw Glitch::EComponentUnavailable(
-                    'Sorry, I don\'t know how to launch processes on this platform!'
-                );
-            }
-        }
-
-        return new $class($processName, $args, $path, $broker, $user);
-    }
-
-
-    /**
      * Init with main params
      */
-    protected function __construct(string $processName, array $args=[], string $path=null, ?Broker $broker=null, string $user=null)
+    public function __construct(string $processName, array $args=[], string $path=null, ?Broker $broker=null, string $user=null)
     {
         $this->setProcessName($processName);
         $this->setArgs($args);
@@ -238,47 +220,5 @@ abstract class Base implements Launcher
     public function isDecoratable(): bool
     {
         return $this->decoratable;
-    }
-
-
-    /**
-     * TEMP: Wrap r7 multiplexer
-     */
-    public function setR7Multiplexer(?IMultiplexer $multiplexer): Launcher
-    {
-        if (!$multiplexer) {
-            return $this;
-        }
-
-        if (!class_exists(Broker::class)) {
-            throw Glitch::EComponentUnavailable('Atlas Broker is not available');
-        }
-
-        $broker = Atlas::newBroker();
-
-        foreach ($multiplexer->getChannels() as $channel) {
-            if ($channel instanceof IMultiplexReaderChannel) {
-                $broker
-                    ->addInputChannel(Atlas::openCliInputStream())
-                    ->addOutputChannel(Atlas::openCliOutputStream())
-                    ->addErrorChannel(Atlas::openCliErrorStream());
-            } elseif ($channel instanceof IStreamChannel) {
-                $stream = new Stream($channel->getStreamDescriptor());
-                $broker->addOutputChannel($stream);
-                $broker->addErrorChannel($stream);
-            }
-        }
-
-        foreach ($multiplexer->getChunkReceivers() as $receiver) {
-            $channel = new ReceiverProxy($receiver, function ($receiver, $data) {
-                $receiver->writeChunk($data);
-            });
-
-            $broker
-                ->addOutputChannel($channel)
-                ->addErrorChannel($channel);
-        }
-
-        return $this->setIoBroker($broker);
     }
 }

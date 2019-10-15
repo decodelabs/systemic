@@ -7,9 +7,12 @@ declare(strict_types=1);
 namespace DecodeLabs\Systemic\Process;
 
 use DecodeLabs\Systemic\Process;
+use DecodeLabs\Systemic\ProcessTrait;
 
-class Unix extends Base
+class Unix implements Process
 {
+    use ProcessTrait;
+
     /**
      * Check if process under PID is still running
      */
@@ -24,7 +27,7 @@ class Unix extends Base
 
             return $output;
         } else {
-            exec('ps -o pid --no-heading --pid '.escapeshellarg($pid), $output);
+            exec('ps -o pid --no-heading --pid '.escapeshellarg((string)$pid), $output);
             return isset($output[0]);
         }
     }

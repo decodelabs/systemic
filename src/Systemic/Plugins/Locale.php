@@ -41,7 +41,11 @@ class Locale implements FacadePlugin, Inspectable
      */
     public function getName(?string $inLocale=null): string
     {
-        return SysLocale::getDisplayName($this->get(), $inLocale);
+        if ($inLocale !== null) {
+            return SysLocale::getDisplayName($this->get(), $inLocale);
+        } else {
+            return SysLocale::getDisplayName($this->get());
+        }
     }
 
 
@@ -58,7 +62,11 @@ class Locale implements FacadePlugin, Inspectable
      */
     public function getLanguageName(?string $inLocale=null): string
     {
-        return SysLocale::getDisplayLanguage($this->get(), $inLocale);
+        if ($inLocale !== null) {
+            return SysLocale::getDisplayLanguage($this->get(), $inLocale);
+        } else {
+            return SysLocale::getDisplayLanguage($this->get());
+        }
     }
 
 
@@ -75,7 +83,11 @@ class Locale implements FacadePlugin, Inspectable
      */
     public function getRegionName(?string $inLocale=null): string
     {
-        return SysLocale::getDisplayRegion($this->get(), $inLocale);
+        if ($inLocale !== null) {
+            return SysLocale::getDisplayRegion($this->get(), $inLocale);
+        } else {
+            return SysLocale::getDisplayRegion($this->get());
+        }
     }
 
 
@@ -98,7 +110,11 @@ class Locale implements FacadePlugin, Inspectable
      */
     public function getScriptName(?string $inLocale=null): ?string
     {
-        $output = SysLocale::getDisplayScript($this->get(), $inLocale);
+        if ($inLocale !== null) {
+            $output = SysLocale::getDisplayScript($this->get(), $inLocale);
+        } else {
+            $output = SysLocale::getDisplayScript($this->get());
+        }
 
         if (!strlen($output)) {
             $output = null;
@@ -115,7 +131,7 @@ class Locale implements FacadePlugin, Inspectable
     {
         $output = SysLocale::getAllVariants($this->get());
 
-        if ($output === null) {
+        if (empty($output)) {
             $output = [];
         }
 
@@ -127,7 +143,11 @@ class Locale implements FacadePlugin, Inspectable
      */
     public function getVariantName(?string $inLocale=null): ?string
     {
-        $output = SysLocale::getDisplayVariant($this->get(), $inLocale);
+        if ($inLocale) {
+            $output = SysLocale::getDisplayVariant($this->get(), $inLocale);
+        } else {
+            $output = SysLocale::getDisplayVariant($this->get());
+        }
 
         if (!strlen($output)) {
             $output = null;
@@ -142,6 +162,10 @@ class Locale implements FacadePlugin, Inspectable
      */
     public function getKeywords(): array
     {
-        return SysLocale::getKeywords($this->get());
+        if (false === ($output = SysLocale::getKeywords($this->get()))) {
+            return [];
+        }
+
+        return $output;
     }
 }

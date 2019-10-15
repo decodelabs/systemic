@@ -7,16 +7,22 @@ declare(strict_types=1);
 namespace DecodeLabs\Systemic\Process\Launcher;
 
 use DecodeLabs\Systemic\Process;
+use DecodeLabs\Systemic\Process\Result;
 use DecodeLabs\Systemic\Process\Launcher;
+use DecodeLabs\Systemic\Process\LauncherTrait;
 
-class Windows extends Base
+use DecodeLabs\Glitch;
+
+class Windows implements Launcher
 {
-    public function launch()
+    use LauncherTrait;
+
+    public function launch(): Result
     {
         Glitch::incomplete($this);
     }
 
-    public function launchBackground()
+    public function launchBackground(): Process
     {
         Glitch::incomplete($this);
     }

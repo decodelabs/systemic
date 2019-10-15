@@ -13,7 +13,15 @@ composer require decodelabs/systemic
 
 ## Usage
 
-Systemic uses Veneer Facades so there's no need to add any <code>use</code> declarations to your code.
+### Importing
+
+Systemic uses a [Veneer Facade](https://github.com/decodelabs/veneer) so you don't _need_ to add any <code>use</code> declarations to your code, the class will be aliased into whatever namespace you are working in.
+
+However, if you want to avoid filling your namespace with class aliases, you can import the Facade with:
+
+```php
+use DecodeLabs\Systemic;
+```
 
 ### Locale
 
@@ -101,6 +109,10 @@ Systemic::$process->newLauncher('binary', ['-a1', '--arg2=stuff'], 'path/to/thin
 
     ->launch();
 ```
+
+
+## Windows
+Please note, OS and Process support on Windows is currently extremely sketchy - this will be fleshed out soon!
 
 
 ## Licensing

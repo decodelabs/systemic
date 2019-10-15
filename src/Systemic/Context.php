@@ -14,6 +14,8 @@ use DecodeLabs\Veneer\FacadePlugin;
 
 use DecodeLabs\Systemic\Plugins\Os\Base as Os;
 
+use DecodeLabs\Glitch;
+
 class Context implements FacadeTarget, FacadePluginAccessTarget
 {
     use FacadeTargetTrait;

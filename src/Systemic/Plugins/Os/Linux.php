@@ -54,10 +54,10 @@ class Linux extends Unix
 
             foreach ($lines as $line) {
                 $parts = explode(':', $line, 2);
-                $key = trim(array_shift($parts));
+                $key = trim((string)array_shift($parts));
 
                 if ($key == 'Description') {
-                    return trim(array_shift($parts));
+                    return trim((string)array_shift($parts));
                 }
             }
         }

@@ -6,10 +6,11 @@
 declare(strict_types=1);
 namespace DecodeLabs\Systemic\Process;
 
+use DecodeLabs\Gadgets\Then;
 use DecodeLabs\Systemic\Process;
 use DecodeLabs\Atlas\Broker;
 
-interface Launcher
+interface Launcher extends Then
 {
     public function setProcessName(string $name): Launcher;
     public function getProcessName(): ?string;

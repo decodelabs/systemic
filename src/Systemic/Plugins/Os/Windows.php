@@ -6,6 +6,10 @@
 declare(strict_types=1);
 namespace DecodeLabs\Systemic\Plugins\Os;
 
+use DecodeLabs\Glitch;
+
+use COM;
+
 class Windows extends Base
 {
     protected static $wmi;
@@ -20,13 +24,13 @@ class Windows extends Base
     {
         parent::__construct($name);
 
-        self::$wmi = new \COM("winmgmts:{impersonationLevel=impersonate}!\\\\.\\root\\cimv2");
+        self::$wmi = new COM("winmgmts:{impersonationLevel=impersonate}!\\\\.\\root\\cimv2");
     }
 
     /**
      * Get active WMI COM
      */
-    public function getWMI(): \COM
+    public function getWMI(): COM
     {
         return self::$wmi;
     }
@@ -34,7 +38,7 @@ class Windows extends Base
     /**
      * Get specific OS distribution
      */
-    public function getDistribution()
+    public function getDistribution(): string
     {
         if ($this->distribution === null) {
             $this->distribution = $this->lookupDistribution();
@@ -46,7 +50,7 @@ class Windows extends Base
     /**
      * Lookup version of windows
      */
-    private function lookupDistribution()
+    private function lookupDistribution(): string
     {
         $res = self::$wmi->ExecQuery('SELECT * FROM Win32_OperatingSystem');
 
@@ -64,7 +68,7 @@ class Windows extends Base
      */
     public function userIdToUserName(int $id): string
     {
-        return $id;
+        return (string)$id;
     }
 
     /**
@@ -72,7 +76,7 @@ class Windows extends Base
      */
     public function userNameToUserId(string $name): int
     {
-        return $name;
+        return (int)$name;
     }
 
     /**
@@ -80,7 +84,7 @@ class Windows extends Base
      */
     public function groupIdToGroupName(int $id): string
     {
-        return $id;
+        return (string)$id;
     }
 
     /**
@@ -88,7 +92,7 @@ class Windows extends Base
      */
     public function groupNameToGroupId(string $name): int
     {
-        return $name;
+        return (int)$name;
     }
 
 
@@ -106,7 +110,7 @@ class Windows extends Base
      */
     public function getShellWidth(): int
     {
-        Glitch::incomplete($binaryName);
+        Glitch::incomplete();
     }
 
     /**
@@ -114,6 +118,6 @@ class Windows extends Base
      */
     public function getShellHeight(): int
     {
-        Glitch::incomplete($binaryName);
+        Glitch::incomplete();
     }
 }
