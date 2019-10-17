@@ -1,4 +1,10 @@
 # Systemic
+
+[![Latest Version](https://img.shields.io/packagist/v/decodelabs/systemic.svg?style=flat-square)](https://packagist.org/packages/decodelabs/systemic)
+[![Total Downloads](https://img.shields.io/packagist/dt/decodelabs/systemic.svg?style=flat-square)](https://packagist.org/packages/decodelabs/systemic)
+[![Build Status](https://img.shields.io/travis/decodelabs/systemic/develop.svg?style=flat-square)](https://travis-ci.org/decodelabs/systemic)
+[![PHPStan](https://img.shields.io/badge/PHPStan-enabled-44CC11.svg?longCache=true&style=flat-square)](https://github.com/phpstan/phpstan)
+
 Get access to useful global system and environment info all in one place.
 
 
