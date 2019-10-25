@@ -57,8 +57,8 @@ class Unix implements Launcher
         stream_set_blocking($errorPipe, false);
 
         if ($this->broker) {
-            $brokerBlocking = $this->broker->isBlocking();
-            $this->broker->setBlocking(false);
+            $brokerBlocking = $this->broker->isReadBlocking();
+            $this->broker->setReadBlocking(false);
         }
 
         while (true) {
@@ -127,7 +127,7 @@ class Unix implements Launcher
         $result->registerCompletion();
 
         if ($this->broker) {
-            $this->broker->setBlocking($brokerBlocking);
+            $this->broker->setReadBlocking($brokerBlocking);
         }
 
         return $result;
