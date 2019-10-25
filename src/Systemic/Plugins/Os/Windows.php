@@ -138,9 +138,11 @@ class Windows extends Base
             }
 
             if (function_exists('sapi_windows_vt100_support')) {
-                $hasVt100 = @sapi_windows_vt100_support($stream);
-            } else {
+                $hasVt100 = @sapi_windows_vt100_support(\STDOUT);
+            } elseif (defined('PHP_WINDOWS_VERSION_MAJOR') && defined('PHP_WINDOWS_VERSION_MINOR') && defined('PHP_WINDOWS_VERSION_BUILD')) {
                 $hasVt100 = '10.0.10586' === \PHP_WINDOWS_VERSION_MAJOR.'.'.\PHP_WINDOWS_VERSION_MINOR.'.'.\PHP_WINDOWS_VERSION_BUILD;
+            } else {
+                $hasVt100 = false;
             }
 
             return $output = $hasVt100
