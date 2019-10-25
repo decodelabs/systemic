@@ -30,4 +30,5 @@ interface Os extends FacadePlugin, Inspectable
 
     public function getShellWidth(): int;
     public function getShellHeight(): int;
+    public function canColorShell(): bool;
 }

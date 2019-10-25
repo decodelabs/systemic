@@ -135,6 +135,16 @@ abstract class Base implements Os
         return $this->hostName;
     }
 
+
+    /**
+     * Can color shell
+     */
+    public function canColorShell(): bool
+    {
+        return false;
+    }
+
+
     /**
      * Inspect for Glitch
      */

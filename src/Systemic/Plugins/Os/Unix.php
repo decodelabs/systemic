@@ -160,4 +160,36 @@ class Unix extends Base
         exec('tput lines', $result);
         return (int)($result[0] ?? 30);
     }
+
+    /**
+     * Can color shell
+     */
+    public function canColorShell(): bool
+    {
+        static $output;
+
+        if (!isset($output)) {
+            if (!defined('STDOUT')) {
+                return $output = false;
+            }
+
+            if (function_exists('stream_isatty')) {
+                return $output = @stream_isatty(\STDOUT);
+            }
+
+            if (function_exists('posix_isatty')) {
+                return $output = @posix_isatty(\STDOUT);
+            }
+
+            if (($_SERVER['TERM'] ?? null) === 'xterm-256color') {
+                return $output = true;
+            }
+
+            if (($_SERVER['CLICOLOR'] ?? null) === '1') {
+                return $output = true;
+            }
+
+            return $output = false;
+        }
+    }
 }
