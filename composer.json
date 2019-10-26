@@ -16,7 +16,7 @@
         "symfony/polyfill-mbstring": "^1.7",
 
         "decodelabs/glitch": "<2",
-        "decodelabs/veneer": "~0.4",
+        "decodelabs/veneer": "~0.5",
         "decodelabs/gadgets": "~0.6"
     },
     "require-dev": {
