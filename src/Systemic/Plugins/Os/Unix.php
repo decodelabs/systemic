@@ -148,7 +148,7 @@ class Unix extends Base
      */
     public function getShellWidth(): int
     {
-        exec('tput cols', $result);
+        exec('tput cols 2>/dev/null', $result);
         return (int)($result[0] ?? 80);
     }
 
@@ -157,7 +157,7 @@ class Unix extends Base
      */
     public function getShellHeight(): int
     {
-        exec('tput lines', $result);
+        exec('tput lines 2>/dev/null', $result);
         return (int)($result[0] ?? 30);
     }
 
