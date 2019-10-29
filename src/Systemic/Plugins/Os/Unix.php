@@ -191,5 +191,7 @@ class Unix extends Base
 
             return $output = false;
         }
+
+        return $output;
     }
 }
