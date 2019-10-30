@@ -221,7 +221,20 @@ class Unix implements Launcher
         }
 
         if ($this->user) {
-            $command = 'sudo -u '.$this->user.' '.$command;
+            if (false !== strpos($this->user, ':')) {
+                $parts = explode(':', $this->user, 2);
+                $user = (string)array_shift($parts);
+                $pass = array_shift($parts);
+            } else {
+                $user = $this->user;
+                $pass = null;
+            }
+
+            if ($pass !== null) {
+                $command = 'echo '.$pass.' | sudo -k -u '.$user.' -p "" -S '.$command;
+            } else {
+                $command = 'sudo -u '.$user.' '.$command;
+            }
         }
 
         return $command;
