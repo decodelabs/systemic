@@ -18,12 +18,8 @@ class Unix implements Process
      */
     public static function isProcessIdLive(int $pid): bool
     {
-        if (extension_loaded('posix')) {
-            return posix_kill($pid, 0);
-        } else {
-            exec('ps -o pid --no-heading --pid '.escapeshellarg((string)$pid), $output);
-            return isset($output[0]);
-        }
+        exec('ps -o pid --no-heading --pid '.escapeshellarg((string)$pid), $output);
+        return isset($output[0]);
     }
 
     /**
