@@ -233,7 +233,7 @@ class Unix implements Launcher
             if ($pass !== null) {
                 $command = 'echo '.$pass.' | sudo -k -u '.$user.' -p "" -S '.$command;
             } else {
-                $command = 'sudo -u '.$user.' '.$command;
+                $command = 'sudo -k -u '.$user.' '.$command;
             }
         }
 
