@@ -1,3 +1,8 @@
+## v0.6.3 (2019-10-31)
+* Added canColorShell() helper
+* Hide errors from tput
+* Updated user handling in Unix launcher
+
 ## v0.6.2 (2019-10-16)
 * Added PHPStan support
 * Bugfixes and updates from max level PHPStan scan
