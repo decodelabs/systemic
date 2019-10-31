@@ -16,15 +16,16 @@
         "symfony/polyfill-mbstring": "^1.7",
 
         "decodelabs/glitch": "<2",
-        "decodelabs/veneer": "~0.4",
+        "decodelabs/veneer": "~0.5",
         "decodelabs/gadgets": "~0.6"
     },
     "require-dev": {
+        "phpunit/phpunit": "^8",
         "phpstan/phpstan": "^0.11.16",
         "phpstan/extension-installer": "^1.0",
         "decodelabs/phpstan-decodelabs": "^0.1",
 
-        "decodelabs/atlas": "~0.6"
+        "decodelabs/atlas": "~0.7"
     },
     "suggest": {
         "decodelabs/atlas": "IO Broker support in process launcher"

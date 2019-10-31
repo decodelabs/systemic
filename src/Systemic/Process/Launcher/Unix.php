@@ -57,8 +57,8 @@ class Unix implements Launcher
         stream_set_blocking($errorPipe, false);
 
         if ($this->broker) {
-            $brokerBlocking = $this->broker->isBlocking();
-            $this->broker->setBlocking(false);
+            $brokerBlocking = $this->broker->isReadBlocking();
+            $this->broker->setReadBlocking(false);
         }
 
         while (true) {
@@ -127,7 +127,7 @@ class Unix implements Launcher
         $result->registerCompletion();
 
         if ($this->broker) {
-            $this->broker->setBlocking($brokerBlocking);
+            $this->broker->setReadBlocking($brokerBlocking);
         }
 
         return $result;
@@ -221,7 +221,20 @@ class Unix implements Launcher
         }
 
         if ($this->user) {
-            $command = 'sudo -u '.$this->user.' '.$command;
+            if (false !== strpos($this->user, ':')) {
+                $parts = explode(':', $this->user, 2);
+                $user = (string)array_shift($parts);
+                $pass = array_shift($parts);
+            } else {
+                $user = $this->user;
+                $pass = null;
+            }
+
+            if ($pass !== null) {
+                $command = 'echo '.$pass.' | sudo -k -u '.$user.' -p "" -S '.$command;
+            } else {
+                $command = 'sudo -k -u '.$user.' '.$command;
+            }
         }
 
         return $command;
