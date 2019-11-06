@@ -1,3 +1,6 @@
+## v0.6.4 (2019-11-06)
+* Renamed launcher IO broker methods
+
 ## v0.6.3 (2019-10-31)
 * Added canColorShell() helper
 * Hide errors from tput
