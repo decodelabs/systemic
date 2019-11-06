@@ -42,7 +42,7 @@ trait LauncherTrait
         $this->setArgs($args);
         $this->setPath($path);
         $this->setTitle($this->processName);
-        $this->setIoBroker($broker);
+        $this->setBroker($broker);
         $this->setUser($user);
     }
 
@@ -172,7 +172,7 @@ trait LauncherTrait
     /**
      * Set callback to read user input
      */
-    public function setIoBroker(?Broker $broker): Launcher
+    public function setBroker(?Broker $broker): Launcher
     {
         $this->broker = $broker;
         return $this;
@@ -181,7 +181,7 @@ trait LauncherTrait
     /**
      * Get input reader
      */
-    public function getIoBroker(): ?Broker
+    public function getBroker(): ?Broker
     {
         return $this->broker;
     }

@@ -27,8 +27,8 @@ interface Launcher extends Then
     public function setWorkingDirectory(?string $path);
     public function getWorkingDirectory(): ?string;
 
-    public function setIoBroker(?Broker $broker): Launcher;
-    public function getIoBroker(): ?Broker;
+    public function setBroker(?Broker $broker): Launcher;
+    public function getBroker(): ?Broker;
     public function setInputGenerator(?callable $generator): Launcher;
     public function getInputGenerator(): ?callable;
     public function setDecoratable(bool $flag): Launcher;
