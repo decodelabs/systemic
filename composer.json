@@ -4,26 +4,24 @@
     "type": "library",
     "keywords": ["system", "environment"],
     "license": "MIT",
-    "authors": [
-        {
-            "name": "Tom Wright",
-            "email": "tom@inflatablecookie.com"
-        }
-    ],
+    "authors": [{
+        "name": "Tom Wright",
+        "email": "tom@inflatablecookie.com"
+    }],
     "require": {
         "php": "^7.2",
-        "ext-intl" : "*",
+        "ext-intl": "*",
         "symfony/polyfill-mbstring": "^1.7",
 
-        "decodelabs/glitch": "<2",
-        "decodelabs/veneer": "~0.5",
-        "decodelabs/gadgets": "~0.6"
+        "decodelabs/glitch": "^0.15",
+        "decodelabs/veneer": "^0.5",
+        "decodelabs/gadgets": "^0.6"
     },
     "require-dev": {
         "phpunit/phpunit": "^8",
         "phpstan/phpstan": "^0.11.16",
         "phpstan/extension-installer": "^1.0",
-        "decodelabs/phpstan-decodelabs": "^0.1",
+        "decodelabs/phpstan-decodelabs": "^0.2",
 
         "decodelabs/atlas": "~0.7"
     },
@@ -40,7 +38,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-develop": "0.x-dev"
+            "dev-develop": "0.6.x-dev"
         }
     }
 }

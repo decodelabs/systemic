@@ -202,7 +202,7 @@ class Unix implements Launcher
                     continue;
                 }
 
-                if ($arg{0} != '-') {
+                if ($arg[0] != '-') {
                     $arg = escapeshellarg($arg);
                 }
 
