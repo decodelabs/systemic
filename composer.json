@@ -23,7 +23,7 @@
         "phpstan/extension-installer": "^1.0",
         "decodelabs/phpstan-decodelabs": "^0.2",
 
-        "decodelabs/atlas": "~0.7"
+        "decodelabs/atlas": "^0.7"
     },
     "suggest": {
         "decodelabs/atlas": "IO Broker support in process launcher"
