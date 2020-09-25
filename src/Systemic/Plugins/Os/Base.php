@@ -9,10 +9,9 @@ namespace DecodeLabs\Systemic\Plugins\Os;
 use DecodeLabs\Systemic\Context;
 use DecodeLabs\Systemic\Plugins\Os;
 
-use DecodeLabs\Glitch\Dumper\Entity;
-use DecodeLabs\Glitch\Dumper\Inspector;
+use DecodeLabs\Glitch\Dumpable;
 
-abstract class Base implements Os
+abstract class Base implements Os, Dumpable
 {
     protected $name;
     protected $platformType;
@@ -148,14 +147,15 @@ abstract class Base implements Os
     /**
      * Inspect for Glitch
      */
-    public function glitchInspect(Entity $entity, Inspector $inspector): void
+    public function glitchDump(): iterable
     {
-        $entity
-            ->setProperty('*name', $inspector($this->getName()))
-            ->setProperty('*platformType', $inspector($this->getPlatformType()))
-            ->setProperty('*distribution', $inspector($this->getDistribution()))
-            ->setProperty('*version', $inspector($this->getVersion()))
-            ->setProperty('*release', $inspector($this->getRelease()))
-            ->setProperty('*hostName', $inspector($this->getHostName()));
+        yield 'properties' => [
+            '*name' => $this->getName(),
+            '*platformType' => $this->getPlatformType(),
+            '*distribution' => $this->getDistribution(),
+            '*version' => $this->getVersion(),
+            '*release' => $this->getRelease(),
+            '*hostName' => $this->getHostName()
+        ];
     }
 }

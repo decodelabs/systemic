@@ -49,10 +49,8 @@ class Linux extends Unix
     {
         exec('lsb_release -a', $result);
 
-        if ($result->hasOutput()) {
-            $lines = explode("\n", $result->getOutput());
-
-            foreach ($lines as $line) {
+        if (!empty($result) && is_array($result)) {
+            foreach ($result as $line) {
                 $parts = explode(':', $line, 2);
                 $key = trim((string)array_shift($parts));
 

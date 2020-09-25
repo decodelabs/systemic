@@ -9,9 +9,7 @@ namespace DecodeLabs\Systemic\Plugins;
 use DecodeLabs\Systemic\Context;
 use DecodeLabs\Veneer\FacadePlugin;
 
-use DecodeLabs\Glitch\Inspectable;
-
-interface Os extends FacadePlugin, Inspectable
+interface Os extends FacadePlugin
 {
     public function getName(): string;
     public function getPlatformType(): string;
