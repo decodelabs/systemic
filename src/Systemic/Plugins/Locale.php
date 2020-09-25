@@ -9,11 +9,11 @@ namespace DecodeLabs\Systemic\Plugins;
 use DecodeLabs\Systemic\Context;
 use DecodeLabs\Veneer\FacadePlugin;
 
-use DecodeLabs\Glitch\Inspectable;
+use DecodeLabs\Glitch\Dumpable;
 
 use Locale as SysLocale;
 
-class Locale implements FacadePlugin, Inspectable
+class Locale implements FacadePlugin, Dumpable
 {
     use GetterSetterPluginTrait;
 

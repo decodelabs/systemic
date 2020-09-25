@@ -9,9 +9,6 @@ namespace DecodeLabs\Systemic\Plugins;
 use DecodeLabs\Systemic\Context;
 
 use DecodeLabs\Glitch;
-use DecodeLabs\Glitch\Inspectable;
-use DecodeLabs\Glitch\Dumper\Entity;
-use DecodeLabs\Glitch\Dumper\Inspector;
 
 trait GetterSetterPluginTrait
 {
@@ -115,12 +112,10 @@ trait GetterSetterPluginTrait
     /**
      * Inspect for Glitch
      */
-    public function glitchInspect(Entity $entity, Inspector $inspector): void
+    public function glitchDump(): iterable
     {
-        $entity
-            ->setSingleValue($inspector($this->get()))
-            ->setSectionVisible('properties', false);
-
-        $inspector->inspectClassMembers($this, new \ReflectionClass($this), $entity, ['context']);
+        yield 'value' => $this->get();
+        yield 'section:properties' => false;
+        yield 'classMembers' => ['context'];
     }
 }
