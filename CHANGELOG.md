@@ -1,3 +1,6 @@
+## v0.6.6 (2020-09-25)
+* Switched to Glitch Dumpable interface
+
 ## v0.6.5 (2020-09-24)
 * Updated Composer dependency handling
 
