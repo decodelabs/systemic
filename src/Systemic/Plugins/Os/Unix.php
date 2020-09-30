@@ -6,7 +6,7 @@
 declare(strict_types=1);
 namespace DecodeLabs\Systemic\Plugins\Os;
 
-use DecodeLabs\Glitch;
+use DecodeLabs\Exceptional;
 
 class Unix extends Base
 {
@@ -19,7 +19,7 @@ class Unix extends Base
     {
         if (extension_loaded('posix')) {
             if (!$output = posix_getpwuid($id)) {
-                throw Glitch::EInvalidArgument(
+                throw Exceptional::InvalidArgument(
                     $id.' is not a valid user id'
                 );
             }
@@ -37,7 +37,7 @@ class Unix extends Base
             }
         }
 
-        throw Glitch::ERuntime(
+        throw Exceptional::Runtime(
             'Unable to extract owner name'
         );
     }
@@ -49,7 +49,7 @@ class Unix extends Base
     {
         if (extension_loaded('posix')) {
             if (!$output = posix_getpwnam($name)) {
-                throw Glitch::EInvalidArgument(
+                throw Exceptional::InvalidArgument(
                     $name.' is not a valid user name'
                 );
             }
@@ -57,7 +57,9 @@ class Unix extends Base
             return $output['uid'];
         }
 
-        throw Glitch::EComponentUnavailable('POSIX extension is not available');
+        throw Exceptional::ComponentUnavailable(
+            'POSIX extension is not available'
+        );
     }
 
     /**
@@ -67,7 +69,7 @@ class Unix extends Base
     {
         if (extension_loaded('posix')) {
             if (!$output = posix_getgrgid($id)) {
-                throw Glitch::EInvalidArgument(
+                throw Exceptional::InvalidArgument(
                     $id.' is not a valid group id'
                 );
             }
@@ -85,7 +87,7 @@ class Unix extends Base
             }
         }
 
-        throw Glitch::ERuntime(
+        throw Exceptional::Runtime(
             'Unable to extract process group name'
         );
     }
@@ -97,14 +99,16 @@ class Unix extends Base
     {
         if (extension_loaded('posix')) {
             if (!$output = posix_getgrnam($name)) {
-                throw Glitch::EInvalidArgument(
+                throw Exceptional::InvalidArgument(
                     $name.' is not a valid group name'
                 );
             }
             return $output['gid'];
         }
 
-        throw Glitch::EComponentUnavailable('POSIX extension is not available');
+        throw Exceptional::ComponentUnavailable(
+            'POSIX extension is not available'
+        );
     }
 
     /**

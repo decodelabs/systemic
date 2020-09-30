@@ -14,7 +14,7 @@ use DecodeLabs\Veneer\FacadePlugin;
 
 use DecodeLabs\Systemic\Plugins\Os\Base as Os;
 
-use DecodeLabs\Glitch;
+use DecodeLabs\Exceptional;
 
 class Context implements FacadeTarget, FacadePluginAccessTarget
 {
@@ -46,7 +46,9 @@ class Context implements FacadeTarget, FacadePluginAccessTarget
     public function loadFacadePlugin(string $name): FacadePlugin
     {
         if (!in_array($name, self::PLUGINS)) {
-            throw Glitch::EInvalidArgument($name.' is not a recognised facade plugin');
+            throw Exceptional::InvalidArgument(
+                $name.' is not a recognised facade plugin'
+            );
         }
 
         switch ($name) {

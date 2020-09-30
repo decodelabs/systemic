@@ -7,7 +7,7 @@ declare(strict_types=1);
 namespace DecodeLabs\Systemic\Process;
 
 use DecodeLabs\Systemic\Process;
-use DecodeLabs\Glitch;
+use DecodeLabs\Exceptional;
 
 trait PidFileProviderTrait
 {
@@ -40,7 +40,7 @@ trait PidFileProviderTrait
             if ($oldPid == $pid) {
                 $write = false;
             } elseif (self::isProcessIdLive($oldPid)) {
-                throw Glitch::ERuntime(
+                throw Exceptional::Runtime(
                     'PID file '.basename($path).' already exists and is live with pid of '.$oldPid
                 );
             }
@@ -51,7 +51,7 @@ trait PidFileProviderTrait
             try {
                 file_put_contents($path, $pid);
             } catch (\Throwable $e) {
-                throw Glitch::ERuntime(
+                throw Exceptional::Runtime(
                     'Unable to write PID file', 0, $e
                 );
             }
