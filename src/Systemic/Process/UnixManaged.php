@@ -8,7 +8,7 @@ namespace DecodeLabs\Systemic\Process;
 
 use DecodeLabs\Systemic;
 use DecodeLabs\Systemic\Process;
-use DecodeLabs\Glitch;
+use DecodeLabs\Exceptional;
 
 class UnixManaged extends Unix implements Managed
 {
@@ -42,7 +42,7 @@ class UnixManaged extends Unix implements Managed
                 if (isset($output[0])) {
                     $this->parentProcessId = (int)$output[0];
                 } else {
-                    throw Glitch::ERuntime(
+                    throw Exceptional::Runtime(
                         'Unable to extract parent process id'
                     );
                 }
@@ -105,7 +105,7 @@ class UnixManaged extends Unix implements Managed
         }
 
         if (!extension_loaded('posix')) {
-            throw Glitch::ERuntime(
+            throw Exceptional::Runtime(
                 'Unable to set process identity - posix not available'
             );
         }
@@ -124,13 +124,17 @@ class UnixManaged extends Unix implements Managed
 
         if ($doGid) {
             if (!posix_setgid($gid)) {
-                throw Glitch::ERuntime('Set group failed');
+                throw Exceptional::Runtime(
+                    'Set group failed'
+                );
             }
         }
 
         if ($doUid) {
             if (!posix_setuid($uid)) {
-                throw Glitch::ERuntime('Set owner failed');
+                throw Exceptional::Runtime(
+                    'Set owner failed'
+                );
             }
         }
 
@@ -155,11 +159,13 @@ class UnixManaged extends Unix implements Managed
                 try {
                     posix_setuid($id);
                 } catch (\Throwable $e) {
-                    throw Glitch::ERuntime('Set owner failed', 0, $e);
+                    throw Exceptional::Runtime(
+                        'Set owner failed', 0, $e
+                    );
                 }
             }
         } else {
-            throw Glitch::ERuntime(
+            throw Exceptional::Runtime(
                 'Unable to set owner id - posix not available'
             );
         }
@@ -182,7 +188,7 @@ class UnixManaged extends Unix implements Managed
             return (int)trim($output[0]);
         }
 
-        throw Glitch::ERuntime(
+        throw Exceptional::Runtime(
             'Unable to extract process owner id'
         );
     }
@@ -215,7 +221,7 @@ class UnixManaged extends Unix implements Managed
             }
         }
 
-        throw Glitch::ERuntime(
+        throw Exceptional::Runtime(
             'Unable to extract process owner name'
         );
     }
@@ -239,11 +245,13 @@ class UnixManaged extends Unix implements Managed
                 try {
                     posix_setgid($id);
                 } catch (\Throwable $e) {
-                    throw Glitch::ERuntime('Set group failed', 0, $e);
+                    throw Exceptional::Runtime(
+                        'Set group failed', 0, $e
+                    );
                 }
             }
         } else {
-            throw Glitch::ERuntime(
+            throw Exceptional::Runtime(
                 'Unable to set group id - posix not available'
             );
         }
@@ -266,7 +274,7 @@ class UnixManaged extends Unix implements Managed
             return (int)trim($output[0]);
         }
 
-        throw Glitch::ERuntime(
+        throw Exceptional::Runtime(
             'Unable to extract process owner id'
         );
     }
@@ -299,7 +307,7 @@ class UnixManaged extends Unix implements Managed
             }
         }
 
-        throw Glitch::ERuntime(
+        throw Exceptional::Runtime(
             'Unable to extract process group name'
         );
     }
@@ -320,7 +328,7 @@ class UnixManaged extends Unix implements Managed
     public function fork(): ?Managed
     {
         if (!$this->canFork()) {
-            throw Glitch::EComponentUnavailable(
+            throw Exceptional::ComponentUnavailable(
                 'This process is not capable of forking'
             );
         }
@@ -328,7 +336,7 @@ class UnixManaged extends Unix implements Managed
         $pid = pcntl_fork();
 
         if ($pid === -1) {
-            throw Glitch::ERuntime(
+            throw Exceptional::Runtime(
                 'The process did not fork successfully'
             );
         } elseif ($pid) {

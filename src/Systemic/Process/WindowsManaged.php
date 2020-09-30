@@ -8,6 +8,7 @@ namespace DecodeLabs\Systemic\Process;
 
 use DecodeLabs\Systemic\Process;
 use DecodeLabs\Glitch;
+use DecodeLabs\Exceptional;
 
 use Variant;
 
@@ -107,7 +108,9 @@ class WindowsManaged extends Windows implements Managed
             return (string)$owner;
         }
 
-        throw Glitch::ERuntime('Owner name could not be found for process');
+        throw Exceptional::Runtime(
+            'Owner name could not be found for process'
+        );
     }
 
     /**
@@ -156,7 +159,7 @@ class WindowsManaged extends Windows implements Managed
      */
     public function fork(): ?Managed
     {
-        throw Glitch::ERuntime(
+        throw Exceptional::Runtime(
             'PHP on windows is currently not able to fork processes'
         );
     }

@@ -6,7 +6,7 @@
 declare(strict_types=1);
 namespace DecodeLabs\Systemic\Process;
 
-use DecodeLabs\Glitch;
+use DecodeLabs\Exceptional;
 
 class Signal
 {
@@ -63,7 +63,7 @@ class Signal
         $signal = self::normalizeSignalName((string)$signal);
 
         if (!$signal) {
-            throw Glitch::EInvalidArgument(
+            throw Exceptional::InvalidArgument(
                 'Signal is not defined'
             );
         }
@@ -104,7 +104,7 @@ class Signal
             if (false !== ($t = array_search($signal, self::$signalMap))) {
                 $signal = $t;
             } else {
-                throw Glitch::EInvalidArgument(
+                throw Exceptional::InvalidArgument(
                     $signal.' is not a valid signal identifier'
                 );
             }
@@ -112,7 +112,7 @@ class Signal
             $signal = strtoupper($signal);
 
             if (!array_key_exists($signal, self::$signalMap)) {
-                throw Glitch::EInvalidArgument(
+                throw Exceptional::InvalidArgument(
                     $signal.' is not a valid signal identifier'
                 );
             }

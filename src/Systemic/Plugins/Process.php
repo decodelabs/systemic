@@ -19,7 +19,7 @@ use DecodeLabs\Systemic\Process\Launcher\Base as LauncherBase;
 use DecodeLabs\Systemic\Process\Base as BaseProcess;
 
 use DecodeLabs\Atlas\Broker;
-use DecodeLabs\Glitch;
+use DecodeLabs\Exceptional;
 
 class Process implements FacadePlugin
 {
@@ -184,7 +184,7 @@ class Process implements FacadePlugin
             $class = '\\DecodeLabs\\Systemic\\Process\\'.$this->context->os->getPlatformType().'Managed';
 
             if (!class_exists($class)) {
-                throw Glitch::EComponentUnavailable(
+                throw Exceptional::ComponentUnavailable(
                     'Managed processes aren\'t currently supported on this platform!'
                 );
             }
@@ -204,7 +204,7 @@ class Process implements FacadePlugin
             $class = '\\DecodeLabs\\Systemic\\Process\\Launcher\\'.$this->context->os->getPlatformType();
 
             if (!class_exists($class)) {
-                throw Glitch::EComponentUnavailable(
+                throw Exceptional::ComponentUnavailable(
                     'Sorry, I don\'t know how to launch processes on this platform!'
                 );
             }

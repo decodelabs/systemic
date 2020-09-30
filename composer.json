@@ -13,15 +13,16 @@
         "ext-intl": "*",
         "symfony/polyfill-mbstring": "^1.7",
 
+        "decodelabs/exceptional": "^0.2",
         "decodelabs/glitch": "^0.15.6",
         "decodelabs/veneer": "^0.5",
         "decodelabs/gadgets": "^0.6"
     },
     "require-dev": {
         "phpunit/phpunit": "^8",
-        "phpstan/phpstan": "^0.11.16",
+        "phpstan/phpstan": "^0.12.19",
         "phpstan/extension-installer": "^1.0",
-        "decodelabs/phpstan-decodelabs": "^0.2",
+        "decodelabs/phpstan-decodelabs": "^0.3.1",
 
         "decodelabs/atlas": "^0.7"
     },
