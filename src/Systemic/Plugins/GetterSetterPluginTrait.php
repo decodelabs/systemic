@@ -8,8 +8,6 @@ namespace DecodeLabs\Systemic\Plugins;
 
 use DecodeLabs\Systemic\Context;
 
-use DecodeLabs\Glitch;
-
 trait GetterSetterPluginTrait
 {
     protected $fetcher;
