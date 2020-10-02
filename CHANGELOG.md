@@ -1,3 +1,6 @@
+## v0.6.8 (2020-10-02)
+* Removed Glitch dependency
+
 ## v0.6.7 (2020-09-30)
 * Switched to Exceptional for exception generation
 
