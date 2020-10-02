@@ -14,7 +14,6 @@ use DecodeLabs\Atlas;
 use DecodeLabs\Atlas\Broker;
 use DecodeLabs\Atlas\Channel\Stream;
 
-use DecodeLabs\Glitch;
 use DecodeLabs\Gadgets\Then;
 use DecodeLabs\Gadgets\ThenTrait;
 

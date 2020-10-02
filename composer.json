@@ -13,16 +13,16 @@
         "ext-intl": "*",
         "symfony/polyfill-mbstring": "^1.7",
 
-        "decodelabs/exceptional": "^0.2",
-        "decodelabs/glitch": "^0.15.6",
+        "decodelabs/exceptional": "^0.2.7",
+        "decodelabs/glitch-support": "^0.1.4",
         "decodelabs/veneer": "^0.5",
         "decodelabs/gadgets": "^0.6"
     },
     "require-dev": {
         "phpunit/phpunit": "^8",
-        "phpstan/phpstan": "^0.12.19",
+        "phpstan/phpstan": "0.12.45",
         "phpstan/extension-installer": "^1.0",
-        "decodelabs/phpstan-decodelabs": "^0.3.1",
+        "decodelabs/phpstan-decodelabs": "^0.3.5",
 
         "decodelabs/atlas": "^0.7"
     },

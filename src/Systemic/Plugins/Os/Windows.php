@@ -6,7 +6,7 @@
 declare(strict_types=1);
 namespace DecodeLabs\Systemic\Plugins\Os;
 
-use DecodeLabs\Glitch;
+use DecodeLabs\Exceptional;
 
 use COM;
 
@@ -101,7 +101,7 @@ class Windows extends Base
      */
     public function which(string $binaryName): string
     {
-        Glitch::incomplete($binaryName);
+        Exceptional::incomplete($binaryName);
     }
 
     /**
@@ -110,7 +110,7 @@ class Windows extends Base
      */
     public function getShellWidth(): int
     {
-        Glitch::incomplete();
+        Exceptional::incomplete();
     }
 
     /**
@@ -118,7 +118,7 @@ class Windows extends Base
      */
     public function getShellHeight(): int
     {
-        Glitch::incomplete();
+        Exceptional::incomplete();
     }
 
     /**

@@ -7,7 +7,6 @@ declare(strict_types=1);
 namespace DecodeLabs\Systemic\Process;
 
 use DecodeLabs\Systemic\Process;
-use DecodeLabs\Glitch;
 use DecodeLabs\Exceptional;
 
 use Variant;
@@ -50,7 +49,7 @@ class WindowsManaged extends Windows implements Managed
      */
     public function setPriority(int $priority): Managed
     {
-        Glitch::incomplete();
+        Exceptional::incomplete();
     }
 
     /**
@@ -58,7 +57,7 @@ class WindowsManaged extends Windows implements Managed
      */
     public function getPriority(): int
     {
-        Glitch::incomplete();
+        Exceptional::incomplete();
     }
 
 
@@ -75,7 +74,7 @@ class WindowsManaged extends Windows implements Managed
      */
     public function setOwnerId(int $id): Managed
     {
-        Glitch::incomplete();
+        Exceptional::incomplete();
     }
 
     /**
@@ -83,7 +82,7 @@ class WindowsManaged extends Windows implements Managed
      */
     public function getOwnerId(): int
     {
-        Glitch::incomplete();
+        Exceptional::incomplete();
     }
 
     /**
@@ -91,7 +90,7 @@ class WindowsManaged extends Windows implements Managed
      */
     public function setOwnerName(string $name): Managed
     {
-        Glitch::incomplete();
+        Exceptional::incomplete();
     }
 
     /**
@@ -118,7 +117,7 @@ class WindowsManaged extends Windows implements Managed
      */
     public function setGroupId(int $id): Managed
     {
-        Glitch::incomplete();
+        Exceptional::incomplete();
     }
 
     /**
@@ -126,7 +125,7 @@ class WindowsManaged extends Windows implements Managed
      */
     public function getGroupId(): int
     {
-        Glitch::incomplete();
+        Exceptional::incomplete();
     }
 
     /**
@@ -134,7 +133,7 @@ class WindowsManaged extends Windows implements Managed
      */
     public function setGroupName(string $name): Managed
     {
-        Glitch::incomplete();
+        Exceptional::incomplete();
     }
 
     /**
@@ -142,7 +141,7 @@ class WindowsManaged extends Windows implements Managed
      */
     public function getGroupName(): string
     {
-        Glitch::incomplete();
+        Exceptional::incomplete();
     }
 
 

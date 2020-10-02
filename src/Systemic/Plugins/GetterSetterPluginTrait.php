@@ -8,8 +8,6 @@ namespace DecodeLabs\Systemic\Plugins;
 
 use DecodeLabs\Systemic\Context;
 
-use DecodeLabs\Glitch;
-
 trait GetterSetterPluginTrait
 {
     protected $fetcher;
@@ -110,7 +108,7 @@ trait GetterSetterPluginTrait
 
 
     /**
-     * Inspect for Glitch
+     * Export for dump inspection
      */
     public function glitchDump(): iterable
     {

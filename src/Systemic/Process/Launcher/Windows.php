@@ -11,7 +11,7 @@ use DecodeLabs\Systemic\Process\Result;
 use DecodeLabs\Systemic\Process\Launcher;
 use DecodeLabs\Systemic\Process\LauncherTrait;
 
-use DecodeLabs\Glitch;
+use DecodeLabs\Exceptional;
 
 class Windows implements Launcher
 {
@@ -19,11 +19,11 @@ class Windows implements Launcher
 
     public function launch(): Result
     {
-        Glitch::incomplete($this);
+        Exceptional::incomplete($this);
     }
 
     public function launchBackground(): Process
     {
-        Glitch::incomplete($this);
+        Exceptional::incomplete($this);
     }
 }

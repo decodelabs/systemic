@@ -8,7 +8,6 @@ namespace DecodeLabs\Systemic;
 
 use DecodeLabs\Systemic;
 use DecodeLabs\Systemic\Process;
-use DecodeLabs\Glitch;
 
 trait ProcessTrait
 {
