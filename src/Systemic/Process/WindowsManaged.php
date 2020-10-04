@@ -7,6 +7,8 @@ declare(strict_types=1);
 namespace DecodeLabs\Systemic\Process;
 
 use DecodeLabs\Systemic\Process;
+
+use DecodeLabs\Glitch\Proxy as Glitch;
 use DecodeLabs\Exceptional;
 
 use Variant;
@@ -49,7 +51,7 @@ class WindowsManaged extends Windows implements Managed
      */
     public function setPriority(int $priority): Managed
     {
-        Exceptional::incomplete();
+        Glitch::incomplete();
     }
 
     /**
@@ -57,7 +59,7 @@ class WindowsManaged extends Windows implements Managed
      */
     public function getPriority(): int
     {
-        Exceptional::incomplete();
+        Glitch::incomplete();
     }
 
 
@@ -74,7 +76,7 @@ class WindowsManaged extends Windows implements Managed
      */
     public function setOwnerId(int $id): Managed
     {
-        Exceptional::incomplete();
+        Glitch::incomplete();
     }
 
     /**
@@ -82,7 +84,7 @@ class WindowsManaged extends Windows implements Managed
      */
     public function getOwnerId(): int
     {
-        Exceptional::incomplete();
+        Glitch::incomplete();
     }
 
     /**
@@ -90,7 +92,7 @@ class WindowsManaged extends Windows implements Managed
      */
     public function setOwnerName(string $name): Managed
     {
-        Exceptional::incomplete();
+        Glitch::incomplete();
     }
 
     /**
@@ -117,7 +119,7 @@ class WindowsManaged extends Windows implements Managed
      */
     public function setGroupId(int $id): Managed
     {
-        Exceptional::incomplete();
+        Glitch::incomplete();
     }
 
     /**
@@ -125,7 +127,7 @@ class WindowsManaged extends Windows implements Managed
      */
     public function getGroupId(): int
     {
-        Exceptional::incomplete();
+        Glitch::incomplete();
     }
 
     /**
@@ -133,7 +135,7 @@ class WindowsManaged extends Windows implements Managed
      */
     public function setGroupName(string $name): Managed
     {
-        Exceptional::incomplete();
+        Glitch::incomplete();
     }
 
     /**
@@ -141,7 +143,7 @@ class WindowsManaged extends Windows implements Managed
      */
     public function getGroupName(): string
     {
-        Exceptional::incomplete();
+        Glitch::incomplete();
     }
 
 
