@@ -1,3 +1,6 @@
+## v0.6.10 (2020-10-04)
+* Switched to Glitch Proxy incomplete()
+
 ## v0.6.9 (2020-10-02)
 * Updated glitch-support
 
