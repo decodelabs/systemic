@@ -3,7 +3,7 @@
 [![PHP from Packagist](https://img.shields.io/packagist/php-v/decodelabs/systemic?style=flat-square)](https://packagist.org/packages/decodelabs/systemic)
 [![Latest Version](https://img.shields.io/packagist/v/decodelabs/systemic.svg?style=flat-square)](https://packagist.org/packages/decodelabs/systemic)
 [![Total Downloads](https://img.shields.io/packagist/dt/decodelabs/systemic.svg?style=flat-square)](https://packagist.org/packages/decodelabs/systemic)
-[![Build Status](https://img.shields.io/travis/decodelabs/systemic/develop.svg?style=flat-square)](https://travis-ci.org/decodelabs/systemic)
+[![Build Status](https://img.shields.io/travis/com/decodelabs/systemic/master.svg?style=flat-square)](https://travis-ci.org/decodelabs/systemic)
 [![PHPStan](https://img.shields.io/badge/PHPStan-enabled-44CC11.svg?longCache=true&style=flat-square)](https://github.com/phpstan/phpstan)
 [![License](https://img.shields.io/packagist/l/decodelabs/systemic?style=flat-square)](https://packagist.org/packages/decodelabs/systemic)
 
@@ -23,19 +23,17 @@ composer require decodelabs/systemic
 
 ### Importing
 
-Systemic uses a [Veneer Facade](https://github.com/decodelabs/veneer) so you don't _need_ to add any <code>use</code> declarations to your code, the class will be aliased into whatever namespace you are working in.
+Systemic uses [Veneer](https://github.com/decodelabs/veneer) to provide a unified frontage under <code>DecodeLabs\Systemic</code>.
+You can access all the primary functionality via this static frontage without compromising testing and dependency injection.
 
-However, if you want to avoid filling your namespace with class aliases, you can import the Facade with:
-
-```php
-use DecodeLabs\Systemic;
-```
 
 ### Locale
 
 Get and set the active Locale for output formatting:
 
 ```php
+use DecodeLabs\Systemic;
+
 // Set locale to German
 Systemic::$locale->set('de_DE');
 
@@ -54,6 +52,8 @@ Systemic::$locale->addListener('myListener', function($newLocale, $oldLocale) {
 Get and set the active user timezone for output formatting:
 
 ```php
+use DecodeLabs\Systemic;
+
 // Set timezone to london
 Systemic::$timezone->set('Europe/London');
 
@@ -72,6 +72,8 @@ Systemic::$timezone->addListener('myListener', function($newLocale, $oldLocale) 
 Get information about the current OS:
 
 ```php
+use DecodeLabs\Systemic;
+
 // OS info
 echo Systemic::$os->getName(); // Linux | Windows | Darwin
 echo Systemic::$os->getPlatformType(); // Unix | Windows
@@ -90,6 +92,8 @@ echo Systemic::$os->which('php'); // eg /usr/local/bin/php
 Launch new processes:
 
 ```php
+use DecodeLabs\Systemic;
+
 // Launch a normal process
 echo Systemic::$process->launch('echo hello', ['-h'])->getOutput(); // hello -h
 
