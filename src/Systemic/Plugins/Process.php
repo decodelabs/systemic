@@ -8,7 +8,7 @@ namespace DecodeLabs\Systemic\Plugins;
 
 use DecodeLabs\Systemic;
 use DecodeLabs\Systemic\Context;
-use DecodeLabs\Veneer\FacadePlugin;
+use DecodeLabs\Veneer\Plugin;
 
 use DecodeLabs\Systemic\Process as ProcessInterface;
 use DecodeLabs\Systemic\Process\Managed as ManagedProcessInterface;
@@ -21,7 +21,7 @@ use DecodeLabs\Systemic\Process\Base as BaseProcess;
 use DecodeLabs\Atlas\Broker;
 use DecodeLabs\Exceptional;
 
-class Process implements FacadePlugin
+class Process implements Plugin
 {
     protected $context;
     protected $current;

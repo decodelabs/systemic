@@ -52,7 +52,9 @@ trait PidFileProviderTrait
                 file_put_contents($path, $pid);
             } catch (\Throwable $e) {
                 throw Exceptional::Runtime(
-                    'Unable to write PID file', 0, $e
+                    'Unable to write PID file', [
+                        'previous' => $e
+                    ]
                 );
             }
         }

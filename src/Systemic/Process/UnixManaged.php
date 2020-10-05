@@ -59,8 +59,13 @@ class UnixManaged extends Unix implements Managed
     {
         $this->title = $title;
 
-        if ($title && extension_loaded('proctitle')) {
-            setproctitle($title);
+        if (
+            $title &&
+            extension_loaded('proctitle') &&
+            function_exists('setproctitle')
+        ) {
+            /** @phpstan-ignore-next-line */
+            \setproctitle($title);
         }
 
         return $this;
@@ -160,7 +165,9 @@ class UnixManaged extends Unix implements Managed
                     posix_setuid($id);
                 } catch (\Throwable $e) {
                     throw Exceptional::Runtime(
-                        'Set owner failed', 0, $e
+                        'Set owner failed', [
+                            'previous' => $e
+                        ]
                     );
                 }
             }
@@ -246,7 +253,9 @@ class UnixManaged extends Unix implements Managed
                     posix_setgid($id);
                 } catch (\Throwable $e) {
                     throw Exceptional::Runtime(
-                        'Set group failed', 0, $e
+                        'Set group failed', [
+                            'previous' => $e
+                        ]
                     );
                 }
             }

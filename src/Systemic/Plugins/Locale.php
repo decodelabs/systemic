@@ -7,13 +7,13 @@ declare(strict_types=1);
 namespace DecodeLabs\Systemic\Plugins;
 
 use DecodeLabs\Systemic\Context;
-use DecodeLabs\Veneer\FacadePlugin;
+use DecodeLabs\Veneer\Plugin;
 
 use DecodeLabs\Glitch\Dumpable;
 
 use Locale as SysLocale;
 
-class Locale implements FacadePlugin, Dumpable
+class Locale implements Plugin, Dumpable
 {
     use GetterSetterPluginTrait;
 

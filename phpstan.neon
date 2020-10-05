@@ -6,6 +6,8 @@ parameters:
         - '#Instantiated class Variant not found#'
         - '#Instantiated class COM not found#'
         - '#invalid type COM#'
+        - '#broker|Broker#'
+
     excludes_analyse:
         - src/Systemic/Plugins/Os/Windows.php
         - src/Systemic/Process/Launcher/Windows.php

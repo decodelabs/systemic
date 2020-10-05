@@ -10,8 +10,10 @@ declare(strict_types=1);
  */
 namespace DecodeLabs\Systemic
 {
+    use DecodeLabs\Systemic;
     use DecodeLabs\Systemic\Context;
+    use DecodeLabs\Veneer;
 
-    // Register the Veneer facade
-    Context::registerFacade();
+    // Register the Veneer proxy
+    Veneer::register(Context::class, Systemic::class);
 }

@@ -7,9 +7,9 @@ declare(strict_types=1);
 namespace DecodeLabs\Systemic\Plugins;
 
 use DecodeLabs\Systemic\Context;
-use DecodeLabs\Veneer\FacadePlugin;
+use DecodeLabs\Veneer\Plugin;
 
-interface Os extends FacadePlugin
+interface Os extends Plugin
 {
     public function getName(): string;
     public function getPlatformType(): string;
