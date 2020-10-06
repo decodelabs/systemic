@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace DecodeLabs\Systemic\Process;
 
 use DecodeLabs\Atlas\Broker;
-use DecodeLabs\Gadgets\ThenTrait;
+use DecodeLabs\Fluidity\ThenTrait;
 use DecodeLabs\Systemic\Process;
 
 trait LauncherTrait

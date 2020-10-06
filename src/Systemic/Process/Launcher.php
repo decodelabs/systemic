@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace DecodeLabs\Systemic\Process;
 
 use DecodeLabs\Atlas\Broker;
-use DecodeLabs\Gadgets\Then;
+use DecodeLabs\Fluidity\Then;
 use DecodeLabs\Systemic\Process;
 
 interface Launcher extends Then
