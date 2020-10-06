@@ -1,17 +1,20 @@
 <?php
+
 /**
- * This file is part of the Systemic package
+ * @package Systemic
  * @license http://opensource.org/licenses/MIT
  */
+
 declare(strict_types=1);
+
 namespace DecodeLabs\Systemic\Process\Launcher;
 
 use DecodeLabs\Systemic;
 use DecodeLabs\Systemic\Process;
-use DecodeLabs\Systemic\Process\Unix as UnixProcess;
-use DecodeLabs\Systemic\Process\Result;
 use DecodeLabs\Systemic\Process\Launcher;
 use DecodeLabs\Systemic\Process\LauncherTrait;
+use DecodeLabs\Systemic\Process\Result;
+use DecodeLabs\Systemic\Process\Unix as UnixProcess;
 
 class Unix implements Launcher
 {
@@ -158,7 +161,7 @@ class Unix implements Launcher
     public function launchBackground(): Process
     {
         $command = $this->prepareCommand();
-        $activeCommand = $command.' > /dev/null 2>&1 & echo $!';
+        $activeCommand = $command . ' > /dev/null 2>&1 & echo $!';
         $cwd = null;
 
         if ($this->workingDirectory !== null) {
@@ -187,7 +190,7 @@ class Unix implements Launcher
         $command = '';
 
         if ($this->path) {
-            $command .= rtrim($this->path, '/\\').DIRECTORY_SEPARATOR;
+            $command .= rtrim($this->path, '/\\') . DIRECTORY_SEPARATOR;
         }
 
         $command .= $this->processName;
@@ -209,14 +212,14 @@ class Unix implements Launcher
                 $temp[] = $arg;
             }
 
-            $command .= ' '.implode(' ', $temp);
+            $command .= ' ' . implode(' ', $temp);
         }
 
         if ($this->decoratable && Systemic::$os->which('script')) {
             if (Systemic::$os->isMac()) {
-                $command = 'script -q /dev/null '.$command;
+                $command = 'script -q /dev/null ' . $command;
             } else {
-                $command = 'script -e -q -c "'.$command.'" /dev/null';
+                $command = 'script -e -q -c "' . $command . '" /dev/null';
             }
         }
 
@@ -231,9 +234,9 @@ class Unix implements Launcher
             }
 
             if ($pass !== null) {
-                $command = 'echo '.$pass.' | sudo -k -u '.$user.' -p "" -S '.$command;
+                $command = 'echo ' . $pass . ' | sudo -k -u ' . $user . ' -p "" -S ' . $command;
             } else {
-                $command = 'sudo -k -u '.$user.' '.$command;
+                $command = 'sudo -k -u ' . $user . ' ' . $command;
             }
         }
 

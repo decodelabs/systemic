@@ -1,21 +1,17 @@
 <?php
+
 /**
- * This file is part of the Systemic package
+ * @package Systemic
  * @license http://opensource.org/licenses/MIT
  */
+
 declare(strict_types=1);
+
 namespace DecodeLabs\Systemic\Process;
 
-use DecodeLabs\Systemic;
-use DecodeLabs\Systemic\Process;
-use DecodeLabs\Systemic\Process\Launcher;
-
-use DecodeLabs\Atlas;
 use DecodeLabs\Atlas\Broker;
-use DecodeLabs\Atlas\Channel\Stream;
-
-use DecodeLabs\Gadgets\Then;
 use DecodeLabs\Gadgets\ThenTrait;
+use DecodeLabs\Systemic\Process;
 
 trait LauncherTrait
 {
@@ -35,7 +31,7 @@ trait LauncherTrait
     /**
      * Init with main params
      */
-    public function __construct(string $processName, array $args=[], string $path=null, ?Broker $broker=null, string $user=null)
+    public function __construct(string $processName, array $args = [], string $path = null, ?Broker $broker = null, string $user = null)
     {
         $this->setProcessName($processName);
         $this->setArgs($args);

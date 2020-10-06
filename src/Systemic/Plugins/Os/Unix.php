@@ -1,9 +1,12 @@
 <?php
+
 /**
- * This file is part of the Systemic package
+ * @package Systemic
  * @license http://opensource.org/licenses/MIT
  */
+
 declare(strict_types=1);
+
 namespace DecodeLabs\Systemic\Plugins\Os;
 
 use DecodeLabs\Exceptional;
@@ -20,14 +23,14 @@ class Unix extends Base
         if (extension_loaded('posix')) {
             if (!$output = posix_getpwuid($id)) {
                 throw Exceptional::InvalidArgument(
-                    $id.' is not a valid user id'
+                    $id . ' is not a valid user id'
                 );
             }
 
             return $output['name'];
         }
 
-        exec('getent passwd '.escapeshellarg((string)$id), $output);
+        exec('getent passwd ' . escapeshellarg((string)$id), $output);
 
         if (isset($output[0])) {
             $parts = explode(':', $output[0]);
@@ -50,7 +53,7 @@ class Unix extends Base
         if (extension_loaded('posix')) {
             if (!$output = posix_getpwnam($name)) {
                 throw Exceptional::InvalidArgument(
-                    $name.' is not a valid user name'
+                    $name . ' is not a valid user name'
                 );
             }
 
@@ -70,14 +73,14 @@ class Unix extends Base
         if (extension_loaded('posix')) {
             if (!$output = posix_getgrgid($id)) {
                 throw Exceptional::InvalidArgument(
-                    $id.' is not a valid group id'
+                    $id . ' is not a valid group id'
                 );
             }
 
             return $output['name'];
         }
 
-        exec('getent group '.escapeshellarg((string)$id), $output);
+        exec('getent group ' . escapeshellarg((string)$id), $output);
 
         if (isset($output[0])) {
             $parts = explode(':', $output[0]);
@@ -100,7 +103,7 @@ class Unix extends Base
         if (extension_loaded('posix')) {
             if (!$output = posix_getgrnam($name)) {
                 throw Exceptional::InvalidArgument(
-                    $name.' is not a valid group name'
+                    $name . ' is not a valid group name'
                 );
             }
             return $output['gid'];
@@ -117,17 +120,17 @@ class Unix extends Base
     public function which(string $binaryName): string
     {
         if ($binaryName == 'php') {
-            $output = dirname(PHP_BINARY).'/php';
+            $output = dirname(PHP_BINARY) . '/php';
 
             if (false === strpos($output, '/Cellar/php')) {
                 return $output;
             }
         }
 
-        exec('which '.$binaryName, $result);
+        exec('which ' . $binaryName, $result);
 
         if (empty($result)) {
-            exec('type '.$binaryName, $result);
+            exec('type ' . $binaryName, $result);
 
             if (empty($result)) {
                 return $binaryName;

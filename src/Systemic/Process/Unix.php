@@ -1,9 +1,12 @@
 <?php
+
 /**
- * This file is part of the Systemic package
+ * @package Systemic
  * @license http://opensource.org/licenses/MIT
  */
+
 declare(strict_types=1);
+
 namespace DecodeLabs\Systemic\Process;
 
 use DecodeLabs\Systemic\Process;
@@ -27,7 +30,7 @@ class Unix implements Process
 
             return $output;
         } else {
-            exec('ps -o pid --no-heading --pid '.escapeshellarg((string)$pid), $output);
+            exec('ps -o pid --no-heading --pid ' . escapeshellarg((string)$pid), $output);
             return isset($output[0]);
         }
     }
@@ -60,7 +63,7 @@ class Unix implements Process
         if (extension_loaded('posix')) {
             return posix_kill($this->processId, SIGTERM);
         } else {
-            exec('kill -'.SIGTERM.' '.$this->processId);
+            exec('kill -' . SIGTERM . ' ' . $this->processId);
             return true;
         }
     }
@@ -75,7 +78,7 @@ class Unix implements Process
         if (extension_loaded('posix')) {
             return posix_kill($this->processId, $signal->getNumber());
         } else {
-            exec('kill -'.$signal->getNumber().' '.$this->processId);
+            exec('kill -' . $signal->getNumber() . ' ' . $this->processId);
             return true;
         }
     }

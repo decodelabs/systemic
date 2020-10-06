@@ -1,14 +1,16 @@
 <?php
+
 /**
- * This file is part of the Systemic package
+ * @package Systemic
  * @license http://opensource.org/licenses/MIT
  */
+
 declare(strict_types=1);
+
 namespace DecodeLabs\Systemic\Plugins\Os;
 
-use DecodeLabs\Glitch\Proxy as Glitch;
-
 use COM;
+use DecodeLabs\Glitch\Proxy as Glitch;
 
 class Windows extends Base
 {
@@ -140,7 +142,7 @@ class Windows extends Base
             if (function_exists('sapi_windows_vt100_support')) {
                 $hasVt100 = @sapi_windows_vt100_support(\STDOUT);
             } elseif (defined('PHP_WINDOWS_VERSION_MAJOR') && defined('PHP_WINDOWS_VERSION_MINOR') && defined('PHP_WINDOWS_VERSION_BUILD')) {
-                $hasVt100 = '10.0.10586' === \PHP_WINDOWS_VERSION_MAJOR.'.'.\PHP_WINDOWS_VERSION_MINOR.'.'.\PHP_WINDOWS_VERSION_BUILD;
+                $hasVt100 = '10.0.10586' === \PHP_WINDOWS_VERSION_MAJOR . '.' . \PHP_WINDOWS_VERSION_MINOR . '.' . \PHP_WINDOWS_VERSION_BUILD;
             } else {
                 $hasVt100 = false;
             }

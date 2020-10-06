@@ -1,9 +1,12 @@
 <?php
+
 /**
- * This file is part of the Systemic package
+ * @package Systemic
  * @license http://opensource.org/licenses/MIT
  */
+
 declare(strict_types=1);
+
 namespace DecodeLabs\Systemic\Process;
 
 use DecodeLabs\Exceptional;
@@ -80,7 +83,7 @@ class Signal
             self::$init = true;
 
             if (extension_loaded('pcntl')) {
-                foreach (self::$signalMap as $signalName => $number) {
+                foreach (array_keys(self::$signalMap) as $signalName) {
                     if (defined($signalName)) {
                         self::$signalMap[$signalName] = constant($signalName);
                     }
@@ -89,7 +92,7 @@ class Signal
                 $list = explode(' ', trim((string)shell_exec("kill -l")));
 
                 foreach ($list as $i => $name) {
-                    $name = 'SIG'.$name;
+                    $name = 'SIG' . $name;
 
                     if (array_key_exists($name, self::$signalMap)) {
                         self::$signalMap[$name] = $i + 1;
@@ -105,7 +108,7 @@ class Signal
                 $signal = $t;
             } else {
                 throw Exceptional::InvalidArgument(
-                    $signal.' is not a valid signal identifier'
+                    $signal . ' is not a valid signal identifier'
                 );
             }
         } else {
@@ -113,7 +116,7 @@ class Signal
 
             if (!array_key_exists($signal, self::$signalMap)) {
                 throw Exceptional::InvalidArgument(
-                    $signal.' is not a valid signal identifier'
+                    $signal . ' is not a valid signal identifier'
                 );
             }
         }

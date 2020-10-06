@@ -1,9 +1,12 @@
 <?php
+
 /**
- * This file is part of the Systemic package
+ * @package Systemic
  * @license http://opensource.org/licenses/MIT
  */
+
 declare(strict_types=1);
+
 namespace DecodeLabs\Systemic\Process;
 
 use DecodeLabs\Systemic;
@@ -14,12 +17,12 @@ class Windows implements Process
 {
     use ProcessTrait;
 
-    const EXIT_SUCCESS = 0;
-    const EXIT_ACCESS_DENIED = 2;
-    const EXIT_PRIVILEGES = 3;
-    const EXIT_UNKNOWN_FAILURE = 8;
-    const EXIT_PATH_NOT_FOUND = 9;
-    const EXIT_INVALID_PARAMETER = 21;
+    public const EXIT_SUCCESS = 0;
+    public const EXIT_ACCESS_DENIED = 2;
+    public const EXIT_PRIVILEGES = 3;
+    public const EXIT_UNKNOWN_FAILURE = 8;
+    public const EXIT_PATH_NOT_FOUND = 9;
+    public const EXIT_INVALID_PARAMETER = 21;
 
     /**
      * Check if process under PID is still running
@@ -27,10 +30,12 @@ class Windows implements Process
     public static function isProcessIdLive(int $pid): bool
     {
         $wmi = Systemic::$os->getWmi();
-        $procs = $wmi->ExecQuery('SELECT * FROM Win32_Process WHERE ProcessId=\''.$pid.'\'');
+        $procs = $wmi->ExecQuery('SELECT * FROM Win32_Process WHERE ProcessId=\'' . $pid . '\'');
 
         foreach ($procs as $process) {
-            return true;
+            if ($process !== null) {
+                return true;
+            }
         }
 
         return false;
@@ -50,10 +55,12 @@ class Windows implements Process
     public function isAlive(): bool
     {
         $wmi = $this->getWmi();
-        $procs = $wmi->ExecQuery('SELECT * FROM Win32_Process WHERE ProcessId=\''.$this->getProcessId().'\'');
+        $procs = $wmi->ExecQuery('SELECT * FROM Win32_Process WHERE ProcessId=\'' . $this->getProcessId() . '\'');
 
         foreach ($procs as $process) {
-            return true;
+            if ($process !== null) {
+                return true;
+            }
         }
 
         return false;
@@ -65,7 +72,7 @@ class Windows implements Process
     public function kill(): bool
     {
         $wmi = $this->getWmi();
-        $procs = $wmi->ExecQuery('SELECT * FROM Win32_Process WHERE ProcessId=\''.$this->getProcessId().'\'');
+        $procs = $wmi->ExecQuery('SELECT * FROM Win32_Process WHERE ProcessId=\'' . $this->getProcessId() . '\'');
         $output = 0;
 
         foreach ($procs as $process) {

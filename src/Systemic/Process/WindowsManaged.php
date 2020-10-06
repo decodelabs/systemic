@@ -1,15 +1,17 @@
 <?php
+
 /**
- * This file is part of the Systemic package
+ * @package Systemic
  * @license http://opensource.org/licenses/MIT
  */
+
 declare(strict_types=1);
+
 namespace DecodeLabs\Systemic\Process;
 
-use DecodeLabs\Systemic\Process;
-
-use DecodeLabs\Glitch\Proxy as Glitch;
 use DecodeLabs\Exceptional;
+use DecodeLabs\Glitch\Proxy as Glitch;
+use DecodeLabs\Systemic\Process;
 
 use Variant;
 
@@ -26,7 +28,7 @@ class WindowsManaged extends Windows implements Managed
     {
         if ($this->parentProcessId === null) {
             $wmi = $this->getWmi();
-            $procs = $wmi->ExecQuery('SELECT * FROM Win32_Process WHERE ProcessId=\''.$this->getProcessId().'\'');
+            $procs = $wmi->ExecQuery('SELECT * FROM Win32_Process WHERE ProcessId=\'' . $this->getProcessId() . '\'');
 
             foreach ($procs as $process) {
                 $this->parentProcessId = $process->ParentProcessId;
@@ -101,7 +103,7 @@ class WindowsManaged extends Windows implements Managed
     public function getOwnerName(): string
     {
         $wmi = $this->getWmi();
-        $procs = $wmi->ExecQuery('SELECT * FROM Win32_Process WHERE ProcessId=\''.$this->getProcessId().'\'');
+        $procs = $wmi->ExecQuery('SELECT * FROM Win32_Process WHERE ProcessId=\'' . $this->getProcessId() . '\'');
 
         foreach ($procs as $process) {
             $owner = new Variant(null);

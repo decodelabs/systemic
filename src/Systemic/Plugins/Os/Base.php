@@ -1,15 +1,16 @@
 <?php
+
 /**
- * This file is part of the Systemic package
+ * @package Systemic
  * @license http://opensource.org/licenses/MIT
  */
+
 declare(strict_types=1);
+
 namespace DecodeLabs\Systemic\Plugins\Os;
 
-use DecodeLabs\Systemic\Context;
-use DecodeLabs\Systemic\Plugins\Os;
-
 use DecodeLabs\Glitch\Dumpable;
+use DecodeLabs\Systemic\Plugins\Os;
 
 abstract class Base implements Os, Dumpable
 {
@@ -22,7 +23,7 @@ abstract class Base implements Os, Dumpable
     /**
      * Load for current OS
      */
-    public static function load(?string $name=null): Os
+    public static function load(?string $name = null): Os
     {
         if ($name === null) {
             $name = php_uname('s');
@@ -32,7 +33,7 @@ abstract class Base implements Os, Dumpable
             }
         }
 
-        $class = '\\DecodeLabs\\Systemic\\Plugins\\Os\\'.ucfirst($name);
+        $class = '\\DecodeLabs\\Systemic\\Plugins\\Os\\' . ucfirst($name);
 
         if (!class_exists($class)) {
             $class = '\\DecodeLabs\\Systemic\\Plugins\\Os\\Unix';

@@ -1,14 +1,17 @@
 <?php
+
 /**
- * This file is part of the Systemic package
+ * @package Systemic
  * @license http://opensource.org/licenses/MIT
  */
+
 declare(strict_types=1);
+
 namespace DecodeLabs\Systemic\Plugins\Os;
 
 class Linux extends Unix
 {
-    const DISTRIBUTIONS = [
+    public const DISTRIBUTIONS = [
         'Debian' => ['/etc/debian_release', '/etc/debian_version'],
         'SuSE' => ['/etc/SuSE-release', '/etc/UnitedLinux-release'],
         'Mandrake' => '/etc/mandrake-release',

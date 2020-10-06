@@ -1,12 +1,14 @@
 <?php
+
 /**
- * This file is part of the Systemic package
+ * @package Systemic
  * @license http://opensource.org/licenses/MIT
  */
+
 declare(strict_types=1);
+
 namespace DecodeLabs\Systemic\Process;
 
-use DecodeLabs\Systemic\Process;
 use DecodeLabs\Exceptional;
 
 trait PidFileProviderTrait
@@ -41,7 +43,7 @@ trait PidFileProviderTrait
                 $write = false;
             } elseif (self::isProcessIdLive($oldPid)) {
                 throw Exceptional::Runtime(
-                    'PID file '.basename($path).' already exists and is live with pid of '.$oldPid
+                    'PID file ' . basename($path) . ' already exists and is live with pid of ' . $oldPid
                 );
             }
         }
@@ -52,7 +54,8 @@ trait PidFileProviderTrait
                 file_put_contents($path, $pid);
             } catch (\Throwable $e) {
                 throw Exceptional::Runtime(
-                    'Unable to write PID file', [
+                    'Unable to write PID file',
+                    [
                         'previous' => $e
                     ]
                 );
