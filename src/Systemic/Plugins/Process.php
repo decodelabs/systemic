@@ -1,25 +1,26 @@
 <?php
+
 /**
- * This file is part of the Systemic package
+ * @package Systemic
  * @license http://opensource.org/licenses/MIT
  */
+
 declare(strict_types=1);
+
 namespace DecodeLabs\Systemic\Plugins;
-
-use DecodeLabs\Systemic;
-use DecodeLabs\Systemic\Context;
-use DecodeLabs\Veneer\Plugin;
-
-use DecodeLabs\Systemic\Process as ProcessInterface;
-use DecodeLabs\Systemic\Process\Managed as ManagedProcessInterface;
-use DecodeLabs\Systemic\Process\Result;
-use DecodeLabs\Systemic\Process\Signal;
-use DecodeLabs\Systemic\Process\Launcher;
-use DecodeLabs\Systemic\Process\Launcher\Base as LauncherBase;
-use DecodeLabs\Systemic\Process\Base as BaseProcess;
 
 use DecodeLabs\Atlas\Broker;
 use DecodeLabs\Exceptional;
+
+use DecodeLabs\Systemic;
+use DecodeLabs\Systemic\Context;
+use DecodeLabs\Systemic\Process as ProcessInterface;
+use DecodeLabs\Systemic\Process\Launcher;
+use DecodeLabs\Systemic\Process\Managed as ManagedProcessInterface;
+use DecodeLabs\Systemic\Process\Result;
+use DecodeLabs\Systemic\Process\Signal;
+
+use DecodeLabs\Veneer\Plugin;
 
 class Process implements Plugin
 {
@@ -71,7 +72,7 @@ class Process implements Plugin
     public function fromPid(int $pid): ProcessInterface
     {
         $class = $this->getProcessSystemClass();
-        return new $class($pid, 'PID: '.$pid);
+        return new $class($pid, 'PID: ' . $pid);
     }
 
     /**
@@ -94,7 +95,7 @@ class Process implements Plugin
     /**
      * Launch standard process
      */
-    public function launch(string $process, $args=null, string $path=null, ?Broker $ioBroker=null, string $user=null): Result
+    public function launch(string $process, $args = null, string $path = null, ?Broker $ioBroker = null, string $user = null): Result
     {
         return $this->newLauncher($process, $args, $path, $ioBroker, $user)->launch();
     }
@@ -102,7 +103,7 @@ class Process implements Plugin
     /**
      * Launch PHP script
      */
-    public function launchScript(string $path, $args=null, ?Broker $ioBroker=null, string $user=null): Result
+    public function launchScript(string $path, $args = null, ?Broker $ioBroker = null, string $user = null): Result
     {
         return $this->newScriptLauncher($path, $args, $ioBroker, $user)->launch();
     }
@@ -110,7 +111,7 @@ class Process implements Plugin
     /**
      * Launch background process
      */
-    public function launchBackground(string $process, $args=null, string $path=null, ?Broker $ioBroker=null, string $user=null): ProcessInterface
+    public function launchBackground(string $process, $args = null, string $path = null, ?Broker $ioBroker = null, string $user = null): ProcessInterface
     {
         return $this->newLauncher($process, $args, $path, $ioBroker, $user)->launchBackground();
     }
@@ -118,7 +119,7 @@ class Process implements Plugin
     /**
      * Launch background PHP script
      */
-    public function launchBackgroundScript(string $path, $args=null, ?Broker $ioBroker=null, string $user=null): ProcessInterface
+    public function launchBackgroundScript(string $path, $args = null, ?Broker $ioBroker = null, string $user = null): ProcessInterface
     {
         return $this->newScriptLauncher($path, $args, $ioBroker, $user)->launchBackground();
     }
@@ -127,7 +128,7 @@ class Process implements Plugin
     /**
      * Create a new launcher object
      */
-    public function newLauncher(string $process, $args=[], string $path=null, ?Broker $ioBroker=null, string $user=null): Launcher
+    public function newLauncher(string $process, $args = [], string $path = null, ?Broker $ioBroker = null, string $user = null): Launcher
     {
         if ($args === null) {
             $args = [];
@@ -142,7 +143,7 @@ class Process implements Plugin
     /**
      * Create a new launcher for php scripts
      */
-    public function newScriptLauncher(string $path, $args=[], ?Broker $ioBroker=null, string $user=null): Launcher
+    public function newScriptLauncher(string $path, $args = [], ?Broker $ioBroker = null, string $user = null): Launcher
     {
         if ($args === null) {
             $args = [];
@@ -178,10 +179,10 @@ class Process implements Plugin
      */
     protected function getProcessSystemClass(): string
     {
-        $class = '\\DecodeLabs\\Systemic\\Process\\'.$this->context->os->getName().'Managed';
+        $class = '\\DecodeLabs\\Systemic\\Process\\' . $this->context->os->getName() . 'Managed';
 
         if (!class_exists($class)) {
-            $class = '\\DecodeLabs\\Systemic\\Process\\'.$this->context->os->getPlatformType().'Managed';
+            $class = '\\DecodeLabs\\Systemic\\Process\\' . $this->context->os->getPlatformType() . 'Managed';
 
             if (!class_exists($class)) {
                 throw Exceptional::ComponentUnavailable(
@@ -198,10 +199,10 @@ class Process implements Plugin
      */
     protected function getLauncherSystemClass(): string
     {
-        $class = '\\DecodeLabs\\Systemic\\Process\\Launcher\\'.$this->context->os->getName();
+        $class = '\\DecodeLabs\\Systemic\\Process\\Launcher\\' . $this->context->os->getName();
 
         if (!class_exists($class)) {
-            $class = '\\DecodeLabs\\Systemic\\Process\\Launcher\\'.$this->context->os->getPlatformType();
+            $class = '\\DecodeLabs\\Systemic\\Process\\Launcher\\' . $this->context->os->getPlatformType();
 
             if (!class_exists($class)) {
                 throw Exceptional::ComponentUnavailable(

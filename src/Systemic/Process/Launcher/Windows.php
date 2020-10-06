@@ -1,17 +1,19 @@
 <?php
+
 /**
- * This file is part of the Systemic package
+ * @package Systemic
  * @license http://opensource.org/licenses/MIT
  */
+
 declare(strict_types=1);
+
 namespace DecodeLabs\Systemic\Process\Launcher;
 
+use DecodeLabs\Glitch\Proxy as Glitch;
 use DecodeLabs\Systemic\Process;
-use DecodeLabs\Systemic\Process\Result;
 use DecodeLabs\Systemic\Process\Launcher;
 use DecodeLabs\Systemic\Process\LauncherTrait;
-
-use DecodeLabs\Glitch\Proxy as Glitch;
+use DecodeLabs\Systemic\Process\Result;
 
 class Windows implements Launcher
 {

@@ -1,27 +1,29 @@
 <?php
+
 /**
- * This file is part of the Systemic package
+ * @package Systemic
  * @license http://opensource.org/licenses/MIT
  */
+
 declare(strict_types=1);
+
 namespace DecodeLabs\Systemic;
 
+use DecodeLabs\Exceptional;
+use DecodeLabs\Systemic\Plugins\Os\Base as Os;
+
+use DecodeLabs\Veneer\Plugin\AccessTarget as VeneerPluginAccessTarget;
+use DecodeLabs\Veneer\Plugin\AccessTargetTrait as VeneerPluginAccessTargetTrait;
 use DecodeLabs\Veneer\Plugin as VeneerPlugin;
 use DecodeLabs\Veneer\Plugin\Provider as VeneerPluginProvider;
 use DecodeLabs\Veneer\Plugin\ProviderTrait as VeneerPluginProviderTrait;
-use DecodeLabs\Veneer\Plugin\AccessTarget as VeneerPluginAccessTarget;
-use DecodeLabs\Veneer\Plugin\AccessTargetTrait as VeneerPluginAccessTargetTrait;
-
-use DecodeLabs\Systemic\Plugins\Os\Base as Os;
-
-use DecodeLabs\Exceptional;
 
 class Context implements VeneerPluginProvider, VeneerPluginAccessTarget
 {
     use VeneerPluginProviderTrait;
     use VeneerPluginAccessTargetTrait;
 
-    const PLUGINS = [
+    public const PLUGINS = [
         'locale',
         'timezone',
         'os',
@@ -45,7 +47,7 @@ class Context implements VeneerPluginProvider, VeneerPluginAccessTarget
     {
         if (!in_array($name, self::PLUGINS)) {
             throw Exceptional::InvalidArgument(
-                $name.' is not a recognised Veneer plugin'
+                $name . ' is not a recognised Veneer plugin'
             );
         }
 
@@ -54,7 +56,7 @@ class Context implements VeneerPluginProvider, VeneerPluginAccessTarget
                 return Os::load();
 
             default:
-                $class = '\\DecodeLabs\\Systemic\\Plugins\\'.ucfirst($name);
+                $class = '\\DecodeLabs\\Systemic\\Plugins\\' . ucfirst($name);
                 return new $class($this);
         }
     }

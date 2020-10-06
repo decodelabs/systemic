@@ -1,14 +1,17 @@
 <?php
+
 /**
- * This file is part of the Systemic package
+ * @package Systemic
  * @license http://opensource.org/licenses/MIT
  */
+
 declare(strict_types=1);
+
 namespace DecodeLabs\Systemic\Process;
 
+use DecodeLabs\Exceptional;
 use DecodeLabs\Systemic;
 use DecodeLabs\Systemic\Process;
-use DecodeLabs\Exceptional;
 
 class UnixManaged extends Unix implements Managed
 {
@@ -37,7 +40,7 @@ class UnixManaged extends Unix implements Managed
             if (extension_loaded('posix')) {
                 $this->parentProcessId = posix_getppid();
             } else {
-                exec('ps -o ppid --no-heading --pid '.escapeshellarg($this->processId), $output);
+                exec('ps -o ppid --no-heading --pid ' . escapeshellarg($this->processId), $output);
 
                 if (isset($output[0])) {
                     $this->parentProcessId = (int)$output[0];
@@ -165,7 +168,8 @@ class UnixManaged extends Unix implements Managed
                     posix_setuid($id);
                 } catch (\Throwable $e) {
                     throw Exceptional::Runtime(
-                        'Set owner failed', [
+                        'Set owner failed',
+                        [
                             'previous' => $e
                         ]
                     );
@@ -189,7 +193,7 @@ class UnixManaged extends Unix implements Managed
             return posix_geteuid();
         }
 
-        exec('ps -o euid --no-heading --pid '.escapeshellarg($this->processId), $output);
+        exec('ps -o euid --no-heading --pid ' . escapeshellarg($this->processId), $output);
 
         if (isset($output[0])) {
             return (int)trim($output[0]);
@@ -218,7 +222,7 @@ class UnixManaged extends Unix implements Managed
             return $output['name'];
         }
 
-        exec('getent passwd '.escapeshellarg((string)$this->getOwnerId()), $output);
+        exec('getent passwd ' . escapeshellarg((string)$this->getOwnerId()), $output);
 
         if (isset($output[0])) {
             $parts = explode(':', $output[0]);
@@ -253,7 +257,8 @@ class UnixManaged extends Unix implements Managed
                     posix_setgid($id);
                 } catch (\Throwable $e) {
                     throw Exceptional::Runtime(
-                        'Set group failed', [
+                        'Set group failed',
+                        [
                             'previous' => $e
                         ]
                     );
@@ -277,7 +282,7 @@ class UnixManaged extends Unix implements Managed
             return posix_getegid();
         }
 
-        exec('ps -o egid --no-heading --pid '.escapeshellarg((string)$this->processId), $output);
+        exec('ps -o egid --no-heading --pid ' . escapeshellarg((string)$this->processId), $output);
 
         if (isset($output[0])) {
             return (int)trim($output[0]);
@@ -306,7 +311,7 @@ class UnixManaged extends Unix implements Managed
             return $output['name'];
         }
 
-        exec('getent group '.escapeshellarg((string)$this->getGroupId()), $output);
+        exec('getent group ' . escapeshellarg((string)$this->getGroupId()), $output);
 
         if (isset($output[0])) {
             $parts = explode(':', $output[0]);

@@ -1,14 +1,17 @@
 <?php
+
 /**
- * This file is part of the Systemic package
+ * @package Systemic
  * @license http://opensource.org/licenses/MIT
  */
+
 declare(strict_types=1);
+
 namespace DecodeLabs\Systemic\Process;
 
-use DecodeLabs\Gadgets\Then;
-use DecodeLabs\Systemic\Process;
 use DecodeLabs\Atlas\Broker;
+use DecodeLabs\Fluidity\Then;
+use DecodeLabs\Systemic\Process;
 
 interface Launcher extends Then
 {

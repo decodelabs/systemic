@@ -1,16 +1,16 @@
 <?php
+
 /**
- * This file is part of the Systemic package
+ * @package Systemic
  * @license http://opensource.org/licenses/MIT
  */
+
 declare(strict_types=1);
+
 namespace DecodeLabs\Systemic\Plugins;
 
-use DecodeLabs\Systemic\Context;
-use DecodeLabs\Veneer\Plugin;
-
 use DecodeLabs\Glitch\Dumpable;
-
+use DecodeLabs\Veneer\Plugin;
 use Locale as SysLocale;
 
 class Locale implements Plugin, Dumpable
@@ -39,7 +39,7 @@ class Locale implements Plugin, Dumpable
     /**
      * Get current display name
      */
-    public function getName(?string $inLocale=null): string
+    public function getName(?string $inLocale = null): string
     {
         if ($inLocale !== null) {
             return SysLocale::getDisplayName($this->get(), $inLocale);
@@ -60,7 +60,7 @@ class Locale implements Plugin, Dumpable
     /**
      * Get current language display name
      */
-    public function getLanguageName(?string $inLocale=null): string
+    public function getLanguageName(?string $inLocale = null): string
     {
         if ($inLocale !== null) {
             return SysLocale::getDisplayLanguage($this->get(), $inLocale);
@@ -81,7 +81,7 @@ class Locale implements Plugin, Dumpable
     /**
      * Get current region display name
      */
-    public function getRegionName(?string $inLocale=null): string
+    public function getRegionName(?string $inLocale = null): string
     {
         if ($inLocale !== null) {
             return SysLocale::getDisplayRegion($this->get(), $inLocale);
@@ -108,7 +108,7 @@ class Locale implements Plugin, Dumpable
     /**
      * Get current script display name
      */
-    public function getScriptName(?string $inLocale=null): ?string
+    public function getScriptName(?string $inLocale = null): ?string
     {
         if ($inLocale !== null) {
             $output = SysLocale::getDisplayScript($this->get(), $inLocale);
@@ -141,7 +141,7 @@ class Locale implements Plugin, Dumpable
     /**
      * Get current script variant name
      */
-    public function getVariantName(?string $inLocale=null): ?string
+    public function getVariantName(?string $inLocale = null): ?string
     {
         if ($inLocale) {
             $output = SysLocale::getDisplayVariant($this->get(), $inLocale);

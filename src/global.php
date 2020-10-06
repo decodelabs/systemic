@@ -1,8 +1,10 @@
 <?php
+
 /**
- * This file is part of the Veneer package
+ * @package Systemic
  * @license http://opensource.org/licenses/MIT
  */
+
 declare(strict_types=1);
 
 /**
@@ -11,7 +13,6 @@ declare(strict_types=1);
 namespace DecodeLabs\Systemic
 {
     use DecodeLabs\Systemic;
-    use DecodeLabs\Systemic\Context;
     use DecodeLabs\Veneer;
 
     // Register the Veneer proxy
