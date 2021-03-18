@@ -27,7 +27,7 @@ class Timezone implements Plugin, Dumpable
     {
         $this->context = $context;
         date_default_timezone_set('UTC');
-        $this->timezone = new \DateTimeZone('UTC');
+        $this->timezone = new DateTimeZone('UTC');
     }
 
     /**

@@ -13,6 +13,8 @@ use DecodeLabs\Exceptional;
 use DecodeLabs\Systemic;
 use DecodeLabs\Systemic\Process;
 
+use Throwable;
+
 class UnixManaged extends Unix implements Managed
 {
     use PidFileProviderTrait;
@@ -166,7 +168,7 @@ class UnixManaged extends Unix implements Managed
 
                 try {
                     posix_setuid($id);
-                } catch (\Throwable $e) {
+                } catch (Throwable $e) {
                     throw Exceptional::Runtime(
                         'Set owner failed',
                         [
@@ -255,7 +257,7 @@ class UnixManaged extends Unix implements Managed
 
                 try {
                     posix_setgid($id);
-                } catch (\Throwable $e) {
+                } catch (Throwable $e) {
                     throw Exceptional::Runtime(
                         'Set group failed',
                         [

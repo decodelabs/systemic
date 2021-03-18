@@ -16,6 +16,8 @@ use DecodeLabs\Systemic\Process\LauncherTrait;
 use DecodeLabs\Systemic\Process\Result;
 use DecodeLabs\Systemic\Process\Unix as UnixProcess;
 
+use Throwable;
+
 class Unix implements Launcher
 {
     use LauncherTrait;
@@ -143,7 +145,7 @@ class Unix implements Launcher
     {
         try {
             $output = fread($pipe, $length);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             return false;
         }
 
