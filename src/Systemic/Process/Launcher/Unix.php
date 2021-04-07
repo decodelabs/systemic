@@ -70,7 +70,7 @@ class Unix implements Launcher
         }
 
         while (true) {
-            $status = proc_get_status($processHandle);
+            $status = (array)proc_get_status($processHandle);
 
             // Get output & error
             $outputBuffer = $this->readChunk($outputPipe, $this->readChunkSize);
@@ -118,7 +118,12 @@ class Unix implements Launcher
                 }
             }
 
-            if (!$status['running'] && $outputBuffer === null && $errorBuffer === null && $input === null) {
+            if (
+                !($status['running'] ?? false) &&
+                $outputBuffer === null &&
+                $errorBuffer === null &&
+                $input === null
+            ) {
                 break;
             }
 
