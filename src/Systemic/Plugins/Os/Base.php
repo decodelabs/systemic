@@ -14,10 +14,29 @@ use DecodeLabs\Systemic\Plugins\Os;
 
 abstract class Base implements Os, Dumpable
 {
+    /**
+     * @var string
+     */
     protected $name;
+
+    /**
+     * @var string|null
+     */
     protected $platformType;
+
+    /**
+     * @var string
+     */
     protected $version;
+
+    /**
+     * @var string
+     */
     protected $release;
+
+    /**
+     * @var string
+     */
     protected $hostName;
 
     /**

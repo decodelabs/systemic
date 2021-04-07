@@ -22,6 +22,9 @@ class Unix implements Launcher
 {
     use LauncherTrait;
 
+    /**
+     * @var int
+     */
     protected $readChunkSize = 2048;
 
     /**
@@ -140,13 +143,16 @@ class Unix implements Launcher
 
     /**
      * Read a chunk from buffer
+     *
+     * @param resource $pipe
+     * @return string|null
      */
     protected function readChunk($pipe, int $length)
     {
         try {
             $output = fread($pipe, $length);
         } catch (Throwable $e) {
-            return false;
+            return null;
         }
 
         if ($output === '' || $output === false) {
@@ -247,6 +253,8 @@ class Unix implements Launcher
 
     /**
      * Prepare env for proc_open
+     *
+     * @return array<string, mixed>|null
      */
     protected function prepareEnv(): ?array
     {

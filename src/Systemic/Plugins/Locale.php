@@ -19,10 +19,12 @@ class Locale implements Plugin, Dumpable
 
     /**
      * Set current value
+     *
+     * @param mixed $value
      */
     protected function setCurrent($value): string
     {
-        $value = SysLocale::canonicalize($value);
+        $value = SysLocale::canonicalize((string)$value);
         SysLocale::setDefault($value);
         return $value;
     }
@@ -126,6 +128,8 @@ class Locale implements Plugin, Dumpable
 
     /**
      * Get current variants
+     *
+     * @return array<string>
      */
     public function getVariants(): array
     {
@@ -159,6 +163,8 @@ class Locale implements Plugin, Dumpable
 
     /**
      * Get keywords
+     *
+     * @return array<string>
      */
     public function getKeywords(): array
     {

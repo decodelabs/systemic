@@ -11,6 +11,9 @@ namespace DecodeLabs\Systemic\Plugins\Os;
 
 class Darwin extends Unix
 {
+    /**
+     * @var string
+     */
     protected $distribution;
 
     /**
@@ -28,7 +31,7 @@ class Darwin extends Unix
     /**
      * Extract distribution info
      */
-    private function lookupDistribution()
+    private function lookupDistribution(): string
     {
         exec('sed -nE \'/SOFTWARE LICENSE AGREEMENT FOR/s/([A-Za-z]+ ){5}|\\$//gp\' /System/Library/CoreServices/Setup\ Assistant.app/Contents/Resources/en.lproj/OSXSoftwareLicense.rtf', $result);
         $result = trim($result[0], '\\/ ');
@@ -37,6 +40,6 @@ class Darwin extends Unix
             return 'Darwin';
         }
 
-        return $result;
+        return (string)$result;
     }
 }

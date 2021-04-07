@@ -9,6 +9,9 @@ declare(strict_types=1);
 
 namespace DecodeLabs\Systemic\Process;
 
+use COM;
+
+use DecodeLabs\Exceptional;
 use DecodeLabs\Systemic;
 use DecodeLabs\Systemic\Process;
 use DecodeLabs\Systemic\ProcessTrait;
@@ -46,7 +49,11 @@ class Windows implements Process
      */
     public static function getCurrentProcessId(): int
     {
-        return getmypid();
+        if (false === ($output = getmypid())) {
+            throw Exceptional::UnexpectedValue('Unable to get current PID');
+        }
+
+        return $output;
     }
 
     /**
@@ -99,7 +106,7 @@ class Windows implements Process
         return true;
     }
 
-    protected function getWmi()
+    protected function getWmi(): COM
     {
         return Systemic::$os->getWmi();
     }

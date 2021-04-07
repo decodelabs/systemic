@@ -31,6 +31,9 @@ class Linux extends Unix
         'Synology' => '/etc/synoinfo.conf'
     ];
 
+    /**
+     * @var string
+     */
     protected $distribution;
 
     /**
@@ -48,7 +51,7 @@ class Linux extends Unix
     /**
      * Extract distribution info
      */
-    private function lookupDistribution()
+    private function lookupDistribution(): string
     {
         exec('lsb_release -a', $result);
 

@@ -17,19 +17,60 @@ trait LauncherTrait
 {
     use ThenTrait;
 
+    /**
+     * @var string
+     */
     protected $processName;
+
+    /**
+     * @var array<string>
+     */
     protected $args = [];
+
+    /**
+     * @var string|null
+     */
     protected $path;
+
+    /**
+     * @var string|null
+     */
     protected $user;
+
+    /**
+     * @var string|null
+     */
     protected $title;
+
+    /**
+     * @var int|null
+     */
     protected $priority;
+
+    /**
+     * @var string|null
+     */
     protected $workingDirectory;
+
+    /**
+     * @var Broker|null
+     */
     protected $broker;
+
+    /**
+     * @var callable|null
+     */
     protected $inputGenerator;
+
+    /**
+     * @var bool
+     */
     protected $decoratable = true;
 
     /**
      * Init with main params
+     *
+     * @param array<string> $args
      */
     public function __construct(string $processName, array $args = [], string $path = null, ?Broker $broker = null, string $user = null)
     {

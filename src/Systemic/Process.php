@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace DecodeLabs\Systemic;
 
+use DecodeLabs\Systemic\Process\Signal;
+
 interface Process
 {
     public static function isProcessIdLive(int $pid): bool;
@@ -19,6 +21,10 @@ interface Process
 
     public function isAlive(): bool;
     public function kill(): bool;
+
+    /**
+     * @param Signal|string|int $signal
+     */
     public function sendSignal($signal): bool;
 
     public function isPrivileged(): bool;

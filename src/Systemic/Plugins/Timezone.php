@@ -18,6 +18,9 @@ class Timezone implements Plugin, Dumpable
 {
     use GetterSetterPluginTrait;
 
+    /**
+     * @var DateTimeZone
+     */
     protected $timezone;
 
     /**
@@ -32,6 +35,8 @@ class Timezone implements Plugin, Dumpable
 
     /**
      * Set current value
+     *
+     * @param mixed $value
      */
     protected function setCurrent($value): DateTimeZone
     {

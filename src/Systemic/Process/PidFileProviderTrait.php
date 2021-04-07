@@ -14,6 +14,9 @@ use Throwable;
 
 trait PidFileProviderTrait
 {
+    /**
+     * @var string|null
+     */
     protected $pidFile;
 
     public function hasPidFile(): bool
