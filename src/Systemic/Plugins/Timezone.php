@@ -18,6 +18,9 @@ class Timezone implements Plugin, Dumpable
 {
     use GetterSetterPluginTrait;
 
+    /**
+     * @var DateTimeZone
+     */
     protected $timezone;
 
     /**
@@ -27,11 +30,13 @@ class Timezone implements Plugin, Dumpable
     {
         $this->context = $context;
         date_default_timezone_set('UTC');
-        $this->timezone = new \DateTimeZone('UTC');
+        $this->timezone = new DateTimeZone('UTC');
     }
 
     /**
      * Set current value
+     *
+     * @param mixed $value
      */
     protected function setCurrent($value): DateTimeZone
     {

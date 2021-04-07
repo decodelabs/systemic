@@ -10,9 +10,13 @@ declare(strict_types=1);
 namespace DecodeLabs\Systemic\Process;
 
 use DecodeLabs\Exceptional;
+use Throwable;
 
 trait PidFileProviderTrait
 {
+    /**
+     * @var string|null
+     */
     protected $pidFile;
 
     public function hasPidFile(): bool
@@ -52,7 +56,7 @@ trait PidFileProviderTrait
         if ($write) {
             try {
                 file_put_contents($path, $pid);
-            } catch (\Throwable $e) {
+            } catch (Throwable $e) {
                 throw Exceptional::Runtime(
                     'Unable to write PID file',
                     [

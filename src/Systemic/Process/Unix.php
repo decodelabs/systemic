@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace DecodeLabs\Systemic\Process;
 
+use DecodeLabs\Exceptional;
 use DecodeLabs\Systemic\Process;
 use DecodeLabs\Systemic\ProcessTrait;
 
@@ -43,7 +44,11 @@ class Unix implements Process
         if (extension_loaded('posix')) {
             return posix_getpid();
         } else {
-            return getmypid();
+            if (false === ($output = getmypid())) {
+                throw Exceptional::UnexpectedValue('Unable to get current PID');
+            }
+
+            return $output;
         }
     }
 

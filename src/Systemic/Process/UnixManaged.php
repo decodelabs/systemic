@@ -13,10 +13,15 @@ use DecodeLabs\Exceptional;
 use DecodeLabs\Systemic;
 use DecodeLabs\Systemic\Process;
 
+use Throwable;
+
 class UnixManaged extends Unix implements Managed
 {
     use PidFileProviderTrait;
 
+    /**
+     * @var int|null
+     */
     protected $parentProcessId;
 
     /**
@@ -40,7 +45,7 @@ class UnixManaged extends Unix implements Managed
             if (extension_loaded('posix')) {
                 $this->parentProcessId = posix_getppid();
             } else {
-                exec('ps -o ppid --no-heading --pid ' . escapeshellarg($this->processId), $output);
+                exec('ps -o ppid --no-heading --pid ' . escapeshellarg((string)$this->processId), $output);
 
                 if (isset($output[0])) {
                     $this->parentProcessId = (int)$output[0];
@@ -120,13 +125,21 @@ class UnixManaged extends Unix implements Managed
 
         $doUid = $uid != $this->getOwnerId();
         $doGid = $gid != $this->getGroupId();
-        $doPidFile = $this->pidFile && is_file($this->pidFile);
+        $doPidFile = $this->pidFile !== null && is_file($this->pidFile);
 
-        if ($doGid && $doPidFile) {
+        if (
+            $doGid &&
+            $doPidFile &&
+            $this->pidFile !== null
+        ) {
             chgrp($this->pidFile, $gid);
         }
 
-        if ($doUid && $doPidFile) {
+        if (
+            $doUid &&
+            $doPidFile &&
+            $this->pidFile !== null
+        ) {
             chown($this->pidFile, $uid);
         }
 
@@ -166,7 +179,7 @@ class UnixManaged extends Unix implements Managed
 
                 try {
                     posix_setuid($id);
-                } catch (\Throwable $e) {
+                } catch (Throwable $e) {
                     throw Exceptional::Runtime(
                         'Set owner failed',
                         [
@@ -193,7 +206,7 @@ class UnixManaged extends Unix implements Managed
             return posix_geteuid();
         }
 
-        exec('ps -o euid --no-heading --pid ' . escapeshellarg($this->processId), $output);
+        exec('ps -o euid --no-heading --pid ' . escapeshellarg((string)$this->processId), $output);
 
         if (isset($output[0])) {
             return (int)trim($output[0]);
@@ -219,7 +232,10 @@ class UnixManaged extends Unix implements Managed
     {
         if (extension_loaded('posix')) {
             $output = posix_getpwuid($this->getOwnerId());
-            return $output['name'];
+
+            if ($output !== false) {
+                return $output['name'];
+            }
         }
 
         exec('getent passwd ' . escapeshellarg((string)$this->getOwnerId()), $output);
@@ -255,7 +271,7 @@ class UnixManaged extends Unix implements Managed
 
                 try {
                     posix_setgid($id);
-                } catch (\Throwable $e) {
+                } catch (Throwable $e) {
                     throw Exceptional::Runtime(
                         'Set group failed',
                         [
@@ -308,7 +324,10 @@ class UnixManaged extends Unix implements Managed
     {
         if (extension_loaded('posix')) {
             $output = posix_getgrgid($this->getGroupId());
-            return $output['name'];
+
+            if ($output !== false) {
+                return $output['name'];
+            }
         }
 
         exec('getent group ' . escapeshellarg((string)$this->getGroupId()), $output);

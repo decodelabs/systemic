@@ -16,10 +16,15 @@ use DecodeLabs\Systemic\Process\LauncherTrait;
 use DecodeLabs\Systemic\Process\Result;
 use DecodeLabs\Systemic\Process\Unix as UnixProcess;
 
+use Throwable;
+
 class Unix implements Launcher
 {
     use LauncherTrait;
 
+    /**
+     * @var int
+     */
     protected $readChunkSize = 2048;
 
     /**
@@ -65,7 +70,7 @@ class Unix implements Launcher
         }
 
         while (true) {
-            $status = proc_get_status($processHandle);
+            $status = (array)proc_get_status($processHandle);
 
             // Get output & error
             $outputBuffer = $this->readChunk($outputPipe, $this->readChunkSize);
@@ -113,7 +118,12 @@ class Unix implements Launcher
                 }
             }
 
-            if (!$status['running'] && $outputBuffer === null && $errorBuffer === null && $input === null) {
+            if (
+                !($status['running'] ?? false) &&
+                $outputBuffer === null &&
+                $errorBuffer === null &&
+                $input === null
+            ) {
                 break;
             }
 
@@ -138,13 +148,16 @@ class Unix implements Launcher
 
     /**
      * Read a chunk from buffer
+     *
+     * @param resource $pipe
+     * @return string|null
      */
     protected function readChunk($pipe, int $length)
     {
         try {
             $output = fread($pipe, $length);
-        } catch (\Throwable $e) {
-            return false;
+        } catch (Throwable $e) {
+            return null;
         }
 
         if ($output === '' || $output === false) {
@@ -245,6 +258,8 @@ class Unix implements Launcher
 
     /**
      * Prepare env for proc_open
+     *
+     * @return array<string, mixed>|null
      */
     protected function prepareEnv(): ?array
     {

@@ -10,7 +10,11 @@ declare(strict_types=1);
 namespace DecodeLabs\Systemic;
 
 use DecodeLabs\Exceptional;
-use DecodeLabs\Systemic\Plugins\Os\Base as Os;
+use DecodeLabs\Systemic\Plugins\Locale as LocalePlugin;
+use DecodeLabs\Systemic\Plugins\Os;
+use DecodeLabs\Systemic\Plugins\Os\Base as OsBase;
+use DecodeLabs\Systemic\Plugins\Process as ProcessPlugin;
+use DecodeLabs\Systemic\Plugins\Timezone as TimezonePlugin;
 
 use DecodeLabs\Veneer\Plugin\AccessTarget as VeneerPluginAccessTarget;
 use DecodeLabs\Veneer\Plugin\AccessTargetTrait as VeneerPluginAccessTargetTrait;
@@ -18,6 +22,12 @@ use DecodeLabs\Veneer\Plugin as VeneerPlugin;
 use DecodeLabs\Veneer\Plugin\Provider as VeneerPluginProvider;
 use DecodeLabs\Veneer\Plugin\ProviderTrait as VeneerPluginProviderTrait;
 
+/**
+ * @property LocalePlugin $locale
+ * @property Os $os
+ * @property ProcessPlugin $process
+ * @property TimezonePlugin $timezone
+ */
 class Context implements VeneerPluginProvider, VeneerPluginAccessTarget
 {
     use VeneerPluginProviderTrait;
@@ -25,9 +35,9 @@ class Context implements VeneerPluginProvider, VeneerPluginAccessTarget
 
     public const PLUGINS = [
         'locale',
-        'timezone',
         'os',
-        'process'
+        'process',
+        'timezone'
     ];
 
 
@@ -53,7 +63,7 @@ class Context implements VeneerPluginProvider, VeneerPluginAccessTarget
 
         switch ($name) {
             case 'os':
-                return Os::load();
+                return OsBase::load();
 
             default:
                 $class = '\\DecodeLabs\\Systemic\\Plugins\\' . ucfirst($name);

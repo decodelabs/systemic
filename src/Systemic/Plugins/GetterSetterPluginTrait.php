@@ -13,9 +13,24 @@ use DecodeLabs\Systemic\Context;
 
 trait GetterSetterPluginTrait
 {
+    /**
+     * @var callable|null
+     */
     protected $fetcher;
+
+    /**
+     * @var bool
+     */
     protected $fetched = false;
+
+    /**
+     * @var array<string, callable>
+     */
     protected $listeners = [];
+
+    /**
+     * @var Context
+     */
     protected $context;
 
     /**
@@ -28,6 +43,9 @@ trait GetterSetterPluginTrait
 
     /**
      * Set output locale
+     *
+     * @param mixed $value
+     * @return $this
      */
     public function set($value): self
     {
@@ -52,6 +70,8 @@ trait GetterSetterPluginTrait
 
     /**
      * Get output locale
+     *
+     * @return mixed
      */
     public function get()
     {
@@ -62,7 +82,10 @@ trait GetterSetterPluginTrait
             $new = $fetcher();
             $this->fetched = true;
 
-            if ($new !== null && !$this->compare($new, $output)) {
+            if (
+                $new !== null &&
+                !$this->compare($new, $output)
+            ) {
                 $this->set($new);
                 $output = $new;
             }
@@ -75,6 +98,9 @@ trait GetterSetterPluginTrait
 
     /**
      * Compare old and new
+     *
+     * @param mixed $a
+     * @param mixed $b
      */
     protected function compare($a, $b): bool
     {

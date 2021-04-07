@@ -32,7 +32,7 @@ class Windows extends Base
     /**
      * Get active WMI COM
      */
-    public function getWMI(): COM
+    public function getWmi(): COM
     {
         return self::$wmi;
     }

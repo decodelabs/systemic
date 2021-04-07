@@ -24,7 +24,14 @@ use DecodeLabs\Veneer\Plugin;
 
 class Process implements Plugin
 {
+    /**
+     * @var Context
+     */
     protected $context;
+
+    /**
+     * @var ProcessInterface|null
+     */
     protected $current;
 
     /**
@@ -77,6 +84,8 @@ class Process implements Plugin
 
     /**
      * New signal object
+     *
+     * @param Signal|string|int $signal
      */
     public function newSignal($signal): Signal
     {
@@ -85,6 +94,8 @@ class Process implements Plugin
 
     /**
      * Normalize signal id
+     *
+     * @param Signal|string|int $signal
      */
     public function normalizeSignal($signal): int
     {
@@ -94,6 +105,8 @@ class Process implements Plugin
 
     /**
      * Launch standard process
+     *
+     * @param string|array<string>|null $args
      */
     public function launch(string $process, $args = null, string $path = null, ?Broker $ioBroker = null, string $user = null): Result
     {
@@ -102,6 +115,8 @@ class Process implements Plugin
 
     /**
      * Launch PHP script
+     *
+     * @param string|array<string>|null $args
      */
     public function launchScript(string $path, $args = null, ?Broker $ioBroker = null, string $user = null): Result
     {
@@ -110,6 +125,8 @@ class Process implements Plugin
 
     /**
      * Launch background process
+     *
+     * @param string|array<string>|null $args
      */
     public function launchBackground(string $process, $args = null, string $path = null, ?Broker $ioBroker = null, string $user = null): ProcessInterface
     {
@@ -118,6 +135,8 @@ class Process implements Plugin
 
     /**
      * Launch background PHP script
+     *
+     * @param string|array<string>|null $args
      */
     public function launchBackgroundScript(string $path, $args = null, ?Broker $ioBroker = null, string $user = null): ProcessInterface
     {
@@ -127,8 +146,10 @@ class Process implements Plugin
 
     /**
      * Create a new launcher object
+     *
+     * @param string|array<string>|null $args
      */
-    public function newLauncher(string $process, $args = [], string $path = null, ?Broker $ioBroker = null, string $user = null): Launcher
+    public function newLauncher(string $process, $args = null, string $path = null, ?Broker $ioBroker = null, string $user = null): Launcher
     {
         if ($args === null) {
             $args = [];
@@ -142,8 +163,10 @@ class Process implements Plugin
 
     /**
      * Create a new launcher for php scripts
+     *
+     * @param string|array<string>|null $args
      */
-    public function newScriptLauncher(string $path, $args = [], ?Broker $ioBroker = null, string $user = null): Launcher
+    public function newScriptLauncher(string $path, $args = null, ?Broker $ioBroker = null, string $user = null): Launcher
     {
         if ($args === null) {
             $args = [];

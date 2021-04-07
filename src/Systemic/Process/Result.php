@@ -11,11 +11,34 @@ namespace DecodeLabs\Systemic\Process;
 
 class Result
 {
+    /**
+     * @var bool
+     */
     protected $launched = true;
+
+    /**
+     * @var bool
+     */
     protected $completed = false;
+
+    /**
+     * @var float
+     */
     protected $startTime;
+
+    /**
+     * @var float|null
+     */
     protected $endTime;
+
+    /**
+     * @var string|null
+     */
     protected $output;
+
+    /**
+     * @var string|null
+     */
     protected $error;
 
     /**
