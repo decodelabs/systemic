@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace DecodeLabs\Systemic\Plugins;
 
-use DecodeLabs\Atlas\Broker;
+use DecodeLabs\Deliverance\Broker;
 use DecodeLabs\Exceptional;
 
 use DecodeLabs\Systemic;
