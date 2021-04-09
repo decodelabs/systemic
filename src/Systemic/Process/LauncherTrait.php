@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace DecodeLabs\Systemic\Process;
 
-use DecodeLabs\Atlas\Broker;
+use DecodeLabs\Deliverance\Broker;
 use DecodeLabs\Fluidity\ThenTrait;
 use DecodeLabs\Systemic\Process;
 
