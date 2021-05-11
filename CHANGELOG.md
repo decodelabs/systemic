@@ -1,3 +1,6 @@
+## v0.8.1 (2021-04-11)
+* Added Veneer IDE support stub
+
 ## v0.8.0 (2021-04-09)
 * Swapped Atlas for Deliverance
 
