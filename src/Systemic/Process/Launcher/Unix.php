@@ -23,7 +23,7 @@ class Unix implements Launcher
     use LauncherTrait;
 
     /**
-     * @var int
+     * @var int<0, max>
      */
     protected $readChunkSize = 2048;
 
@@ -119,6 +119,7 @@ class Unix implements Launcher
             }
 
             if (
+                /* @phpstan-ignore-next-line */
                 !($status['running'] ?? false) &&
                 $outputBuffer === null &&
                 $errorBuffer === null &&
@@ -150,6 +151,7 @@ class Unix implements Launcher
      * Read a chunk from buffer
      *
      * @param resource $pipe
+     * @param int<0, max> $length
      * @return string|null
      */
     protected function readChunk($pipe, int $length)

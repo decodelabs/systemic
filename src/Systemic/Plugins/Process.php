@@ -30,7 +30,7 @@ class Process implements Plugin
     protected $context;
 
     /**
-     * @var ProcessInterface|null
+     * @var ManagedProcessInterface|null
      */
     protected $current;
 
@@ -48,6 +48,7 @@ class Process implements Plugin
     public function getCurrent(): ManagedProcessInterface
     {
         if (!$this->current) {
+            /** @var class-string<ManagedProcessInterface> $class */
             $class = $this->getProcessSystemClass();
             $pid = $class::getCurrentProcessId();
             $this->current = new $class($pid, 'Current process');
@@ -78,6 +79,7 @@ class Process implements Plugin
      */
     public function fromPid(int $pid): ProcessInterface
     {
+        /** @var class-string<ProcessInterface> */
         $class = $this->getProcessSystemClass();
         return new $class($pid, 'PID: ' . $pid);
     }
@@ -108,8 +110,13 @@ class Process implements Plugin
      *
      * @param string|array<string>|null $args
      */
-    public function launch(string $process, $args = null, string $path = null, ?Broker $ioBroker = null, string $user = null): Result
-    {
+    public function launch(
+        string $process,
+        $args = null,
+        string $path = null,
+        ?Broker $ioBroker = null,
+        string $user = null
+    ): Result {
         return $this->newLauncher($process, $args, $path, $ioBroker, $user)->launch();
     }
 
@@ -118,8 +125,12 @@ class Process implements Plugin
      *
      * @param string|array<string>|null $args
      */
-    public function launchScript(string $path, $args = null, ?Broker $ioBroker = null, string $user = null): Result
-    {
+    public function launchScript(
+        string $path,
+        $args = null,
+        ?Broker $ioBroker = null,
+        string $user = null
+    ): Result {
         return $this->newScriptLauncher($path, $args, $ioBroker, $user)->launch();
     }
 
@@ -128,8 +139,13 @@ class Process implements Plugin
      *
      * @param string|array<string>|null $args
      */
-    public function launchBackground(string $process, $args = null, string $path = null, ?Broker $ioBroker = null, string $user = null): ProcessInterface
-    {
+    public function launchBackground(
+        string $process,
+        $args = null,
+        string $path = null,
+        ?Broker $ioBroker = null,
+        string $user = null
+    ): ProcessInterface {
         return $this->newLauncher($process, $args, $path, $ioBroker, $user)->launchBackground();
     }
 
@@ -138,8 +154,12 @@ class Process implements Plugin
      *
      * @param string|array<string>|null $args
      */
-    public function launchBackgroundScript(string $path, $args = null, ?Broker $ioBroker = null, string $user = null): ProcessInterface
-    {
+    public function launchBackgroundScript(
+        string $path,
+        $args = null,
+        ?Broker $ioBroker = null,
+        string $user = null
+    ): ProcessInterface {
         return $this->newScriptLauncher($path, $args, $ioBroker, $user)->launchBackground();
     }
 
@@ -149,14 +169,20 @@ class Process implements Plugin
      *
      * @param string|array<string>|null $args
      */
-    public function newLauncher(string $process, $args = null, string $path = null, ?Broker $ioBroker = null, string $user = null): Launcher
-    {
+    public function newLauncher(
+        string $process,
+        $args = null,
+        string $path = null,
+        ?Broker $ioBroker = null,
+        string $user = null
+    ): Launcher {
         if ($args === null) {
             $args = [];
         } elseif (!is_array($args)) {
             $args = (array)$args;
         }
 
+        /** @var class-string<Launcher> $class */
         $class = $this->getLauncherSystemClass();
         return new $class($process, $args, $path, $ioBroker, $user);
     }
@@ -166,8 +192,12 @@ class Process implements Plugin
      *
      * @param string|array<string>|null $args
      */
-    public function newScriptLauncher(string $path, $args = null, ?Broker $ioBroker = null, string $user = null): Launcher
-    {
+    public function newScriptLauncher(
+        string $path,
+        $args = null,
+        ?Broker $ioBroker = null,
+        string $user = null
+    ): Launcher {
         if ($args === null) {
             $args = [];
         } elseif (!is_array($args)) {
@@ -189,6 +219,7 @@ class Process implements Plugin
 
         array_unshift($args, trim($path));
 
+        /** @var class-string<Launcher> */
         $class = $this->getLauncherSystemClass();
         return new $class($phpName, $args, $phpPath, $ioBroker, $user);
     }
