@@ -119,7 +119,8 @@ class Unix implements Launcher
             }
 
             if (
-                !$status['running'] &&
+                /* @phpstan-ignore-next-line */
+                !($status['running'] ?? false) &&
                 $outputBuffer === null &&
                 $errorBuffer === null &&
                 $input === null
