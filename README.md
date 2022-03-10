@@ -1,11 +1,11 @@
 # Systemic
 
-[![PHP from Packagist](https://img.shields.io/packagist/php-v/decodelabs/systemic?style=flat-square)](https://packagist.org/packages/decodelabs/systemic)
-[![Latest Version](https://img.shields.io/packagist/v/decodelabs/systemic.svg?style=flat-square)](https://packagist.org/packages/decodelabs/systemic)
-[![Total Downloads](https://img.shields.io/packagist/dt/decodelabs/systemic.svg?style=flat-square)](https://packagist.org/packages/decodelabs/systemic)
-[![Build Status](https://img.shields.io/travis/com/decodelabs/systemic/main.svg?style=flat-square)](https://app.travis-ci.com/github/decodelabs/systemic)
-[![PHPStan](https://img.shields.io/badge/PHPStan-enabled-44CC11.svg?longCache=true&style=flat-square)](https://github.com/phpstan/phpstan)
-[![License](https://img.shields.io/packagist/l/decodelabs/systemic?style=flat-square)](https://packagist.org/packages/decodelabs/systemic)
+[![PHP from Packagist](https://img.shields.io/packagist/php-v/decodelabs/systemic?style=flat)](https://packagist.org/packages/decodelabs/systemic)
+[![Latest Version](https://img.shields.io/packagist/v/decodelabs/systemic.svg?style=flat)](https://packagist.org/packages/decodelabs/systemic)
+[![Total Downloads](https://img.shields.io/packagist/dt/decodelabs/systemic.svg?style=flat)](https://packagist.org/packages/decodelabs/systemic)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/decodelabs/systemic/PHP%20Composer)](https://github.com/decodelabs/systemic/actions/workflows/php.yml)
+[![PHPStan](https://img.shields.io/badge/PHPStan-enabled-44CC11.svg?longCache=true&style=flat)](https://github.com/phpstan/phpstan)
+[![License](https://img.shields.io/packagist/l/decodelabs/systemic?style=flat)](https://packagist.org/packages/decodelabs/systemic)
 
 Get access to useful global system and environment info all in one place.
 

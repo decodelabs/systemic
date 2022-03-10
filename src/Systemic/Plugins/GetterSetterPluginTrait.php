@@ -11,6 +11,9 @@ namespace DecodeLabs\Systemic\Plugins;
 
 use DecodeLabs\Systemic\Context;
 
+/**
+ * @template T
+ */
 trait GetterSetterPluginTrait
 {
     /**
@@ -44,7 +47,7 @@ trait GetterSetterPluginTrait
     /**
      * Set output locale
      *
-     * @param mixed $value
+     * @param T $value
      * @return $this
      */
     public function set($value): self
@@ -66,12 +69,15 @@ trait GetterSetterPluginTrait
         return $this;
     }
 
+    /**
+     * @param T $value
+     */
     abstract protected function setCurrent($value);
 
     /**
      * Get output locale
      *
-     * @return mixed
+     * @return T
      */
     public function get()
     {
@@ -94,13 +100,16 @@ trait GetterSetterPluginTrait
         return $output;
     }
 
+    /**
+     * @return T
+     */
     abstract protected function getCurrent();
 
     /**
      * Compare old and new
      *
-     * @param mixed $a
-     * @param mixed $b
+     * @param T $a
+     * @param T $b
      */
     protected function compare($a, $b): bool
     {

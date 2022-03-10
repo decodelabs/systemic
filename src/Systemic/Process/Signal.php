@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace DecodeLabs\Systemic\Process;
 
+use DecodeLabs\Coercion;
 use DecodeLabs\Exceptional;
 
 class Signal
@@ -100,7 +101,7 @@ class Signal
             if (extension_loaded('pcntl')) {
                 foreach (array_keys(self::$signalMap) as $signalName) {
                     if (defined($signalName)) {
-                        self::$signalMap[$signalName] = constant($signalName);
+                        self::$signalMap[$signalName] = Coercion::toInt(constant($signalName));
                     }
                 }
             } else {

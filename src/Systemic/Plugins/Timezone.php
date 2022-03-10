@@ -16,6 +16,9 @@ use DecodeLabs\Veneer\Plugin;
 
 class Timezone implements Plugin, Dumpable
 {
+    /**
+     * @use GetterSetterPluginTrait<DateTimeZone|string>
+     */
     use GetterSetterPluginTrait;
 
     /**
@@ -36,7 +39,7 @@ class Timezone implements Plugin, Dumpable
     /**
      * Set current value
      *
-     * @param mixed $value
+     * @param DateTimeZone|string $value
      */
     protected function setCurrent($value): DateTimeZone
     {

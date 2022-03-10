@@ -8,7 +8,7 @@ parameters:
     #    - '#Instantiated class COM not found#'
     #    - '#invalid type COM#'
 
-    excludes_analyse:
+    excludePaths:
         - src/Systemic/Plugins/Os/Windows.php
         - src/Systemic/Process/Launcher/Windows.php
         - src/Systemic/Process/WindowsManaged.php

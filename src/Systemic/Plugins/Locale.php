@@ -9,22 +9,26 @@ declare(strict_types=1);
 
 namespace DecodeLabs\Systemic\Plugins;
 
+use DecodeLabs\Coercion;
 use DecodeLabs\Glitch\Dumpable;
 use DecodeLabs\Veneer\Plugin;
 use Locale as SysLocale;
 
 class Locale implements Plugin, Dumpable
 {
+    /**
+     * @use GetterSetterPluginTrait<string>
+     */
     use GetterSetterPluginTrait;
 
     /**
      * Set current value
      *
-     * @param mixed $value
+     * @param string $value
      */
     protected function setCurrent($value): string
     {
-        $value = SysLocale::canonicalize((string)$value);
+        $value = SysLocale::canonicalize(Coercion::toString($value));
         SysLocale::setDefault($value);
         return $value;
     }
