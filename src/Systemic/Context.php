@@ -66,7 +66,7 @@ class Context implements VeneerPluginProvider, VeneerPluginAccessTarget
                 return OsBase::load();
 
             default:
-                /** @var class-string<VeneerPlugin> */
+                /** @phpstan-var class-string<VeneerPlugin> */
                 $class = '\\DecodeLabs\\Systemic\\Plugins\\' . ucfirst($name);
                 return new $class($this);
         }

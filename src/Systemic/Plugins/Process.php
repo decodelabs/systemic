@@ -48,7 +48,7 @@ class Process implements Plugin
     public function getCurrent(): ManagedProcessInterface
     {
         if (!$this->current) {
-            /** @var class-string<ManagedProcessInterface> $class */
+            /** @phpstan-var class-string<ManagedProcessInterface> $class */
             $class = $this->getProcessSystemClass();
             $pid = $class::getCurrentProcessId();
             $this->current = new $class($pid, 'Current process');
@@ -79,7 +79,7 @@ class Process implements Plugin
      */
     public function fromPid(int $pid): ProcessInterface
     {
-        /** @var class-string<ProcessInterface> */
+        /** @phpstan-var class-string<ProcessInterface> */
         $class = $this->getProcessSystemClass();
         return new $class($pid, 'PID: ' . $pid);
     }
@@ -182,7 +182,7 @@ class Process implements Plugin
             $args = (array)$args;
         }
 
-        /** @var class-string<Launcher> $class */
+        /** @phpstan-var class-string<Launcher> $class */
         $class = $this->getLauncherSystemClass();
         return new $class($process, $args, $path, $ioBroker, $user);
     }
@@ -219,7 +219,7 @@ class Process implements Plugin
 
         array_unshift($args, trim($path));
 
-        /** @var class-string<Launcher> */
+        /** @phpstan-var class-string<Launcher> */
         $class = $this->getLauncherSystemClass();
         return new $class($phpName, $args, $phpPath, $ioBroker, $user);
     }
