@@ -58,7 +58,7 @@ abstract class Base implements Os, Dumpable
             $class = '\\DecodeLabs\\Systemic\\Plugins\\Os\\Unix';
         }
 
-        /** @var class-string<Os> $class */
+        /** @phpstan-var class-string<Os> $class */
         return new $class($name);
     }
 

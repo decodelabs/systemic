@@ -47,7 +47,7 @@ trait GetterSetterPluginTrait
     /**
      * Set output locale
      *
-     * @param T $value
+     * @phpstan-param T $value
      * @return $this
      */
     public function set($value): self
@@ -70,14 +70,14 @@ trait GetterSetterPluginTrait
     }
 
     /**
-     * @param T $value
+     * @phpstan-param T $value
      */
     abstract protected function setCurrent($value);
 
     /**
      * Get output locale
      *
-     * @return T
+     * @phpstan-return T
      */
     public function get()
     {
@@ -101,15 +101,15 @@ trait GetterSetterPluginTrait
     }
 
     /**
-     * @return T
+     * @phpstan-return T
      */
     abstract protected function getCurrent();
 
     /**
      * Compare old and new
      *
-     * @param T $a
-     * @param T $b
+     * @phpstan-param T $a
+     * @phpstan-param T $b
      */
     protected function compare($a, $b): bool
     {
