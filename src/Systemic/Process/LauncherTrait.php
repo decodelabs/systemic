@@ -17,63 +17,39 @@ trait LauncherTrait
 {
     use ThenTrait;
 
-    /**
-     * @var string
-     */
-    protected $processName;
+    protected string $processName;
 
     /**
      * @var array<string>
      */
-    protected $args = [];
+    protected array $args = [];
 
-    /**
-     * @var string|null
-     */
-    protected $path;
-
-    /**
-     * @var string|null
-     */
-    protected $user;
-
-    /**
-     * @var string|null
-     */
-    protected $title;
-
-    /**
-     * @var int|null
-     */
-    protected $priority;
-
-    /**
-     * @var string|null
-     */
-    protected $workingDirectory;
-
-    /**
-     * @var Broker|null
-     */
-    protected $broker;
+    protected ?string $path = null;
+    protected ?string $user = null;
+    protected ?string $title = null;
+    protected ?int $priority = null;
+    protected ?string $workingDirectory = null;
+    protected ?Broker $broker = null;
+    protected bool $decoratable = true;
 
     /**
      * @var callable|null
      */
     protected $inputGenerator;
 
-    /**
-     * @var bool
-     */
-    protected $decoratable = true;
 
     /**
      * Init with main params
      *
      * @param array<string> $args
      */
-    public function __construct(string $processName, array $args = [], string $path = null, ?Broker $broker = null, string $user = null)
-    {
+    public function __construct(
+        string $processName,
+        array $args = [],
+        string $path = null,
+        ?Broker $broker = null,
+        string $user = null
+    ) {
         $this->setProcessName($processName);
         $this->setArgs($args);
         $this->setPath($path);
@@ -86,7 +62,7 @@ trait LauncherTrait
     /**
      * Set process name
      */
-    public function setProcessName(string $name): Launcher
+    public function setProcessName(string $name): static
     {
         $this->processName = $name;
         return $this;
@@ -103,7 +79,7 @@ trait LauncherTrait
     /**
      * Set process args
      */
-    public function setArgs(array $args): Launcher
+    public function setArgs(array $args): static
     {
         $this->args = $args;
         return $this;
@@ -120,7 +96,7 @@ trait LauncherTrait
     /**
      * Get process exec path
      */
-    public function setPath(?string $path): Launcher
+    public function setPath(?string $path): static
     {
         $this->path = $path;
         return $this;
@@ -137,7 +113,7 @@ trait LauncherTrait
     /**
      * Set process owner
      */
-    public function setUser(?string $user): Launcher
+    public function setUser(?string $user): static
     {
         $this->user = $user;
         return $this;
@@ -155,7 +131,7 @@ trait LauncherTrait
     /**
      * Set process title
      */
-    public function setTitle(?string $title): Launcher
+    public function setTitle(?string $title): static
     {
         $this->title = $title;
         return $this;
@@ -172,7 +148,7 @@ trait LauncherTrait
     /**
      * Set process priority
      */
-    public function setPriority(?int $priority): Launcher
+    public function setPriority(?int $priority): static
     {
         $this->priority = (int)$priority;
         return $this;
@@ -189,7 +165,7 @@ trait LauncherTrait
     /**
      * Set working directory
      */
-    public function setWorkingDirectory(?string $path): Launcher
+    public function setWorkingDirectory(?string $path): static
     {
         $this->workingDirectory = $path;
         return $this;
@@ -208,7 +184,7 @@ trait LauncherTrait
     /**
      * Set callback to read user input
      */
-    public function setBroker(?Broker $broker): Launcher
+    public function setBroker(?Broker $broker): static
     {
         $this->broker = $broker;
         return $this;
@@ -225,7 +201,7 @@ trait LauncherTrait
     /**
      * Set input generator callable
      */
-    public function setInputGenerator(?callable $generator): Launcher
+    public function setInputGenerator(?callable $generator): static
     {
         $this->inputGenerator = $generator;
         return $this;
@@ -243,7 +219,7 @@ trait LauncherTrait
     /**
      * Set whether to try to make this a true interactive shell for the command
      */
-    public function setDecoratable(bool $flag): Launcher
+    public function setDecoratable(bool $flag): static
     {
         $this->decoratable = $flag;
         return $this;

@@ -16,30 +16,31 @@ interface Managed extends Process
     /**
      * @return $this
      */
-    public function setTitle(?string $title): Managed;
+    public function setTitle(?string $title): static;
 
     public function getParentProcessId(): int;
 
     /**
      * @return $this
      */
-    public function setPriority(int $priority): Managed;
+    public function setPriority(int $priority): static;
 
     public function getPriority(): int;
 
 
     /**
-     * @param string|int $uid
-     * @param string|int $gid
      * @return $this
      */
-    public function setIdentity($uid, $gid): Managed;
+    public function setIdentity(
+        string|int $uid,
+        string|int $gid
+    ): static;
 
 
     /**
      * @return $this
      */
-    public function setOwnerId(int $id): Managed;
+    public function setOwnerId(int $id): static;
 
     public function getOwnerId(): int;
 
@@ -47,7 +48,7 @@ interface Managed extends Process
     /**
      * @return $this
      */
-    public function setOwnerName(string $name): Managed;
+    public function setOwnerName(string $name): static;
 
     public function getOwnerName(): string;
 
@@ -55,7 +56,7 @@ interface Managed extends Process
     /**
      * @return $this
      */
-    public function setGroupId(int $id): Managed;
+    public function setGroupId(int $id): static;
 
     public function getGroupId(): int;
 
@@ -63,7 +64,7 @@ interface Managed extends Process
     /**
      * @return $this
      */
-    public function setGroupName(string $name): Managed;
+    public function setGroupName(string $name): static;
 
     public function getGroupName(): string;
 
@@ -72,7 +73,7 @@ interface Managed extends Process
     /**
      * @return $this
      */
-    public function setPidFilePath(?string $path): Managed;
+    public function setPidFilePath(?string $path): static;
 
     public function getPidFilePath(): ?string;
 

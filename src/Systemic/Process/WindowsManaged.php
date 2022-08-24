@@ -19,7 +19,7 @@ class WindowsManaged extends Windows implements Managed
 {
     use PidFileProviderTrait;
 
-    protected $parentProcessId;
+    protected ?int $parentProcessId = null;
 
     /**
      * Get parent process id
@@ -42,7 +42,7 @@ class WindowsManaged extends Windows implements Managed
     /**
      * Set process title
      */
-    public function setTitle(?string $title): Managed
+    public function setTitle(?string $title): static
     {
         $this->title = $title;
         return $this;
@@ -51,7 +51,7 @@ class WindowsManaged extends Windows implements Managed
     /**
      * Set process priority
      */
-    public function setPriority(int $priority): Managed
+    public function setPriority(int $priority): static
     {
         Glitch::incomplete();
     }
@@ -68,15 +68,17 @@ class WindowsManaged extends Windows implements Managed
     /**
      * Set process identity
      */
-    public function setIdentity($uid, $gid): Managed
-    {
+    public function setIdentity(
+        string|int $uid,
+        string|int $gid
+    ): static {
         return $this->setOwnerId($uid)->setGroupId($gid);
     }
 
     /**
      * Set process owner
      */
-    public function setOwnerId(int $id): Managed
+    public function setOwnerId(int $id): static
     {
         Glitch::incomplete();
     }
@@ -92,7 +94,7 @@ class WindowsManaged extends Windows implements Managed
     /**
      * Set process owner by name
      */
-    public function setOwnerName(string $name): Managed
+    public function setOwnerName(string $name): static
     {
         Glitch::incomplete();
     }
@@ -119,7 +121,7 @@ class WindowsManaged extends Windows implements Managed
     /**
      * Set process group
      */
-    public function setGroupId(int $id): Managed
+    public function setGroupId(int $id): static
     {
         Glitch::incomplete();
     }
@@ -135,7 +137,7 @@ class WindowsManaged extends Windows implements Managed
     /**
      * Set process group by name
      */
-    public function setGroupName(string $name): Managed
+    public function setGroupName(string $name): static
     {
         Glitch::incomplete();
     }

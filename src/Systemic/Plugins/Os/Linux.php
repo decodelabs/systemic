@@ -31,10 +31,7 @@ class Linux extends Unix
         'Synology' => '/etc/synoinfo.conf'
     ];
 
-    /**
-     * @var string
-     */
-    protected $distribution;
+    protected ?string $distribution = null;
 
     /**
      * Get OS distribution

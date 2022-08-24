@@ -24,15 +24,8 @@ use DecodeLabs\Veneer\Plugin;
 
 class Process implements Plugin
 {
-    /**
-     * @var Context
-     */
-    protected $context;
-
-    /**
-     * @var ManagedProcessInterface|null
-     */
-    protected $current;
+    protected Context $context;
+    protected ?ManagedProcessInterface $current = null;
 
     /**
      * Init with parent factory
@@ -86,21 +79,19 @@ class Process implements Plugin
 
     /**
      * New signal object
-     *
-     * @param Signal|string|int $signal
      */
-    public function newSignal($signal): Signal
-    {
+    public function newSignal(
+        Signal|string|int $signal
+    ): Signal {
         return Signal::create($signal);
     }
 
     /**
      * Normalize signal id
-     *
-     * @param Signal|string|int $signal
      */
-    public function normalizeSignal($signal): int
-    {
+    public function normalizeSignal(
+        Signal|string|int $signal
+    ): int {
         return Signal::create($signal)->getNumber();
     }
 
@@ -112,7 +103,7 @@ class Process implements Plugin
      */
     public function launch(
         string $process,
-        $args = null,
+        string|array|null $args = null,
         string $path = null,
         ?Broker $ioBroker = null,
         string $user = null
@@ -127,7 +118,7 @@ class Process implements Plugin
      */
     public function launchScript(
         string $path,
-        $args = null,
+        string|array|null $args = null,
         ?Broker $ioBroker = null,
         string $user = null
     ): Result {
@@ -141,7 +132,7 @@ class Process implements Plugin
      */
     public function launchBackground(
         string $process,
-        $args = null,
+        string|array|null $args = null,
         string $path = null,
         ?Broker $ioBroker = null,
         string $user = null
@@ -156,7 +147,7 @@ class Process implements Plugin
      */
     public function launchBackgroundScript(
         string $path,
-        $args = null,
+        string|array|null $args = null,
         ?Broker $ioBroker = null,
         string $user = null
     ): ProcessInterface {
@@ -171,7 +162,7 @@ class Process implements Plugin
      */
     public function newLauncher(
         string $process,
-        $args = null,
+        string|array|null $args = null,
         string $path = null,
         ?Broker $ioBroker = null,
         string $user = null
@@ -194,7 +185,7 @@ class Process implements Plugin
      */
     public function newScriptLauncher(
         string $path,
-        $args = null,
+        string|array|null $args = null,
         ?Broker $ioBroker = null,
         string $user = null
     ): Launcher {

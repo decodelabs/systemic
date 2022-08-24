@@ -14,10 +14,10 @@ use DecodeLabs\Glitch\Proxy as Glitch;
 
 class Windows extends Base
 {
-    protected static $wmi;
+    protected static COM $wmi;
 
-    protected $platformType = 'Windows';
-    protected $distribution;
+    protected ?string $platformType = 'Windows';
+    protected ?string $distribution = null;
 
     /**
      * Init with name, instantiate WMI

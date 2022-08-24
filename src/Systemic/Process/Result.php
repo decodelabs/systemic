@@ -11,35 +11,12 @@ namespace DecodeLabs\Systemic\Process;
 
 class Result
 {
-    /**
-     * @var bool
-     */
-    protected $launched = true;
-
-    /**
-     * @var bool
-     */
-    protected $completed = false;
-
-    /**
-     * @var float
-     */
-    protected $startTime;
-
-    /**
-     * @var float|null
-     */
-    protected $endTime;
-
-    /**
-     * @var string|null
-     */
-    protected $output;
-
-    /**
-     * @var string|null
-     */
-    protected $error;
+    protected bool $launched = true;
+    protected bool $completed = false;
+    protected float $startTime;
+    protected ?float $endTime = null;
+    protected ?string $output = null;
+    protected ?string $error = null;
 
     /**
      * Init with start time of process
@@ -52,7 +29,7 @@ class Result
     /**
      * Set that task has failed
      */
-    public function registerFailure(): Result
+    public function registerFailure(): static
     {
         $this->endTime = microtime(true);
         $this->launched = false;
@@ -72,7 +49,7 @@ class Result
     /**
      * Set that task has completed
      */
-    public function registerCompletion(): Result
+    public function registerCompletion(): static
     {
         $this->endTime = microtime(true);
         $this->completed = true;
@@ -92,7 +69,7 @@ class Result
     /**
      * Set main process output
      */
-    public function setOutput(?string $output): Result
+    public function setOutput(?string $output): static
     {
         $this->output = $output;
         return $this;
@@ -101,7 +78,7 @@ class Result
     /**
      * Append to main process output
      */
-    public function appendOutput(?string $output): Result
+    public function appendOutput(?string $output): static
     {
         $this->output .= $output;
         return $this;
@@ -127,7 +104,7 @@ class Result
     /**
      * Set error output
      */
-    public function setError(?string $error): Result
+    public function setError(?string $error): static
     {
         $this->error = $error;
         return $this;
@@ -136,7 +113,7 @@ class Result
     /**
      * Append to error output
      */
-    public function appendError(?string $error): Result
+    public function appendError(?string $error): static
     {
         $this->error .= $error;
         return $this;

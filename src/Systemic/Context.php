@@ -28,7 +28,9 @@ use DecodeLabs\Veneer\Plugin\ProviderTrait as VeneerPluginProviderTrait;
  * @property ProcessPlugin $process
  * @property TimezonePlugin $timezone
  */
-class Context implements VeneerPluginProvider, VeneerPluginAccessTarget
+class Context implements
+    VeneerPluginProvider,
+    VeneerPluginAccessTarget
 {
     use VeneerPluginProviderTrait;
     use VeneerPluginAccessTargetTrait;

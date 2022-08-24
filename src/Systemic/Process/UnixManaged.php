@@ -19,10 +19,7 @@ class UnixManaged extends Unix implements Managed
 {
     use PidFileProviderTrait;
 
-    /**
-     * @var int|null
-     */
-    protected $parentProcessId;
+    protected ?int $parentProcessId = null;
 
     /**
      * Ensure pid file is removed on kill
@@ -63,7 +60,7 @@ class UnixManaged extends Unix implements Managed
     /**
      * Set process title
      */
-    public function setTitle(?string $title): Managed
+    public function setTitle(?string $title): static
     {
         $this->title = $title;
 
@@ -82,7 +79,7 @@ class UnixManaged extends Unix implements Managed
     /**
      * Set process priority
      */
-    public function setPriority(int $priority): Managed
+    public function setPriority(int $priority): static
     {
         if (extension_loaded('pcntl')) {
             @pcntl_setpriority($priority, $this->processId);
@@ -107,8 +104,10 @@ class UnixManaged extends Unix implements Managed
     /**
      * Set process identity
      */
-    public function setIdentity($uid, $gid): Managed
-    {
+    public function setIdentity(
+        string|int $uid,
+        string|int $gid
+    ): static {
         if (!is_numeric($uid)) {
             $uid = Systemic::$os->userNameToUserId($uid);
         }
@@ -165,7 +164,7 @@ class UnixManaged extends Unix implements Managed
     /**
      * Set process owner
      */
-    public function setOwnerId(int $id): Managed
+    public function setOwnerId(int $id): static
     {
         if (!is_numeric($id)) {
             return $this->setOwnerName($id);
@@ -220,7 +219,7 @@ class UnixManaged extends Unix implements Managed
     /**
      * Set process owner by name
      */
-    public function setOwnerName(string $name): Managed
+    public function setOwnerName(string $name): static
     {
         return $this->setOwnerId(Systemic::$os->userNameToUserId($name));
     }
@@ -257,7 +256,7 @@ class UnixManaged extends Unix implements Managed
     /**
      * Set process group
      */
-    public function setGroupId(int $id): Managed
+    public function setGroupId(int $id): static
     {
         if (!is_numeric($id)) {
             return $this->setGroupName($id);
@@ -312,7 +311,7 @@ class UnixManaged extends Unix implements Managed
     /**
      * Set process group by name
      */
-    public function setGroupName(string $name): Managed
+    public function setGroupName(string $name): static
     {
         return $this->setGroupId(Systemic::$os->groupNameToGroupId($name));
     }

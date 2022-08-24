@@ -76,8 +76,9 @@ class Unix implements Process
     /**
      * Send a signal to this process
      */
-    public function sendSignal($signal): bool
-    {
+    public function sendSignal(
+        Signal|string|int $signal
+    ): bool {
         $signal = Signal::create($signal);
 
         if (extension_loaded('posix')) {

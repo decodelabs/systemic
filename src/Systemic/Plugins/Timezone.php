@@ -10,21 +10,21 @@ declare(strict_types=1);
 namespace DecodeLabs\Systemic\Plugins;
 
 use DateTimeZone;
+use DecodeLabs\Coercion;
 use DecodeLabs\Glitch\Dumpable;
 use DecodeLabs\Systemic\Context;
 use DecodeLabs\Veneer\Plugin;
 
-class Timezone implements Plugin, Dumpable
+class Timezone implements
+    Plugin,
+    Dumpable
 {
     /**
      * @use GetterSetterPluginTrait<DateTimeZone|string>
      */
     use GetterSetterPluginTrait;
 
-    /**
-     * @var DateTimeZone
-     */
-    protected $timezone;
+    protected DateTimeZone $timezone;
 
     /**
      * Init with parent factory
@@ -38,13 +38,11 @@ class Timezone implements Plugin, Dumpable
 
     /**
      * Set current value
-     *
-     * @param DateTimeZone|string $value
      */
-    protected function setCurrent($value): DateTimeZone
+    protected function setCurrent(mixed $value): DateTimeZone
     {
         if (!$value instanceof DateTimeZone) {
-            $value = new DateTimeZone((string)$value);
+            $value = new DateTimeZone(Coercion::toString($value));
         }
 
         $this->timezone = $value;

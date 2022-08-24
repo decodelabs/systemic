@@ -11,10 +11,7 @@ namespace DecodeLabs\Systemic\Plugins\Os;
 
 class Darwin extends Unix
 {
-    /**
-     * @var string
-     */
-    protected $distribution;
+    protected ?string $distribution = null;
 
     /**
      * Get OS distribution

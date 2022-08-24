@@ -18,14 +18,14 @@ interface Launcher extends Then
     /**
      * @return $this
      */
-    public function setProcessName(string $name): Launcher;
+    public function setProcessName(string $name): static;
     public function getProcessName(): ?string;
 
     /**
      * @param array<string> $args
      * @return $this
      */
-    public function setArgs(array $args): Launcher;
+    public function setArgs(array $args): static;
 
     /**
      * @return array<string>
@@ -35,56 +35,56 @@ interface Launcher extends Then
     /**
      * @return $this
      */
-    public function setPath(?string $path): Launcher;
+    public function setPath(?string $path): static;
 
     public function getPath(): ?string;
 
     /**
      * @return $this
      */
-    public function setUser(?string $user): Launcher;
+    public function setUser(?string $user): static;
 
     public function getUser(): ?string;
 
     /**
      * @return $this
      */
-    public function setTitle(?string $title): Launcher;
+    public function setTitle(?string $title): static;
 
     public function getTitle(): ?string;
 
     /**
      * @return $this
      */
-    public function setPriority(?int $priority): Launcher;
+    public function setPriority(?int $priority): static;
 
     public function getPriority(): ?int;
 
     /**
      * @return $this
      */
-    public function setWorkingDirectory(?string $path): Launcher;
+    public function setWorkingDirectory(?string $path): static;
 
     public function getWorkingDirectory(): ?string;
 
     /**
      * @return $this
      */
-    public function setBroker(?Broker $broker): Launcher;
+    public function setBroker(?Broker $broker): static;
 
     public function getBroker(): ?Broker;
 
     /**
      * @return $this
      */
-    public function setInputGenerator(?callable $generator): Launcher;
+    public function setInputGenerator(?callable $generator): static;
 
     public function getInputGenerator(): ?callable;
 
     /**
      * @return $this
      */
-    public function setDecoratable(bool $flag): Launcher;
+    public function setDecoratable(bool $flag): static;
 
     public function isDecoratable(): bool;
 

@@ -11,15 +11,8 @@ namespace DecodeLabs\Systemic;
 
 trait ProcessTrait
 {
-    /**
-     * @var int
-     */
-    protected $processId;
-
-    /**
-     * @var string|null
-     */
-    protected $title;
+    protected int $processId;
+    protected ?string $title;
 
     /**
      * Init with PID and title

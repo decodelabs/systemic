@@ -22,10 +22,9 @@ interface Process
     public function isAlive(): bool;
     public function kill(): bool;
 
-    /**
-     * @param Signal|string|int $signal
-     */
-    public function sendSignal($signal): bool;
+    public function sendSignal(
+        Signal|string|int $signal
+    ): bool;
 
     public function isPrivileged(): bool;
 }

@@ -14,7 +14,9 @@ use DecodeLabs\Glitch\Dumpable;
 use DecodeLabs\Veneer\Plugin;
 use Locale as SysLocale;
 
-class Locale implements Plugin, Dumpable
+class Locale implements
+    Plugin,
+    Dumpable
 {
     /**
      * @use GetterSetterPluginTrait<string>
@@ -23,10 +25,8 @@ class Locale implements Plugin, Dumpable
 
     /**
      * Set current value
-     *
-     * @param string $value
      */
-    protected function setCurrent($value): string
+    protected function setCurrent(mixed $value): string
     {
         $value = SysLocale::canonicalize(Coercion::toString($value));
         SysLocale::setDefault($value);

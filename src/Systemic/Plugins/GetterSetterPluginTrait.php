@@ -21,20 +21,14 @@ trait GetterSetterPluginTrait
      */
     protected $fetcher;
 
-    /**
-     * @var bool
-     */
-    protected $fetched = false;
+    protected bool $fetched = false;
 
     /**
      * @var array<string, callable>
      */
-    protected $listeners = [];
+    protected array $listeners = [];
 
-    /**
-     * @var Context
-     */
-    protected $context;
+    protected Context $context;
 
     /**
      * Init with parent factory
@@ -50,7 +44,7 @@ trait GetterSetterPluginTrait
      * @phpstan-param T $value
      * @return $this
      */
-    public function set($value): self
+    public function set(mixed $value): static
     {
         if (!empty($this->listeners)) {
             $prev = $this->getCurrent();
@@ -72,14 +66,14 @@ trait GetterSetterPluginTrait
     /**
      * @phpstan-param T $value
      */
-    abstract protected function setCurrent($value);
+    abstract protected function setCurrent(mixed $value);
 
     /**
      * Get output locale
      *
      * @phpstan-return T
      */
-    public function get()
+    public function get(): mixed
     {
         $output = $this->getCurrent();
 
@@ -103,7 +97,7 @@ trait GetterSetterPluginTrait
     /**
      * @phpstan-return T
      */
-    abstract protected function getCurrent();
+    abstract protected function getCurrent(): mixed;
 
     /**
      * Compare old and new
@@ -111,15 +105,19 @@ trait GetterSetterPluginTrait
      * @phpstan-param T $a
      * @phpstan-param T $b
      */
-    protected function compare($a, $b): bool
-    {
+    protected function compare(
+        mixed $a,
+        mixed $b
+    ): bool {
         return $a === $b;
     }
 
     /**
      * Set locale fetcher
+     *
+     * @return $this
      */
-    public function setFetcher(?callable $fetcher): self
+    public function setFetcher(?callable $fetcher): static
     {
         $this->fetcher = $fetcher;
         return $this;
@@ -127,17 +125,23 @@ trait GetterSetterPluginTrait
 
     /**
      * Register locale listener
+     *
+     * @return $this
      */
-    public function registerListener(string $name, callable $listener): self
-    {
+    public function registerListener(
+        string $name,
+        callable $listener
+    ): static {
         $this->listeners[$name] = $listener;
         return $this;
     }
 
     /**
      * Unregister locale listener
+     *
+     * @return $this
      */
-    public function unregisterListener(string $name): self
+    public function unregisterListener(string $name): static
     {
         unset($this->listeners[$name]);
         return $this;
