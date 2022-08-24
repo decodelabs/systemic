@@ -1,3 +1,6 @@
+## v0.9.1 (2022-08-23)
+* Added concrete types to all members
+
 ## v0.9.0 (2022-08-23)
 * Removed PHP7 compatibility
 * Updated ECS to v11
