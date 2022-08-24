@@ -12,32 +12,15 @@ namespace DecodeLabs\Systemic\Plugins\Os;
 use DecodeLabs\Glitch\Dumpable;
 use DecodeLabs\Systemic\Plugins\Os;
 
-abstract class Base implements Os, Dumpable
+abstract class Base implements
+    Os,
+    Dumpable
 {
-    /**
-     * @var string
-     */
-    protected $name;
-
-    /**
-     * @var string|null
-     */
-    protected $platformType;
-
-    /**
-     * @var string
-     */
-    protected $version;
-
-    /**
-     * @var string
-     */
-    protected $release;
-
-    /**
-     * @var string
-     */
-    protected $hostName;
+    protected string $name;
+    protected ?string $platformType = null;
+    protected string $version;
+    protected string $release;
+    protected string $hostName;
 
     /**
      * Load for current OS

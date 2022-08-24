@@ -17,7 +17,7 @@ class Signal
     /**
      * @var array<string, int|null>
      */
-    protected static $signalMap = [
+    protected static array $signalMap = [
         'SIGHUP' => null,
         'SIGINT' => null,
         'SIGQUIT' => null,
@@ -53,28 +53,17 @@ class Signal
         'SIGBABY' => null
     ];
 
-    /**
-     * @var bool
-     */
-    protected static $init = false;
+    protected static bool $init = false;
 
-    /**
-     * @var string
-     */
-    protected $name;
-
-    /**
-     * @var int
-     */
-    protected $number;
+    protected string $name;
+    protected int $number;
 
     /**
      * Normalize or create a new signal instance
-     *
-     * @param Signal|string|int $signal
      */
-    public static function create($signal): Signal
-    {
+    public static function create(
+        Signal|string|int $signal
+    ): Signal {
         if ($signal instanceof Signal) {
             return $signal;
         }

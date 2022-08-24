@@ -93,8 +93,9 @@ class Windows implements Process
     /**
      * Send a signal to this process
      */
-    public function sendSignal($signal): bool
-    {
+    public function sendSignal(
+        Signal|string|int $signal
+    ): bool {
         return false;
     }
 

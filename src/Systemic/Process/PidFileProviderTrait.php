@@ -14,17 +14,14 @@ use Throwable;
 
 trait PidFileProviderTrait
 {
-    /**
-     * @var string|null
-     */
-    protected $pidFile;
+    protected ?string $pidFile = null;
 
     public function hasPidFile(): bool
     {
         return $this->pidFile !== null;
     }
 
-    public function setPidFilePath(?string $path): Managed
+    public function setPidFilePath(?string $path): static
     {
         if ($path === null) {
             $this->pidFile = null;

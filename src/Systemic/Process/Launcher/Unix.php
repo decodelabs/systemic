@@ -25,7 +25,7 @@ class Unix implements Launcher
     /**
      * @var int<0, max>
      */
-    protected $readChunkSize = 2048;
+    protected int $readChunkSize = 2048;
 
     /**
      * Launch process
@@ -152,10 +152,11 @@ class Unix implements Launcher
      *
      * @param resource $pipe
      * @param int<0, max> $length
-     * @return string|null
      */
-    protected function readChunk($pipe, int $length)
-    {
+    protected function readChunk(
+        $pipe,
+        int $length
+    ): ?string {
         try {
             $output = fread($pipe, $length);
         } catch (Throwable $e) {

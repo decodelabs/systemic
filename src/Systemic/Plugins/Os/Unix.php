@@ -13,7 +13,7 @@ use DecodeLabs\Exceptional;
 
 class Unix extends Base
 {
-    protected $platformType = 'Unix';
+    protected ?string $platformType = 'Unix';
 
     /**
      * Get system user name from id
