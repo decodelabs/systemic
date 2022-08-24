@@ -7,7 +7,7 @@ namespace DecodeLabs;
 use DecodeLabs\Veneer\Proxy;
 use DecodeLabs\Veneer\ProxyTrait;
 use DecodeLabs\Systemic\Context as Inst;
-class Systemic implements Proxy { use ProxyTrait; 
+class Systemic implements Proxy { use ProxyTrait;
 const VENEER = 'Systemic';
 const VENEER_TARGET = Inst::class;
 const PLUGINS = Inst::PLUGINS;
