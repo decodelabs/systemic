@@ -15,6 +15,11 @@ interface Os
     public function getPlatformType(): string;
     public function getDistribution(): string;
 
+    public function isWindows(): bool;
+    public function isUnix(): bool;
+    public function isLinux(): bool;
+    public function isMac(): bool;
+
     public function getVersion(): string;
     public function getRelease(): string;
     public function getHostName(): string;

@@ -16,7 +16,7 @@ use Locale as SysLocale;
 class Locale implements Dumpable
 {
     /**
-     * @use GetterSetterPluginTrait<string>
+     * @use GetterSetterPluginTrait<string, string>
      */
     use GetterSetterPluginTrait;
 

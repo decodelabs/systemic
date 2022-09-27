@@ -17,7 +17,7 @@ use DecodeLabs\Systemic\Context;
 class Timezone implements Dumpable
 {
     /**
-     * @use GetterSetterPluginTrait<DateTimeZone|string>
+     * @use GetterSetterPluginTrait<DateTimeZone|string, DateTimeZone>
      */
     use GetterSetterPluginTrait;
 

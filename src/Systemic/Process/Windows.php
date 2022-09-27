@@ -32,7 +32,7 @@ class Windows implements Process
      */
     public static function isProcessIdLive(int $pid): bool
     {
-        $wmi = Systemic::$os->getWmi();
+        $wmi = self::getWmi();
         $procs = $wmi->ExecQuery('SELECT * FROM Win32_Process WHERE ProcessId=\'' . $pid . '\'');
 
         foreach ($procs as $process) {
@@ -107,8 +107,9 @@ class Windows implements Process
         return true;
     }
 
-    protected function getWmi(): COM
+    protected static function getWmi(): COM
     {
+        /** @phpstan-ignore-next-line */
         return Systemic::$os->getWmi();
     }
 }
