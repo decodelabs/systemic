@@ -195,7 +195,10 @@ class Process
 
         $binaryPath = Systemic::$os->which('php');
 
-        if (!file_exists($binaryPath)) {
+        if (
+            empty($binaryPath) ||
+            !file_exists($binaryPath)
+        ) {
             $binaryPath = 'php';
         }
 

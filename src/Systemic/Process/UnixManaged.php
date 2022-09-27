@@ -116,6 +116,9 @@ class UnixManaged extends Unix implements Managed
             $gid = Systemic::$os->groupNameToGroupId($gid);
         }
 
+        $uid = (int)$uid;
+        $gid = (int)$gid;
+
         if (!extension_loaded('posix')) {
             throw Exceptional::Runtime(
                 'Unable to set process identity - posix not available'

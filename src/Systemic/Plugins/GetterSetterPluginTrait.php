@@ -12,7 +12,8 @@ namespace DecodeLabs\Systemic\Plugins;
 use DecodeLabs\Systemic\Context;
 
 /**
- * @template T
+ * @template TInput
+ * @template TOutput
  */
 trait GetterSetterPluginTrait
 {
@@ -41,7 +42,7 @@ trait GetterSetterPluginTrait
     /**
      * Set output locale
      *
-     * @phpstan-param T $value
+     * @phpstan-param TInput $value
      * @return $this
      */
     public function set(mixed $value): static
@@ -64,14 +65,14 @@ trait GetterSetterPluginTrait
     }
 
     /**
-     * @phpstan-param T $value
+     * @phpstan-param TInput $value
      */
     abstract protected function setCurrent(mixed $value);
 
     /**
      * Get output locale
      *
-     * @phpstan-return T
+     * @phpstan-return TOutput
      */
     public function get(): mixed
     {
@@ -95,15 +96,15 @@ trait GetterSetterPluginTrait
     }
 
     /**
-     * @phpstan-return T
+     * @phpstan-return TOutput
      */
     abstract protected function getCurrent(): mixed;
 
     /**
      * Compare old and new
      *
-     * @phpstan-param T $a
-     * @phpstan-param T $b
+     * @phpstan-param TInput $a
+     * @phpstan-param TInput $b
      */
     protected function compare(
         mixed $a,
