@@ -1,6 +1,6 @@
 parameters:
     paths:
-        - src
+        - src/
     level: max
     ignoreErrors:
         - '#Call to an undefined method COM\:\:#'
