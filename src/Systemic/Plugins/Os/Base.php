@@ -11,9 +11,11 @@ namespace DecodeLabs\Systemic\Plugins\Os;
 
 use DecodeLabs\Glitch\Dumpable;
 use DecodeLabs\Systemic\Plugins\Os;
+use DecodeLabs\Veneer\Plugin\SelfLoader;
 
 abstract class Base implements
     Os,
+    SelfLoader,
     Dumpable
 {
     protected string $name;
@@ -21,6 +23,7 @@ abstract class Base implements
     protected string $version;
     protected string $release;
     protected string $hostName;
+
 
     /**
      * Load for current OS
@@ -43,6 +46,13 @@ abstract class Base implements
 
         /** @phpstan-var class-string<Os> $class */
         return new $class($name);
+    }
+
+    public static function loadAsVeneerPlugin(object $instance): static
+    {
+        /** @var static $output */
+        $output = static::load();
+        return $output;
     }
 
 

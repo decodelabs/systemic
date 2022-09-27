@@ -11,12 +11,9 @@ namespace DecodeLabs\Systemic\Plugins;
 
 use DecodeLabs\Coercion;
 use DecodeLabs\Glitch\Dumpable;
-use DecodeLabs\Veneer\Plugin;
 use Locale as SysLocale;
 
-class Locale implements
-    Plugin,
-    Dumpable
+class Locale implements Dumpable
 {
     /**
      * @use GetterSetterPluginTrait<string>

@@ -20,9 +20,7 @@ use DecodeLabs\Systemic\Process\Managed as ManagedProcessInterface;
 use DecodeLabs\Systemic\Process\Result;
 use DecodeLabs\Systemic\Process\Signal;
 
-use DecodeLabs\Veneer\Plugin;
-
-class Process implements Plugin
+class Process
 {
     protected Context $context;
     protected ?ManagedProcessInterface $current = null;

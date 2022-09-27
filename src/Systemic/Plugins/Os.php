@@ -9,9 +9,7 @@ declare(strict_types=1);
 
 namespace DecodeLabs\Systemic\Plugins;
 
-use DecodeLabs\Veneer\Plugin;
-
-interface Os extends Plugin
+interface Os
 {
     public function getName(): string;
     public function getPlatformType(): string;

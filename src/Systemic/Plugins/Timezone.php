@@ -13,11 +13,8 @@ use DateTimeZone;
 use DecodeLabs\Coercion;
 use DecodeLabs\Glitch\Dumpable;
 use DecodeLabs\Systemic\Context;
-use DecodeLabs\Veneer\Plugin;
 
-class Timezone implements
-    Plugin,
-    Dumpable
+class Timezone implements Dumpable
 {
     /**
      * @use GetterSetterPluginTrait<DateTimeZone|string>
