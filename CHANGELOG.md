@@ -1,3 +1,6 @@
+## v0.9.4 (2022-09-27)
+* Fixed $os plugin loading in process plugin
+
 ## v0.9.3 (2022-09-27)
 * Updated Veneer stub
 * Updated composer check script
