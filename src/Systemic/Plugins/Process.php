@@ -12,13 +12,14 @@ namespace DecodeLabs\Systemic\Plugins;
 use DecodeLabs\Deliverance\Broker;
 use DecodeLabs\Exceptional;
 
-use DecodeLabs\Systemic;
 use DecodeLabs\Systemic\Context;
 use DecodeLabs\Systemic\Process as ProcessInterface;
 use DecodeLabs\Systemic\Process\Launcher;
 use DecodeLabs\Systemic\Process\Managed as ManagedProcessInterface;
 use DecodeLabs\Systemic\Process\Result;
 use DecodeLabs\Systemic\Process\Signal;
+
+use DecodeLabs\Veneer;
 
 class Process
 {
@@ -193,7 +194,8 @@ class Process
             $args = (array)$args;
         }
 
-        $binaryPath = Systemic::$os->which('php');
+        Veneer::ensurePlugin($this->context, 'os');
+        $binaryPath = $this->context->os->which('php');
 
         if (
             empty($binaryPath) ||
@@ -225,6 +227,8 @@ class Process
      */
     protected function getProcessSystemClass(): string
     {
+        Veneer::ensurePlugin($this->context, 'os');
+
         $class = '\\DecodeLabs\\Systemic\\Process\\' . $this->context->os->getName() . 'Managed';
 
         if (!class_exists($class)) {
@@ -245,6 +249,8 @@ class Process
      */
     protected function getLauncherSystemClass(): string
     {
+        Veneer::ensurePlugin($this->context, 'os');
+
         $class = '\\DecodeLabs\\Systemic\\Process\\Launcher\\' . $this->context->os->getName();
 
         if (!class_exists($class)) {
