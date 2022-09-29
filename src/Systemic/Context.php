@@ -17,6 +17,7 @@ use DecodeLabs\Systemic\Plugins\Timezone as TimezonePlugin;
 
 use DecodeLabs\Veneer\LazyLoad;
 use DecodeLabs\Veneer\Plugin;
+use DecodeLabs\Veneer\Plugin\Wrapper;
 
 class Context
 {
@@ -24,9 +25,12 @@ class Context
     #[LazyLoad]
     public LocalePlugin $locale;
 
+    /**
+     * @phpstan-var Os|Wrapper<Os>
+     */
     #[Plugin(OsBase::class)]
     #[LazyLoad]
-    public Os $os;
+    public Os|Wrapper $os;
 
     #[Plugin]
     #[LazyLoad]
