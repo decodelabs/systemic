@@ -19,8 +19,6 @@ use DecodeLabs\Systemic\Process\Managed as ManagedProcessInterface;
 use DecodeLabs\Systemic\Process\Result;
 use DecodeLabs\Systemic\Process\Signal;
 
-use DecodeLabs\Veneer;
-
 class Process
 {
     protected Context $context;
@@ -194,7 +192,6 @@ class Process
             $args = (array)$args;
         }
 
-        Veneer::ensurePlugin($this->context, 'os');
         $binaryPath = $this->context->os->which('php');
 
         if (
@@ -227,8 +224,6 @@ class Process
      */
     protected function getProcessSystemClass(): string
     {
-        Veneer::ensurePlugin($this->context, 'os');
-
         $class = '\\DecodeLabs\\Systemic\\Process\\' . $this->context->os->getName() . 'Managed';
 
         if (!class_exists($class)) {
@@ -249,8 +244,6 @@ class Process
      */
     protected function getLauncherSystemClass(): string
     {
-        Veneer::ensurePlugin($this->context, 'os');
-
         $class = '\\DecodeLabs\\Systemic\\Process\\Launcher\\' . $this->context->os->getName();
 
         if (!class_exists($class)) {
