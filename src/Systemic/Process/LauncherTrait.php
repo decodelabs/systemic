@@ -12,6 +12,7 @@ namespace DecodeLabs\Systemic\Process;
 use DecodeLabs\Deliverance\Broker;
 use DecodeLabs\Fluidity\ThenTrait;
 use DecodeLabs\Systemic\Process;
+use DecodeLabs\Terminus\Session;
 
 trait LauncherTrait
 {
@@ -30,6 +31,7 @@ trait LauncherTrait
     protected ?int $priority = null;
     protected ?string $workingDirectory = null;
     protected ?Broker $broker = null;
+    protected ?Session $session = null;
     protected bool $decoratable = true;
 
     /**
@@ -47,15 +49,20 @@ trait LauncherTrait
         string $processName,
         array $args = [],
         string $path = null,
-        ?Broker $broker = null,
+        Broker|Session|null $broker = null,
         string $user = null
     ) {
         $this->setProcessName($processName);
         $this->setArgs($args);
         $this->setPath($path);
         $this->setTitle($this->processName);
-        $this->setBroker($broker);
         $this->setUser($user);
+
+        if ($broker instanceof Broker) {
+            $this->setBroker($broker);
+        } elseif ($broker instanceof Session) {
+            $this->setSession($broker);
+        }
     }
 
 
@@ -197,6 +204,27 @@ trait LauncherTrait
     {
         return $this->broker;
     }
+
+
+    /**
+     * Set CLI session
+     */
+    public function setSession(?Session $session): static
+    {
+        $this->session = $session;
+
+        if ($session) {
+            $this->setBroker($session->getBroker());
+        }
+
+        return $this;
+    }
+
+    public function getSession(): ?Session
+    {
+        return $this->session;
+    }
+
 
     /**
      * Set input generator callable
