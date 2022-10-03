@@ -47,6 +47,17 @@ class Unix implements Launcher
             $workingDirectory = $this->workingDirectory;
         }
 
+
+        // Stty
+        $snapshot = null;
+
+        if ($this->session) {
+            $snapshot = $this->session->snapshotStty();
+            $this->session->toggleInputEcho(false);
+            $this->session->toggleInputBuffer(false);
+        }
+
+
         $result = new Result();
 
         $env = $this->prepareEnv();
@@ -142,6 +153,10 @@ class Unix implements Launcher
 
         if ($this->broker) {
             $this->broker->setReadBlocking($brokerBlocking);
+        }
+
+        if ($this->session) {
+            $this->session->restoreStty($snapshot);
         }
 
         return $result;

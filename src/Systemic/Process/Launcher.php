@@ -12,6 +12,7 @@ namespace DecodeLabs\Systemic\Process;
 use DecodeLabs\Deliverance\Broker;
 use DecodeLabs\Fluidity\Then;
 use DecodeLabs\Systemic\Process;
+use DecodeLabs\Terminus\Session;
 
 interface Launcher extends Then
 {
@@ -73,6 +74,13 @@ interface Launcher extends Then
     public function setBroker(?Broker $broker): static;
 
     public function getBroker(): ?Broker;
+
+    /**
+     * @return $this
+     */
+    public function setSession(?Session $session): static;
+
+    public function getSession(): ?Session;
 
     /**
      * @return $this

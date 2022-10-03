@@ -1,3 +1,6 @@
+## v0.9.6 (2022-10-04)
+* Added Terminus STTY passthrough support
+
 ## v0.9.5 (2022-09-29)
 * Updated Veneer plugin handling
 
