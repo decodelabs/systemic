@@ -19,6 +19,8 @@ use DecodeLabs\Systemic\Process\Managed as ManagedProcessInterface;
 use DecodeLabs\Systemic\Process\Result;
 use DecodeLabs\Systemic\Process\Signal;
 
+use DecodeLabs\Terminus\Session;
+
 use Stringable;
 
 class Process
@@ -101,13 +103,13 @@ class Process
      * @param string|array<string>|null $args
      */
     public function launch(
-        string $process,
+        string|Stringable $process,
         string|array|null $args = null,
-        string|Stringable|null $path = null,
-        ?Broker $ioBroker = null,
+        string|Stringable|null $workingDirectory = null,
+        Broker|Session|null $io = null,
         string $user = null
     ): Result {
-        return $this->newLauncher($process, $args, $path, $ioBroker, $user)->launch();
+        return $this->newLauncher($process, $args, $workingDirectory, $io, $user)->launch();
     }
 
     /**
@@ -118,10 +120,10 @@ class Process
     public function launchScript(
         string|Stringable $path,
         string|array|null $args = null,
-        ?Broker $ioBroker = null,
+        Broker|Session|null $io = null,
         string $user = null
     ): Result {
-        return $this->newScriptLauncher($path, $args, $ioBroker, $user)->launch();
+        return $this->newScriptLauncher($path, $args, $io, $user)->launch();
     }
 
     /**
@@ -130,13 +132,13 @@ class Process
      * @param string|array<string>|null $args
      */
     public function launchBackground(
-        string $process,
+        string|Stringable $process,
         string|array|null $args = null,
-        string|Stringable|null $path = null,
-        ?Broker $ioBroker = null,
+        string|Stringable|null $workingDirectory = null,
+        Broker|Session|null $io = null,
         string $user = null
     ): ProcessInterface {
-        return $this->newLauncher($process, $args, $path, $ioBroker, $user)->launchBackground();
+        return $this->newLauncher($process, $args, $workingDirectory, $io, $user)->launchBackground();
     }
 
     /**
@@ -147,10 +149,10 @@ class Process
     public function launchBackgroundScript(
         string|Stringable $path,
         string|array|null $args = null,
-        ?Broker $ioBroker = null,
+        Broker|Session|null $io = null,
         string $user = null
     ): ProcessInterface {
-        return $this->newScriptLauncher($path, $args, $ioBroker, $user)->launchBackground();
+        return $this->newScriptLauncher($path, $args, $io, $user)->launchBackground();
     }
 
 
@@ -160,10 +162,10 @@ class Process
      * @param string|array<string>|null $args
      */
     public function newLauncher(
-        string $process,
+        string|Stringable $process,
         string|array|null $args = null,
-        string|Stringable|null $path = null,
-        ?Broker $ioBroker = null,
+        string|Stringable|null $workingDirectory = null,
+        Broker|Session|null $io = null,
         string $user = null
     ): Launcher {
         if ($args === null) {
@@ -174,7 +176,7 @@ class Process
 
         /** @phpstan-var class-string<Launcher> $class */
         $class = $this->getLauncherSystemClass();
-        return new $class($process, $args, $path, $ioBroker, $user);
+        return new $class($process, $args, $workingDirectory, $io, $user);
     }
 
     /**
@@ -185,7 +187,7 @@ class Process
     public function newScriptLauncher(
         string|Stringable $path,
         string|array|null $args = null,
-        ?Broker $ioBroker = null,
+        Broker|Session|null $io = null,
         string $user = null
     ): Launcher {
         if ($args === null) {
@@ -203,18 +205,11 @@ class Process
             $binaryPath = 'php';
         }
 
-        $phpName = basename($binaryPath);
-        $phpPath = null;
-
-        if ($phpName != $binaryPath) {
-            $phpPath = dirname($binaryPath);
-        }
-
         array_unshift($args, trim((string)$path));
 
         /** @phpstan-var class-string<Launcher> */
         $class = $this->getLauncherSystemClass();
-        return new $class($phpName, $args, $phpPath, $ioBroker, $user);
+        return new $class($binaryPath, $args, dirname((string)$path), $io, $user);
     }
 
 
