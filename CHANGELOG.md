@@ -1,3 +1,4 @@
+* Added Stringable to launcher interfaces
 * Fixed PHP8.1 testing
 
 ## v0.9.6 (2022-10-04)
