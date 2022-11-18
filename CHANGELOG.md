@@ -1,3 +1,4 @@
+## v0.9.6 (2022-11-18)
 * Added Stringable to launcher interfaces
 * Fixed PHP8.1 testing
 
