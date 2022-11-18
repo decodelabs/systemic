@@ -14,13 +14,18 @@ use DecodeLabs\Fluidity\Then;
 use DecodeLabs\Systemic\Process;
 use DecodeLabs\Terminus\Session;
 
+use Stringable;
+
 interface Launcher extends Then
 {
     /**
      * @return $this
      */
-    public function setProcessName(string $name): static;
-    public function getProcessName(): ?string;
+    public function setPath(
+        string|Stringable $path
+    ): static;
+
+    public function getPath(): string;
 
     /**
      * @param array<string> $args
@@ -33,12 +38,7 @@ interface Launcher extends Then
      */
     public function getArgs(): array;
 
-    /**
-     * @return $this
-     */
-    public function setPath(?string $path): static;
 
-    public function getPath(): ?string;
 
     /**
      * @return $this
@@ -64,7 +64,9 @@ interface Launcher extends Then
     /**
      * @return $this
      */
-    public function setWorkingDirectory(?string $path): static;
+    public function setWorkingDirectory(
+        string|Stringable|null $path
+    ): static;
 
     public function getWorkingDirectory(): ?string;
 

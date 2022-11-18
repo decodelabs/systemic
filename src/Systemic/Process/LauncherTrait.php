@@ -20,14 +20,12 @@ trait LauncherTrait
 {
     use ThenTrait;
 
-    protected string $processName;
-
     /**
      * @var array<string>
      */
     protected array $args = [];
 
-    protected ?string $path = null;
+    protected string $path;
     protected ?string $user = null;
     protected ?string $title = null;
     protected ?int $priority = null;
@@ -48,41 +46,42 @@ trait LauncherTrait
      * @param array<string> $args
      */
     public function __construct(
-        string $processName,
+        string|Stringable $path,
         array $args = [],
-        string|Stringable|null $path = null,
-        Broker|Session|null $broker = null,
+        string|Stringable|null $workingDirectory = null,
+        Broker|Session|null $io = null,
         string $user = null
     ) {
-        $this->setProcessName($processName);
-        $this->setArgs($args);
         $this->setPath($path);
-        $this->setTitle($this->processName);
+        $this->setArgs($args);
+        $this->setWorkingDirectory($workingDirectory);
+        $this->setTitle($this->path);
         $this->setUser($user);
 
-        if ($broker instanceof Broker) {
-            $this->setBroker($broker);
-        } elseif ($broker instanceof Session) {
-            $this->setSession($broker);
+        if ($io instanceof Broker) {
+            $this->setBroker($io);
+        } elseif ($io instanceof Session) {
+            $this->setSession($io);
         }
     }
 
 
     /**
-     * Set process name
+     * Get process exec path
      */
-    public function setProcessName(string $name): static
-    {
-        $this->processName = $name;
+    public function setPath(
+        string|Stringable $path
+    ): static {
+        $this->path = Coercion::toString($path);
         return $this;
     }
 
     /**
-     * Get process name
+     * Get process exec path
      */
-    public function getProcessName(): string
+    public function getPath(): string
     {
-        return $this->processName;
+        return $this->path;
     }
 
     /**
@@ -100,24 +99,6 @@ trait LauncherTrait
     public function getArgs(): array
     {
         return $this->args;
-    }
-
-    /**
-     * Get process exec path
-     */
-    public function setPath(
-        string|Stringable|null $path
-    ): static {
-        $this->path = Coercion::toStringOrNull($path);
-        return $this;
-    }
-
-    /**
-     * Get process exec path
-     */
-    public function getPath(): ?string
-    {
-        return $this->path;
     }
 
     /**

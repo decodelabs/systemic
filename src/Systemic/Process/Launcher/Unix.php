@@ -218,13 +218,7 @@ class Unix implements Launcher
      */
     protected function prepareCommand(): string
     {
-        $command = '';
-
-        if ($this->path) {
-            $command .= rtrim($this->path, '/\\') . DIRECTORY_SEPARATOR;
-        }
-
-        $command .= $this->processName;
+        $command = $this->path;
 
         if (!empty($this->args)) {
             $temp = [];

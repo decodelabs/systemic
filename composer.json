@@ -28,7 +28,7 @@
         "symplify/easy-coding-standard": "^11",
 
         "decodelabs/phpstan-decodelabs": "^0.6",
-        "decodelabs/terminus": "^0.9.0"
+        "decodelabs/terminus": "^0.9.0|dev-develop"
     },
     "autoload": {
         "psr-4": {
@@ -40,7 +40,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-develop": "0.9.x-dev"
+            "dev-develop": "0.10.x-dev"
         }
     },
     "config": {
