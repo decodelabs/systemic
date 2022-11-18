@@ -113,8 +113,7 @@ $result = Systemic::$process->launchScript('myPhpScript.php');
 $result = Systemic::$process->launchBackgroundScript('myPhpScript.php');
 
 // Custom launch something
-Systemic::$process->newLauncher('binary', ['-a1', '--arg2=stuff'], 'path/to/thing')
-    ->setWorkingDirectory('somewhere/else')
+Systemic::$process->newLauncher('binary', ['-a1', '--arg2=stuff'], 'working/directory')
     ->setUser('root')
 
     ->setOutputWriter(function($outputChunk) {
