@@ -19,6 +19,8 @@ use DecodeLabs\Systemic\Process\Managed as ManagedProcessInterface;
 use DecodeLabs\Systemic\Process\Result;
 use DecodeLabs\Systemic\Process\Signal;
 
+use Stringable;
+
 class Process
 {
     protected Context $context;
@@ -101,7 +103,7 @@ class Process
     public function launch(
         string $process,
         string|array|null $args = null,
-        string $path = null,
+        string|Stringable|null $path = null,
         ?Broker $ioBroker = null,
         string $user = null
     ): Result {
@@ -114,7 +116,7 @@ class Process
      * @param string|array<string>|null $args
      */
     public function launchScript(
-        string $path,
+        string|Stringable $path,
         string|array|null $args = null,
         ?Broker $ioBroker = null,
         string $user = null
@@ -130,7 +132,7 @@ class Process
     public function launchBackground(
         string $process,
         string|array|null $args = null,
-        string $path = null,
+        string|Stringable|null $path = null,
         ?Broker $ioBroker = null,
         string $user = null
     ): ProcessInterface {
@@ -143,7 +145,7 @@ class Process
      * @param string|array<string>|null $args
      */
     public function launchBackgroundScript(
-        string $path,
+        string|Stringable $path,
         string|array|null $args = null,
         ?Broker $ioBroker = null,
         string $user = null
@@ -160,7 +162,7 @@ class Process
     public function newLauncher(
         string $process,
         string|array|null $args = null,
-        string $path = null,
+        string|Stringable|null $path = null,
         ?Broker $ioBroker = null,
         string $user = null
     ): Launcher {
@@ -181,7 +183,7 @@ class Process
      * @param string|array<string>|null $args
      */
     public function newScriptLauncher(
-        string $path,
+        string|Stringable $path,
         string|array|null $args = null,
         ?Broker $ioBroker = null,
         string $user = null
@@ -208,7 +210,7 @@ class Process
             $phpPath = dirname($binaryPath);
         }
 
-        array_unshift($args, trim($path));
+        array_unshift($args, trim((string)$path));
 
         /** @phpstan-var class-string<Launcher> */
         $class = $this->getLauncherSystemClass();

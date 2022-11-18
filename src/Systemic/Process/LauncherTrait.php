@@ -9,10 +9,12 @@ declare(strict_types=1);
 
 namespace DecodeLabs\Systemic\Process;
 
+use DecodeLabs\Coercion;
 use DecodeLabs\Deliverance\Broker;
 use DecodeLabs\Fluidity\ThenTrait;
-use DecodeLabs\Systemic\Process;
 use DecodeLabs\Terminus\Session;
+
+use Stringable;
 
 trait LauncherTrait
 {
@@ -48,7 +50,7 @@ trait LauncherTrait
     public function __construct(
         string $processName,
         array $args = [],
-        string $path = null,
+        string|Stringable|null $path = null,
         Broker|Session|null $broker = null,
         string $user = null
     ) {
@@ -103,9 +105,10 @@ trait LauncherTrait
     /**
      * Get process exec path
      */
-    public function setPath(?string $path): static
-    {
-        $this->path = $path;
+    public function setPath(
+        string|Stringable|null $path
+    ): static {
+        $this->path = Coercion::toStringOrNull($path);
         return $this;
     }
 
@@ -172,9 +175,10 @@ trait LauncherTrait
     /**
      * Set working directory
      */
-    public function setWorkingDirectory(?string $path): static
-    {
-        $this->workingDirectory = $path;
+    public function setWorkingDirectory(
+        string|Stringable|null $path
+    ): static {
+        $this->workingDirectory = Coercion::toStringOrNull($path);
         return $this;
     }
 
