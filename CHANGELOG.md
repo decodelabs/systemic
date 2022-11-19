@@ -1,4 +1,7 @@
-## v0.10.1 (2022-11-18)
+## v0.10.1 (2022-11-19)
+* Added exit code handling to process results
+
+## v0.10.0 (2022-11-18)
 * Simplified launcher interfaces
 
 ## v0.9.6 (2022-11-18)

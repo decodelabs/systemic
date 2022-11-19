@@ -13,6 +13,8 @@ class Result
 {
     protected bool $launched = true;
     protected bool $completed = false;
+    protected bool $success = false;
+    protected ?int $exit = null;
     protected float $startTime;
     protected ?float $endTime = null;
     protected ?string $output = null;
@@ -49,10 +51,13 @@ class Result
     /**
      * Set that task has completed
      */
-    public function registerCompletion(): static
+    public function registerCompletion(int $exit = 0): static
     {
         $this->endTime = microtime(true);
         $this->completed = true;
+        $this->exit = $exit;
+
+        $this->success = $exit === 0;
 
         return $this;
     }
@@ -63,6 +68,22 @@ class Result
     public function hasCompleted(): bool
     {
         return $this->completed;
+    }
+
+    /**
+     * Get exit code
+     */
+    public function getExitCode(): ?int
+    {
+        return $this->exit;
+    }
+
+    /**
+     * Was the process successful?
+     */
+    public function wasSuccessful(): bool
+    {
+        return $this->success;
     }
 
 
