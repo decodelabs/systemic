@@ -1,3 +1,5 @@
+* Migrated to use effigy in CI workflow
+
 ## v0.10.1 (2022-11-19)
 * Added exit code handling to process results
 
