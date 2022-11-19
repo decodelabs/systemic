@@ -80,6 +80,8 @@ class Unix implements Launcher
             $this->broker->setReadBlocking(false);
         }
 
+        $exit = null;
+
         while (true) {
             $status = (array)proc_get_status($processHandle);
 
@@ -136,6 +138,7 @@ class Unix implements Launcher
                 $errorBuffer === null &&
                 $input === null
             ) {
+                $exit = $status['exitcode'];
                 break;
             }
 
@@ -149,7 +152,7 @@ class Unix implements Launcher
         }
 
         proc_close($processHandle);
-        $result->registerCompletion();
+        $result->registerCompletion((int)$exit);
 
         if ($this->broker) {
             $this->broker->setReadBlocking($brokerBlocking);
