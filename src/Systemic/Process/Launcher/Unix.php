@@ -6,6 +6,7 @@
  */
 
 declare(strict_types=1);
+declare(ticks=1);
 
 namespace DecodeLabs\Systemic\Process\Launcher;
 
@@ -22,10 +23,16 @@ class Unix implements Launcher
 {
     use LauncherTrait;
 
+    public const SIGNALS = [
+        'SIGINT', 'SIGTERM', 'SIGQUIT'
+    ];
+
     /**
      * @var int<0, max>
      */
     protected int $readChunkSize = 2048;
+
+    protected ?int $signal = null;
 
     /**
      * Launch process
@@ -80,7 +87,19 @@ class Unix implements Launcher
             $this->broker->setReadBlocking(false);
         }
 
+        if (extension_loaded('pcntl')) {
+            foreach (self::SIGNALS as $signal) {
+                pcntl_signal(
+                    Systemic::$process->newSignal($signal)->getNumber(),
+                    function (int $number) {
+                        $this->signal = $number;
+                    }
+                );
+            }
+        }
+
         $exit = null;
+        $this->signal = null;
 
         while (true) {
             $status = (array)proc_get_status($processHandle);
@@ -128,6 +147,17 @@ class Unix implements Launcher
                 if ($generatorCalled) {
                     fclose($pipes[0]);
                     $pipes[0] = null;
+                }
+            }
+
+            // Interrupt
+            /** @phpstan-ignore-next-line */
+            if ($this->signal !== null) {
+                if (extension_loaded('posix')) {
+                    posix_kill($status['pid'], $this->signal);
+                } else {
+                    $exit = -1;
+                    break;
                 }
             }
 
