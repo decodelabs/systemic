@@ -5,8 +5,8 @@
  */
 namespace DecodeLabs;
 
-use DecodeLabs\Veneer\Proxy;
-use DecodeLabs\Veneer\ProxyTrait;
+use DecodeLabs\Veneer\Proxy as Proxy;
+use DecodeLabs\Veneer\ProxyTrait as ProxyTrait;
 use DecodeLabs\Systemic\Context as Inst;
 use DecodeLabs\Systemic\Plugins\Locale as LocalePlugin;
 use DecodeLabs\Systemic\Plugins\Os as OsPlugin;
