@@ -89,7 +89,7 @@ class Unix implements Launcher
         ) {
             foreach ($this->signals as $signal) {
                 pcntl_signal(
-                    Systemic::$process->newSignal($signal)->getNumber(),
+                    $signal->getNumber(),
                     function (int $number) {
                         $this->signal = $number;
                     }
