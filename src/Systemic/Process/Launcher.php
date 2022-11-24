@@ -98,6 +98,31 @@ interface Launcher extends Then
 
     public function isDecoratable(): bool;
 
+    /**
+     * @return $this
+     */
+    public function addSignal(
+        Signal|string|int ...$signals
+    ): static;
+
+    /**
+     * @return array<string, Signal>
+     */
+    public function getSignals(): array;
+
+    public function hasSignals(): bool;
+    public function hasSignal(Signal|string|int $signal): bool;
+
+    /**
+     * @return $this
+     */
+    public function removeSignal(Signal|string|int $signal): static;
+
+    /**
+     * @return $this
+     */
+    public function clearSignals(): static;
+
     public function launch(): Result;
     public function launchBackground(): Process;
 }
