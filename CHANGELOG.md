@@ -1,3 +1,6 @@
+## v0.10.3 (2022-11-24)
+* Added signal controls to launchers
+
 ## v0.10.2 (2022-11-23)
 * Added signal passing to Unix launcher
 * Migrated to use effigy in CI workflow
