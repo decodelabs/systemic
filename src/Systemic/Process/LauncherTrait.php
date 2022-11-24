@@ -35,6 +35,11 @@ trait LauncherTrait
     protected bool $decoratable = true;
 
     /**
+     * @var array<string, Signal>
+     */
+    protected array $signals = [];
+
+    /**
      * @var callable|null
      */
     protected $inputGenerator;
@@ -244,5 +249,67 @@ trait LauncherTrait
     public function isDecoratable(): bool
     {
         return $this->decoratable;
+    }
+
+
+    /**
+     * Add signal(s) to be passed to process if caught
+     */
+    public function addSignal(
+        Signal|string|int ...$signals
+    ): static {
+        foreach ($signals as $signal) {
+            $signal = Signal::create($signal);
+            $this->signals[$signal->getName()] = $signal;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get list of registered signals
+     *
+     * @return array<string, Signal>
+     */
+    public function getSignals(): array
+    {
+        return $this->signals;
+    }
+
+    /**
+     * Are any signals registered?
+     */
+    public function hasSignals(): bool
+    {
+        return !empty($this->signals);
+    }
+
+    /**
+     * Is this particular signal registered?
+     */
+    public function hasSignal(
+        Signal|string|int $signal
+    ): bool {
+        $signal = Signal::create($signal);
+        return isset($this->signals[$signal->getName()]);
+    }
+
+    /**
+     * Remove signal if registered
+     */
+    public function removeSignal(Signal|string|int $signal): static
+    {
+        $signal = Signal::create($signal);
+        unset($this->signals[$signal->getName()]);
+        return $this;
+    }
+
+    /**
+     * Remove all signals
+     */
+    public function clearSignals(): static
+    {
+        $this->signals = [];
+        return $this;
     }
 }

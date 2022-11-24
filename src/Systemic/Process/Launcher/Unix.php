@@ -23,10 +23,6 @@ class Unix implements Launcher
 {
     use LauncherTrait;
 
-    public const SIGNALS = [
-        'SIGINT', 'SIGTERM', 'SIGQUIT'
-    ];
-
     /**
      * @var int<0, max>
      */
@@ -87,8 +83,11 @@ class Unix implements Launcher
             $this->broker->setReadBlocking(false);
         }
 
-        if (extension_loaded('pcntl')) {
-            foreach (self::SIGNALS as $signal) {
+        if (
+            !empty($this->signals) &&
+            extension_loaded('pcntl')
+        ) {
+            foreach ($this->signals as $signal) {
                 pcntl_signal(
                     Systemic::$process->newSignal($signal)->getNumber(),
                     function (int $number) {
