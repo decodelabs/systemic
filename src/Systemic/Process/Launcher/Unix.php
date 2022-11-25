@@ -36,11 +36,12 @@ class Unix implements Launcher
     public function launch(): Result
     {
         $command = $this->prepareCommand();
+        $type = $this->decoratable ? 'pty' : 'pipe';
 
         $descriptors = [
-            0 => ['pipe', 'r'],
-            1 => ['pipe', 'w'],
-            2 => ['pipe', 'w']
+            0 => [$type, 'r'],
+            1 => [$type, 'w'],
+            2 => [$type, 'w']
         ];
 
         $workingDirectory = $this->workingDirectory !== null ?
@@ -171,7 +172,7 @@ class Unix implements Launcher
                 break;
             }
 
-            usleep(500);
+            usleep($this->cycleSleep);
         }
 
         foreach ($pipes as $pipe) {
@@ -272,6 +273,8 @@ class Unix implements Launcher
             $command .= ' ' . implode(' ', $temp);
         }
 
+
+        /*
         if ($this->decoratable && Systemic::$os->which('script')) {
             if (Systemic::$os->isMac()) {
                 $command = 'script -q /dev/null ' . $command;
@@ -279,6 +282,7 @@ class Unix implements Launcher
                 $command = 'script -e -q -c "' . $command . '" /dev/null';
             }
         }
+        */
 
         if ($this->user) {
             if (false !== strpos($this->user, ':')) {

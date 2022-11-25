@@ -1,3 +1,5 @@
+* Switched to PTY for decoratable commands
+
 ## v0.10.3 (2022-11-24)
 * Added signal controls to launchers
 
