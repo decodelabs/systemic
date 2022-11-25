@@ -33,6 +33,7 @@ trait LauncherTrait
     protected ?Broker $broker = null;
     protected ?Session $session = null;
     protected bool $decoratable = true;
+    protected int $cycleSleep = 500;
 
     /**
      * @var array<string, Signal>
@@ -311,5 +312,22 @@ trait LauncherTrait
     {
         $this->signals = [];
         return $this;
+    }
+
+    /**
+     * Set sleep time per cycle
+     */
+    public function setCycleSleep(int $sleep): static
+    {
+        $this->cycleSleep = $sleep;
+        return $this;
+    }
+
+    /**
+     * Get sleep time
+     */
+    public function getCycleSleep(): int
+    {
+        return $this->cycleSleep;
     }
 }

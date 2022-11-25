@@ -123,6 +123,12 @@ interface Launcher extends Then
      */
     public function clearSignals(): static;
 
+    /**
+     * @return $this
+     */
+    public function setCycleSleep(int $sleep): static;
+    public function getCycleSleep(): int;
+
     public function launch(): Result;
     public function launchBackground(): Process;
 }
