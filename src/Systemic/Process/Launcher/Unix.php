@@ -36,12 +36,11 @@ class Unix implements Launcher
     public function launch(): Result
     {
         $command = $this->prepareCommand();
-        $type = $this->decoratable ? 'pty' : 'pipe';
 
         $descriptors = [
-            0 => [$type, 'r'],
-            1 => [$type, 'w'],
-            2 => [$type, 'w']
+            0 => ['pipe', 'r'],
+            1 => ['pipe', 'w'],
+            2 => ['pipe', 'w']
         ];
 
         $workingDirectory = $this->workingDirectory !== null ?
@@ -274,15 +273,13 @@ class Unix implements Launcher
         }
 
 
-        /*
-        if ($this->decoratable && Systemic::$os->which('script')) {
+        if ($this->decoratable) {
             if (Systemic::$os->isMac()) {
                 $command = 'script -q /dev/null ' . $command;
             } else {
                 $command = 'script -e -q -c "' . $command . '" /dev/null';
             }
         }
-        */
 
         if ($this->user) {
             if (false !== strpos($this->user, ':')) {

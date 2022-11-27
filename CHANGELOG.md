@@ -1,3 +1,6 @@
+## v0.10.5 (2022-11-27)
+* Reverted PTY usage
+
 ## v0.10.4 (2022-11-25)
 * Switched to PTY for decoratable commands
 
