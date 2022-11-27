@@ -36,13 +36,11 @@ class Unix implements Launcher
     public function launch(): Result
     {
         $command = $this->prepareCommand();
-        //$type = $this->decoratable ? 'pty' : 'pipe';
-        $type = 'pipe';
 
         $descriptors = [
-            0 => [$type, 'r'],
-            1 => [$type, 'w'],
-            2 => [$type, 'w']
+            0 => ['pipe', 'r'],
+            1 => ['pipe', 'w'],
+            2 => ['pipe', 'w']
         ];
 
         $workingDirectory = $this->workingDirectory !== null ?
