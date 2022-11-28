@@ -32,46 +32,6 @@ Systemic uses [Veneer](https://github.com/decodelabs/veneer) to provide a unifie
 You can access all the primary functionality via this static frontage without compromising testing and dependency injection.
 
 
-### Locale
-
-Get and set the active Locale for output formatting:
-
-```php
-use DecodeLabs\Systemic;
-
-// Set locale to German
-Systemic::$locale->set('de_DE');
-
-// Get local
-Systemic::$locale->get();
-
-// Add a listener for when the locale changes
-Systemic::$locale->addListener('myListener', function($newLocale, $oldLocale) {
-    // do something here
-});
-```
-
-
-### Timezone
-
-Get and set the active user timezone for output formatting:
-
-```php
-use DecodeLabs\Systemic;
-
-// Set timezone to london
-Systemic::$timezone->set('Europe/London');
-
-// Get current
-Systemic::$timezone->get();
-
-// Add a listener for when the timezone changes
-Systemic::$timezone->addListener('myListener', function($newLocale, $oldLocale) {
-    // do something here
-});
-```
-
-
 ### OS info
 
 Get information about the current OS:
@@ -130,6 +90,9 @@ Systemic::$process->newLauncher('binary', ['-a1', '--arg2=stuff'], 'working/dire
 ## Windows
 Please note, OS and Process support on Windows is currently extremely sketchy - this will be fleshed out soon!
 
+### Locale & Timezone
+
+Looking for Locale and Timezone info? This has moved to [Cosmos](https://github.com/decodelabs/cosmos).
 
 ## Licensing
 Systemic is licensed under the MIT License. See [LICENSE](./LICENSE) for the full license text.
