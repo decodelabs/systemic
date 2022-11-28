@@ -13,6 +13,7 @@
         "ext-intl": "*",
         "symfony/polyfill-mbstring": "^1.7",
 
+        "decodelabs/archetype": "^0.2.10",
         "decodelabs/coercion": "^0.2",
         "decodelabs/deliverance": "^0.2",
         "decodelabs/exceptional": "^0.4",

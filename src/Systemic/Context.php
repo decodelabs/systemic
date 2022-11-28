@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace DecodeLabs\Systemic;
 
-use DecodeLabs\Systemic\Plugins\Os;
-use DecodeLabs\Systemic\Plugins\Os\Base as OsBase;
+use DecodeLabs\Systemic\Os;
+use DecodeLabs\Systemic\OsAbstract;
 use DecodeLabs\Systemic\Plugins\Process as ProcessPlugin;
 
 use DecodeLabs\Veneer\LazyLoad;
@@ -22,7 +22,7 @@ class Context
     /**
      * @phpstan-var Os|Wrapper<Os>
      */
-    #[Plugin(OsBase::class)]
+    #[Plugin(OsAbstract::class)]
     #[LazyLoad]
     public Os|Wrapper $os;
 

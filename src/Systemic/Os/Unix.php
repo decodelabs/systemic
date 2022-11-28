@@ -7,11 +7,12 @@
 
 declare(strict_types=1);
 
-namespace DecodeLabs\Systemic\Plugins\Os;
+namespace DecodeLabs\Systemic\Os;
 
 use DecodeLabs\Exceptional;
+use DecodeLabs\Systemic\OsAbstract;
 
-class Unix extends Base
+class Unix extends OsAbstract
 {
     protected ?string $platformType = 'Unix';
 

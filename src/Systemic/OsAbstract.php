@@ -7,13 +7,14 @@
 
 declare(strict_types=1);
 
-namespace DecodeLabs\Systemic\Plugins\Os;
+namespace DecodeLabs\Systemic;
 
+use DecodeLabs\Archetype;
 use DecodeLabs\Glitch\Dumpable;
-use DecodeLabs\Systemic\Plugins\Os;
+use DecodeLabs\Systemic\Os\Unix;
 use DecodeLabs\Veneer\Plugin\SelfLoader;
 
-abstract class Base implements
+abstract class OsAbstract implements
     Os,
     SelfLoader,
     Dumpable
@@ -38,13 +39,12 @@ abstract class Base implements
             }
         }
 
-        $class = '\\DecodeLabs\\Systemic\\Plugins\\Os\\' . ucfirst($name);
+        $class = Archetype::resolve(
+            Os::class,
+            $name,
+            Unix::class
+        );
 
-        if (!class_exists($class)) {
-            $class = '\\DecodeLabs\\Systemic\\Plugins\\Os\\Unix';
-        }
-
-        /** @phpstan-var class-string<Os> $class */
         return new $class($name);
     }
 

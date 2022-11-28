@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-namespace DecodeLabs\Systemic\Plugins;
+namespace DecodeLabs\Systemic;
 
 interface Os
 {

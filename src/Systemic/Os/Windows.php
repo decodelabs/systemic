@@ -7,12 +7,13 @@
 
 declare(strict_types=1);
 
-namespace DecodeLabs\Systemic\Plugins\Os;
+namespace DecodeLabs\Systemic\Os;
 
 use COM;
 use DecodeLabs\Glitch\Proxy as Glitch;
+use DecodeLabs\Systemic\OsAbstract;
 
-class Windows extends Base
+class Windows extends OsAbstract
 {
     protected static COM $wmi;
 
