@@ -1,4 +1,7 @@
+* Added Command interface structure
+* Added Manifold / Controller interface structure
 * Moved timezone and locale plugins to Cosmos
+* Refactored OS interface
 
 ## v0.10.5 (2022-11-27)
 * Reverted PTY usage

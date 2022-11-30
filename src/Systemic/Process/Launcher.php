@@ -10,8 +10,10 @@ declare(strict_types=1);
 namespace DecodeLabs\Systemic\Process;
 
 use DecodeLabs\Deliverance\Broker;
+use DecodeLabs\Eventful\Signal;
 use DecodeLabs\Fluidity\Then;
 use DecodeLabs\Systemic\Process;
+use DecodeLabs\Systemic\Result;
 use DecodeLabs\Terminus\Session;
 
 use Stringable;

@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace DecodeLabs\Systemic\Process;
 
+use DecodeLabs\Eventful\Signal;
 use DecodeLabs\Exceptional;
 use DecodeLabs\Systemic\Process;
 use DecodeLabs\Systemic\ProcessTrait;
@@ -65,12 +66,7 @@ class Unix implements Process
      */
     public function kill(): bool
     {
-        if (extension_loaded('posix')) {
-            return posix_kill($this->processId, SIGTERM);
-        } else {
-            exec('kill -' . SIGTERM . ' ' . $this->processId);
-            return true;
-        }
+        return $this->sendSignal('SIGTERM');
     }
 
     /**

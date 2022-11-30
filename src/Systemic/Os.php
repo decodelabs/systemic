@@ -30,8 +30,4 @@ interface Os
     public function groupNameToGroupId(string $name): int;
 
     public function which(string $binaryName): ?string;
-
-    public function getShellWidth(): int;
-    public function getShellHeight(): int;
-    public function canColorShell(): bool;
 }

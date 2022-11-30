@@ -11,6 +11,7 @@ namespace DecodeLabs\Systemic\Process;
 
 use COM;
 
+use DecodeLabs\Eventful\Signal;
 use DecodeLabs\Exceptional;
 use DecodeLabs\Systemic;
 use DecodeLabs\Systemic\Process;

@@ -11,6 +11,7 @@ namespace DecodeLabs\Systemic\Process;
 
 use DecodeLabs\Coercion;
 use DecodeLabs\Deliverance\Broker;
+use DecodeLabs\Eventful\Signal;
 use DecodeLabs\Fluidity\ThenTrait;
 use DecodeLabs\Terminus\Session;
 

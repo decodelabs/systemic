@@ -13,7 +13,7 @@ use DecodeLabs\Glitch\Proxy as Glitch;
 use DecodeLabs\Systemic\Process;
 use DecodeLabs\Systemic\Process\Launcher;
 use DecodeLabs\Systemic\Process\LauncherTrait;
-use DecodeLabs\Systemic\Process\Result;
+use DecodeLabs\Systemic\Result;
 
 class Windows implements Launcher
 {

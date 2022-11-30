@@ -7,9 +7,9 @@
 [![PHPStan](https://img.shields.io/badge/PHPStan-enabled-44CC11.svg?longCache=true&style=flat)](https://github.com/phpstan/phpstan)
 [![License](https://img.shields.io/packagist/l/decodelabs/systemic?style=flat)](https://packagist.org/packages/decodelabs/systemic)
 
-### Get access to useful global system and environment info all in one place.
+### System processes and information at your fingertips
 
-Systemic offers an easy to use frontend to various pieces of otherwise disperate and obtuse information, data and functionality in your system.
+Systemic offers an easy to use frontend to launching and controlling processes and accessing system information.
 
 _Get news and updates on the [DecodeLabs blog](https://blog.decodelabs.com)._
 
@@ -32,6 +32,52 @@ Systemic uses [Veneer](https://github.com/decodelabs/veneer) to provide a unifie
 You can access all the primary functionality via this static frontage without compromising testing and dependency injection.
 
 
+
+### Process launching
+
+Launch new processes:
+
+```php
+use DecodeLabs\Systemic;
+
+$dir = 'path/to/working-directory';
+
+// Launch and capture output of a process
+echo Systemic::capture(['ls', '-al'], $dir)->getOutput();
+
+// Launch and capture output of a process with raw string command (not escaped)
+echo Systemic::capture('ls -al', $dir)->getOutput();
+
+// Launch and capture output of a script
+echo Systemic::capture(['myPhpScript.php'], $dir)->getOutput();
+
+// Launch a background task
+$process = Systemic::launch(['make', 'install']);
+
+// Launch a background script
+$process = Systemic::launchScript(['myPhpScript.php'], $dir);
+
+// Run a piped pseudo terminal process
+$success = Systemic::run(['interactive-app', '--arg1'], $dir);
+
+// Run a piped pseudo terminal script
+$success = Systemic::runScript(['myPhpScript.php', '--arg1'], $dir);
+
+// Custom escaped command
+$success = Systemic::command(['escaped', 'arguments'])
+    ->setWorkingDirectory($dir)
+    ->addSignal('SIGSTOP') // Pass SIGSTOP through when caught
+    ->setUser('someuser') // Attempt to use sudo to run as user
+    ->run();
+
+// Custom raw command with env arguments
+$result = Systemic::command('echo ${:VARIABLE} | unescaped-command', [
+        'VARIABLE' => 'Hello world'
+    ])
+    ->setWorkingDirectory($dir)
+    ->capture();
+```
+
 ### OS info
 
 Get information about the current OS:
@@ -49,41 +95,6 @@ echo Systemic::$os->getHostName(); // System hostname
 
 // Find binaries on the system
 echo Systemic::$os->which('php'); // eg /usr/local/bin/php
-```
-
-
-### Process launching
-
-Launch new processes:
-
-```php
-use DecodeLabs\Systemic;
-
-// Launch a normal process
-echo Systemic::$process->launch('echo hello', ['-h'])->getOutput(); // hello -h
-
-// Launch a background task
-$process = Systemic::$process->launchBackground('make install');
-
-
-// Launch a PHP script
-$result = Systemic::$process->launchScript('myPhpScript.php');
-
-// Launch a background PHP script
-$result = Systemic::$process->launchBackgroundScript('myPhpScript.php');
-
-// Custom launch something
-Systemic::$process->newLauncher('binary', ['-a1', '--arg2=stuff'], 'working/directory')
-    ->setUser('root')
-
-    ->setOutputWriter(function($outputChunk) {
-        // send the output somewhere else...
-    })
-    ->setInputReader(function(int $chunkSize) {
-        // read from input - usually from fread()
-    })
-
-    ->launch();
 ```
 
 

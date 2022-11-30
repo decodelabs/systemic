@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace DecodeLabs\Systemic;
 
-use DecodeLabs\Systemic\Process\Signal;
+use DecodeLabs\Eventful\Signal;
 
 interface Process
 {

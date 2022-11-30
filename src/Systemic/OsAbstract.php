@@ -11,7 +11,10 @@ namespace DecodeLabs\Systemic;
 
 use DecodeLabs\Archetype;
 use DecodeLabs\Glitch\Dumpable;
+use DecodeLabs\Systemic\Os\Darwin;
+use DecodeLabs\Systemic\Os\Linux;
 use DecodeLabs\Systemic\Os\Unix;
+use DecodeLabs\Systemic\Os\Windows;
 use DecodeLabs\Veneer\Plugin\SelfLoader;
 
 abstract class OsAbstract implements
@@ -146,15 +149,6 @@ abstract class OsAbstract implements
     public function getHostName(): string
     {
         return $this->hostName;
-    }
-
-
-    /**
-     * Can color shell
-     */
-    public function canColorShell(): bool
-    {
-        return false;
     }
 
 

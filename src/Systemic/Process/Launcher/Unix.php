@@ -14,8 +14,8 @@ use DecodeLabs\Systemic;
 use DecodeLabs\Systemic\Process;
 use DecodeLabs\Systemic\Process\Launcher;
 use DecodeLabs\Systemic\Process\LauncherTrait;
-use DecodeLabs\Systemic\Process\Result;
 use DecodeLabs\Systemic\Process\Unix as UnixProcess;
+use DecodeLabs\Systemic\Result;
 
 use Throwable;
 
@@ -321,14 +321,6 @@ class Unix implements Launcher
         $env = $_SERVER;
         unset($env['argv']);
         unset($env['argc']);
-
-        if (!isset($env['COLUMNS'])) {
-            $env['COLUMNS'] = Systemic::$os->getShellWidth();
-        }
-
-        if (!isset($env['ROWS'])) {
-            $env['ROWS'] = Systemic::$os->getShellHeight();
-        }
 
         return $env;
     }

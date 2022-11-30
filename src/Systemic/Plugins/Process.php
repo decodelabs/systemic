@@ -10,15 +10,13 @@ declare(strict_types=1);
 namespace DecodeLabs\Systemic\Plugins;
 
 use DecodeLabs\Deliverance\Broker;
+use DecodeLabs\Eventful\Signal;
 use DecodeLabs\Exceptional;
-
 use DecodeLabs\Systemic\Context;
 use DecodeLabs\Systemic\Process as ProcessInterface;
 use DecodeLabs\Systemic\Process\Launcher;
 use DecodeLabs\Systemic\Process\Managed as ManagedProcessInterface;
-use DecodeLabs\Systemic\Process\Result;
-use DecodeLabs\Systemic\Process\Signal;
-
+use DecodeLabs\Systemic\Result;
 use DecodeLabs\Terminus\Session;
 
 use Stringable;
