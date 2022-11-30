@@ -53,6 +53,28 @@ class Unix implements Process
         }
     }
 
+
+    /**
+     * Get parent process id
+     */
+    public function getParentProcessId(): int
+    {
+        if ($this->parentProcessId !== null) {
+            return $this->parentProcessId;
+        }
+
+        exec('ps -o ppid --no-heading --pid ' . escapeshellarg((string)$this->processId), $output);
+
+        if (!isset($output[0])) {
+            throw Exceptional::Runtime(
+                'Unable to extract parent process id'
+            );
+        }
+
+        return $this->parentProcessId = (int)$output[0];
+    }
+
+
     /**
      * Check if process is still running
      */
@@ -78,11 +100,112 @@ class Unix implements Process
         $signal = Signal::create($signal);
 
         if (extension_loaded('posix')) {
-            return posix_kill($this->processId, $signal->getNumber());
+            $output = posix_kill($this->processId, $signal->getNumber());
         } else {
             exec('kill -' . $signal->getNumber() . ' ' . $this->processId);
-            return true;
+            $output = true;
         }
+
+        if (
+            $output &&
+            in_array($signal->getName(), ['SIGINT', 'SIGTERM', 'SIGQUIT']) &&
+            $this->pidFile &&
+            file_exists($this->pidFile)
+        ) {
+            unlink($this->pidFile);
+        }
+
+        return $output;
+    }
+
+
+
+    /**
+     * Get current process owner
+     */
+    public function getOwnerId(): int
+    {
+        exec('ps -o euid --no-heading --pid ' . escapeshellarg((string)$this->processId), $output);
+
+        if (isset($output[0])) {
+            return (int)trim($output[0]);
+        }
+
+        throw Exceptional::Runtime(
+            'Unable to extract process owner id'
+        );
+    }
+
+    /**
+     * Get current owner name
+     */
+    public function getOwnerName(): string
+    {
+        if (extension_loaded('posix')) {
+            $output = posix_getpwuid($this->getOwnerId());
+
+            if ($output !== false) {
+                return $output['name'];
+            }
+        }
+
+        exec('getent passwd ' . escapeshellarg((string)$this->getOwnerId()), $output);
+
+        if (isset($output[0])) {
+            $parts = explode(':', $output[0]);
+
+            if (null !== ($output = array_shift($parts))) {
+                return $output;
+            }
+        }
+
+        throw Exceptional::Runtime(
+            'Unable to extract process owner name'
+        );
+    }
+
+    /**
+     * Get process group id
+     */
+    public function getGroupId(): int
+    {
+        exec('ps -o egid --no-heading --pid ' . escapeshellarg((string)$this->processId), $output);
+
+        if (isset($output[0])) {
+            return (int)trim($output[0]);
+        }
+
+        throw Exceptional::Runtime(
+            'Unable to extract process owner id'
+        );
+    }
+
+    /**
+     * Get process group name
+     */
+    public function getGroupName(): string
+    {
+        if (extension_loaded('posix')) {
+            $output = posix_getgrgid($this->getGroupId());
+
+            if ($output !== false) {
+                return $output['name'];
+            }
+        }
+
+        exec('getent group ' . escapeshellarg((string)$this->getGroupId()), $output);
+
+        if (isset($output[0])) {
+            $parts = explode(':', $output[0]);
+
+            if (null !== ($output = array_shift($parts))) {
+                return $output;
+            }
+        }
+
+        throw Exceptional::Runtime(
+            'Unable to extract process group name'
+        );
     }
 
     /**
@@ -90,14 +213,7 @@ class Unix implements Process
      */
     public function isPrivileged(): bool
     {
-        if ($this instanceof Managed) {
-            $uid = $this->getOwnerId();
-        } elseif (extension_loaded('posix')) {
-            $uid = posix_geteuid();
-        } else {
-            $uid = getmyuid();
-        }
-
+        $uid = $this->getOwnerId();
         return $uid == 0;
     }
 }

@@ -57,6 +57,28 @@ class Windows implements Process
         return $output;
     }
 
+
+    /**
+     * Get parent process id
+     */
+    public function getParentProcessId(): int
+    {
+        if ($this->parentProcessId !== null) {
+            return $this->parentProcessId;
+        }
+
+        $wmi = $this->getWmi();
+        $procs = $wmi->ExecQuery('SELECT * FROM Win32_Process WHERE ProcessId=\'' . $this->getProcessId() . '\'');
+
+        foreach ($procs as $process) {
+            $this->parentProcessId = (int)$process->ParentProcessId;
+            break;
+        }
+
+        return $this->parentProcessId;
+    }
+
+
     /**
      * Check if process is still running
      */

@@ -23,8 +23,7 @@
         "decodelabs/veneer": "^0.10.10"
     },
     "require-dev": {
-        "decodelabs/phpstan-decodelabs": "^0.6",
-        "decodelabs/terminus": "^0.9.0|dev-develop"
+        "decodelabs/phpstan-decodelabs": "^0.6"
     },
     "autoload": {
         "psr-4": {

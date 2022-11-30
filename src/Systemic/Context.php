@@ -10,9 +10,9 @@ declare(strict_types=1);
 namespace DecodeLabs\Systemic;
 
 use DecodeLabs\Archetype;
+use DecodeLabs\Eventful\Signal;
 use DecodeLabs\Exceptional;
 use DecodeLabs\Systemic\Command\Unix as UnixCommand;
-use DecodeLabs\Systemic\Plugins\Process as ProcessPlugin;
 use DecodeLabs\Veneer\LazyLoad;
 use DecodeLabs\Veneer\Plugin;
 use DecodeLabs\Veneer\Plugin\Wrapper;
@@ -27,11 +27,6 @@ class Context
     #[LazyLoad]
     public Os|Wrapper $os;
 
-    #[Plugin]
-    #[LazyLoad]
-    public ProcessPlugin $process;
-
-
 
     /**
      * Wrap process from PID
@@ -40,18 +35,30 @@ class Context
     {
         /** @phpstan-var class-string<Process> */
         $class = $this->getProcessSystemClass();
-        return new $class($pid, 'PID: ' . $pid);
+        return new $class($pid);
+    }
+
+    /**
+     * Get current process
+     */
+    public function getCurrentProcess(): ActiveProcess
+    {
+        /** @phpstan-var class-string<ActiveProcess> */
+        $class = $this->getProcessSystemClass(true);
+        $pid = $class::getCurrentProcessId();
+        return new $class($pid);
     }
 
     /**
      * Get class for current system's managed process
      */
-    protected function getProcessSystemClass(): string
+    protected function getProcessSystemClass(bool $active = false): string
     {
-        $class = '\\DecodeLabs\\Systemic\\Process\\' . $this->os->getName();
+        $prefix = $active ? 'Active' : '';
+        $class = '\\DecodeLabs\\Systemic\\' . $prefix . 'Process\\' . $this->os->getName();
 
         if (!class_exists($class)) {
-            $class = '\\DecodeLabs\\Systemic\\Process\\' . $this->os->getPlatformType();
+            $class = '\\DecodeLabs\\Systemic\\' . $prefix . 'Process\\' . $this->os->getPlatformType();
 
             if (!class_exists($class)) {
                 throw Exceptional::ComponentUnavailable(
@@ -61,6 +68,25 @@ class Context
         }
 
         return $class;
+    }
+
+
+    /**
+     * New signal object
+     */
+    public function newSignal(
+        Signal|string|int $signal
+    ): Signal {
+        return Signal::create($signal);
+    }
+
+    /**
+     * Normalize signal id
+     */
+    public function normalizeSignal(
+        Signal|string|int $signal
+    ): int {
+        return Signal::create($signal)->getNumber();
     }
 
 
