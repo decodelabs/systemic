@@ -43,7 +43,11 @@ trait ManifoldTrait
             $this->getDescriptors(),
             $pipes,
             $command->getWorkingDirectory(),
-            $command->getEnv()
+            $command->getEnv(),
+            [
+                'suppress_errors' => true,
+                'bypass_shell' => true
+            ]
         );
 
         if (!is_resource($handle)) {
@@ -90,14 +94,13 @@ trait ManifoldTrait
 
     public function close(): void
     {
-        foreach ($this->streams as $stream) {
-            $stream->close();
-        }
-
-        $this->streams = [];
-
         if ($this->handle) {
             proc_close($this->handle);
+        }
+
+        foreach ($this->streams as $i => $stream) {
+            unset($this->streams[$i]);
+            $stream->close();
         }
 
         $this->handle = null;

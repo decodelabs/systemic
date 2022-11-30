@@ -1,5 +1,6 @@
 * Added Command interface structure
 * Added Manifold / Controller interface structure
+* Added custom Controller structure
 * Moved timezone and locale plugins to Cosmos
 * Refactored OS interface
 

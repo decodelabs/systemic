@@ -77,9 +77,24 @@ trait ControllerTrait
         // Ticks
         $this->dispatcher->setTickHandler(function () {
             $status = $this->manifold->getStatus();
+            $running = ($status['running'] ?? false);
+
+            // Provide input
+            if (null !== ($data = $this->provideInput())) {
+                if (
+                    $running &&
+                    isset($this->manifold->streams[0])
+                ) {
+                    while (strlen($data) > 0) {
+                        $written = $this->manifold->streams[0]->write($data, 2048);
+                        $data = substr($data, $written);
+                    }
+                }
+            }
+
 
             /* @phpstan-ignore-next-line */
-            if (!($status['running'] ?? false)) {
+            if (!$running) {
                 $this->registerCompletion(Coercion::toInt($status['exitcode'] ?? 0));
                 return false;
             }
@@ -93,6 +108,7 @@ trait ControllerTrait
 
 
         $this->dispatcher->listen();
+        $this->dispatcher->removeAllBindings();
         $this->manifold->close();
 
         return $process;

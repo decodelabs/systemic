@@ -13,8 +13,10 @@ use DecodeLabs\Coercion;
 use DecodeLabs\Eventful\Signal;
 use DecodeLabs\Exceptional;
 use DecodeLabs\Fluidity\ThenTrait;
-use DecodeLabs\Systemic\Controller\BlindCapture as CaptureController;
-use DecodeLabs\Systemic\Controller\BlindCapture;
+use DecodeLabs\Systemic\Controller\BlindCapture as BlindCaptureController;
+use DecodeLabs\Systemic\Controller\Custom as CustomController;
+use DecodeLabs\Systemic\Controller\LiveCapture as LiveCaptureController;
+use DecodeLabs\Systemic\Controller\ResultProvider;
 use DecodeLabs\Systemic\Controller\Severed as SeveredController;
 use DecodeLabs\Systemic\Controller\Terminal as TerminalController;
 use DecodeLabs\Systemic\Manifold\Pipe as PipeManifold;
@@ -61,7 +63,6 @@ trait CommandTrait
 
         $this->command = $command;
         $this->setVariables($variables);
-        $this->addSignal('SIGINT');
     }
 
     /**
@@ -351,6 +352,8 @@ trait CommandTrait
         $command = $this->command;
 
         foreach ($command as $part) {
+            $part = (string)$part;
+
             if (preg_match('/"\$\{:([_a-zA-Z]++[_a-zA-Z0-9]*+)\}"/', $part, $matches)) {
                 $part = $this->resolveVariable($matches[1]);
             }
@@ -436,7 +439,17 @@ trait CommandTrait
      */
     public function capture(): Result
     {
-        $controller = new CaptureController(new PipeManifold());
+        $controller = new BlindCaptureController(new PipeManifold());
+        $controller->execute($this);
+        return $controller->getResult();
+    }
+
+    /**
+     * Run and capture result
+     */
+    public function liveCapture(): Result
+    {
+        $controller = new LiveCaptureController(new PipeManifold());
         $controller->execute($this);
         return $controller->getResult();
     }
@@ -449,12 +462,13 @@ trait CommandTrait
         if (
             defined('STDIN') &&
             defined('STDOUT') &&
+            is_resource(\STDOUT) &&
             stream_isatty(\STDOUT)
         ) {
-            if (PtyManifold::isSupported()) {
-                $manifold = new PtyManifold();
-            } elseif (TtyManifold::isSupported()) {
+            if (TtyManifold::isSupported()) {
                 $manifold = new TtyManifold();
+            } elseif (PtyManifold::isSupported()) {
+                $manifold = new PtyManifold();
             } else {
                 $manifold = new PipeManifold();
             }
@@ -484,5 +498,35 @@ trait CommandTrait
         }
 
         return $process;
+    }
+
+    /**
+     * Start custom controller
+     */
+    public function start(
+        callable|Controller $controller
+    ): Result {
+        if (
+            is_callable($controller) &&
+            !$controller instanceof Controller
+        ) {
+            $controller = new CustomController($controller);
+        }
+
+        if ($controller instanceof ResultProvider) {
+            $result = $controller->getResult();
+        } else {
+            $result = new Result();
+        }
+
+        $controller->execute($this);
+
+        if (!$controller instanceof ResultProvider) {
+            $result->registerCompletion(
+                $controller->wasSuccessful() ? 0 : -1
+            );
+        }
+
+        return $result;
     }
 }

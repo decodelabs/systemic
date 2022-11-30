@@ -118,6 +118,34 @@ class Context
             ->capture();
     }
 
+    /**
+     * Run process, capture output as Result and stream to terminal
+     *
+     * @param string|Stringable|array<string>|Command $command
+     */
+    public function liveCapture(
+        string|Stringable|array|Command $command,
+        string|Stringable|null $workingDirectory = null
+    ): Result {
+        return $this->command($command)
+            ->setWorkingDirectory($workingDirectory)
+            ->liveCapture();
+    }
+
+    /**
+     * Run script, capture output as Result and stream to terminal
+     *
+     * @param string|Stringable|array<string>|Command $command
+     */
+    public function liveCaptureScript(
+        string|Stringable|array|Command $command,
+        string|Stringable|null $workingDirectory = null
+    ): Result {
+        return $this->scriptCommand($command)
+            ->setWorkingDirectory($workingDirectory)
+            ->liveCapture();
+    }
+
 
     /**
      * Launch background process
@@ -175,6 +203,36 @@ class Context
         return $this->scriptCommand($command)
             ->setWorkingDirectory($workingDirectory)
             ->run();
+    }
+
+    /**
+     * Start custom controller process
+     *
+     * @param string|Stringable|array<string>|Command $command
+     */
+    public function start(
+        string|Stringable|array|Command $command,
+        string|Stringable|null $workingDirectory = null,
+        callable|Controller $controller
+    ): Result {
+        return $this->command($command)
+            ->setWorkingDirectory($workingDirectory)
+            ->start($controller);
+    }
+
+    /**
+     * Start custom controller script
+     *
+     * @param string|Stringable|array<string>|Command $command
+     */
+    public function startScript(
+        string|Stringable|array|Command $command,
+        string|Stringable|null $workingDirectory = null,
+        callable|Controller $controller
+    ): Result {
+        return $this->scriptCommand($command)
+            ->setWorkingDirectory($workingDirectory)
+            ->start($controller);
     }
 
 

@@ -16,6 +16,7 @@ use DecodeLabs\Eventful\Signal as Ref2;
 use Stringable as Ref3;
 use DecodeLabs\Systemic\Command as Ref4;
 use DecodeLabs\Systemic\Result as Ref5;
+use DecodeLabs\Systemic\Controller as Ref6;
 
 class Systemic implements Proxy
 {
@@ -46,6 +47,12 @@ class Systemic implements Proxy
     public static function captureScript(Ref3|Ref4|array|string $command, Ref3|string|null $workingDirectory = NULL): Ref5 {
         return static::$instance->captureScript(...func_get_args());
     }
+    public static function liveCapture(Ref3|Ref4|array|string $command, Ref3|string|null $workingDirectory = NULL): Ref5 {
+        return static::$instance->liveCapture(...func_get_args());
+    }
+    public static function liveCaptureScript(Ref3|Ref4|array|string $command, Ref3|string|null $workingDirectory = NULL): Ref5 {
+        return static::$instance->liveCaptureScript(...func_get_args());
+    }
     public static function launch(Ref3|Ref4|array|string $command, Ref3|string|null $workingDirectory = NULL): Ref0 {
         return static::$instance->launch(...func_get_args());
     }
@@ -57,6 +64,12 @@ class Systemic implements Proxy
     }
     public static function runScript(Ref3|Ref4|array|string $command, Ref3|string|null $workingDirectory = NULL): bool {
         return static::$instance->runScript(...func_get_args());
+    }
+    public static function start(Ref3|Ref4|array|string $command, Ref3|string|null $workingDirectory = NULL, Ref6|callable $controller): Ref5 {
+        return static::$instance->start(...func_get_args());
+    }
+    public static function startScript(Ref3|Ref4|array|string $command, Ref3|string|null $workingDirectory = NULL, Ref6|callable $controller): Ref5 {
+        return static::$instance->startScript(...func_get_args());
     }
     public static function command(Ref3|Ref4|array|string $command, array $variables = []): Ref4 {
         return static::$instance->command(...func_get_args());

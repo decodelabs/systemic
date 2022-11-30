@@ -130,6 +130,7 @@ interface Command extends Then
      * Quetly call process, capture result
      */
     public function capture(): Result;
+    public function liveCapture(): Result;
 
     /**
      * Launch process in the background
@@ -140,4 +141,11 @@ interface Command extends Then
      * Run interactive process over TTY
      */
     public function run(): bool;
+
+    /**
+     * Start custom controller
+     */
+    public function start(
+        callable|Controller $controller
+    ): Result;
 }
