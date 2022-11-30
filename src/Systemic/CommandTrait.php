@@ -14,6 +14,7 @@ use DecodeLabs\Eventful\Signal;
 use DecodeLabs\Exceptional;
 use DecodeLabs\Fluidity\ThenTrait;
 use DecodeLabs\Systemic\Controller\BlindCapture as CaptureController;
+use DecodeLabs\Systemic\Controller\BlindCapture;
 use DecodeLabs\Systemic\Controller\Severed as SeveredController;
 use DecodeLabs\Systemic\Controller\Terminal as TerminalController;
 use DecodeLabs\Systemic\Manifold\Pipe as PipeManifold;
@@ -457,11 +458,15 @@ trait CommandTrait
             } else {
                 $manifold = new PipeManifold();
             }
+
+            $controller = new TerminalController($manifold);
         } else {
+            // Can't do it if not on CLI!
+            // Fallback to blind run
             $manifold = new PipeManifold();
+            $controller = new SeveredController($manifold);
         }
 
-        $controller = new TerminalController($manifold);
         $controller->execute($this);
         return $controller->wasSuccessful();
     }

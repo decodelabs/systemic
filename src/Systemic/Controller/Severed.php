@@ -17,6 +17,8 @@ class Severed implements Controller
 {
     use ControllerTrait;
 
+    protected ?bool $success = null;
+
     public function getInputStream(): ?Stream
     {
         return null;
@@ -38,14 +40,16 @@ class Severed implements Controller
 
     public function registerFailure(): void
     {
+        $this->success = false;
     }
 
     public function registerCompletion(int $exit): void
     {
+        $this->success = $exit === 0;
     }
 
     public function wasSuccessful(): bool
     {
-        return true;
+        return $this->success ?? true;
     }
 }
