@@ -1,3 +1,10 @@
+## v0.11.0 (2022-11-30)
+* Added Command interface structure
+* Added Manifold / Controller interface structure
+* Added custom Controller structure
+* Moved timezone and locale plugins to Cosmos
+* Refactored OS interface
+
 ## v0.10.5 (2022-11-27)
 * Reverted PTY usage
 

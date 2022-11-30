@@ -10,5 +10,5 @@ parameters:
 
     excludePaths:
         - src/Systemic/Plugins/Os/Windows.php
-        - src/Systemic/Process/Launcher/Windows.php
-        - src/Systemic/Process/WindowsManaged.php
+        - src/Systemic/Process/Windows.php
+        - src/Systemic/ActiveProcess/Windows.php

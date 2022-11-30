@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-namespace DecodeLabs\Systemic\Process;
+namespace DecodeLabs\Systemic;
 
 class Result
 {

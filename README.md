@@ -7,9 +7,9 @@
 [![PHPStan](https://img.shields.io/badge/PHPStan-enabled-44CC11.svg?longCache=true&style=flat)](https://github.com/phpstan/phpstan)
 [![License](https://img.shields.io/packagist/l/decodelabs/systemic?style=flat)](https://packagist.org/packages/decodelabs/systemic)
 
-### Get access to useful global system and environment info all in one place.
+### System processes and information at your fingertips
 
-Systemic offers an easy to use frontend to various pieces of otherwise disperate and obtuse information, data and functionality in your system.
+Systemic offers an easy to use frontend to launching and controlling processes and accessing system information.
 
 _Get news and updates on the [DecodeLabs blog](https://blog.decodelabs.com)._
 
@@ -32,45 +32,51 @@ Systemic uses [Veneer](https://github.com/decodelabs/veneer) to provide a unifie
 You can access all the primary functionality via this static frontage without compromising testing and dependency injection.
 
 
-### Locale
 
-Get and set the active Locale for output formatting:
+### Process launching
 
-```php
-use DecodeLabs\Systemic;
-
-// Set locale to German
-Systemic::$locale->set('de_DE');
-
-// Get local
-Systemic::$locale->get();
-
-// Add a listener for when the locale changes
-Systemic::$locale->addListener('myListener', function($newLocale, $oldLocale) {
-    // do something here
-});
-```
-
-
-### Timezone
-
-Get and set the active user timezone for output formatting:
+Launch new processes:
 
 ```php
 use DecodeLabs\Systemic;
 
-// Set timezone to london
-Systemic::$timezone->set('Europe/London');
+$dir = 'path/to/working-directory';
 
-// Get current
-Systemic::$timezone->get();
+// Launch and capture output of a process
+echo Systemic::capture(['ls', '-al'], $dir)->getOutput();
 
-// Add a listener for when the timezone changes
-Systemic::$timezone->addListener('myListener', function($newLocale, $oldLocale) {
-    // do something here
-});
+// Launch and capture output of a process with raw string command (not escaped)
+echo Systemic::capture('ls -al', $dir)->getOutput();
+
+// Launch and capture output of a script
+echo Systemic::capture(['myPhpScript.php'], $dir)->getOutput();
+
+// Launch a background task
+$process = Systemic::launch(['make', 'install']);
+
+// Launch a background script
+$process = Systemic::launchScript(['myPhpScript.php'], $dir);
+
+// Run a piped pseudo terminal process
+$success = Systemic::run(['interactive-app', '--arg1'], $dir);
+
+// Run a piped pseudo terminal script
+$success = Systemic::runScript(['myPhpScript.php', '--arg1'], $dir);
+
+// Custom escaped command
+$success = Systemic::command(['escaped', 'arguments'])
+    ->setWorkingDirectory($dir)
+    ->addSignal('SIGSTOP') // Pass SIGSTOP through when caught
+    ->setUser('someuser') // Attempt to use sudo to run as user
+    ->run();
+
+// Custom raw command with env arguments
+$result = Systemic::command('echo ${:VARIABLE} | unescaped-command', [
+        'VARIABLE' => 'Hello world'
+    ])
+    ->setWorkingDirectory($dir)
+    ->capture();
 ```
-
 
 ### OS info
 
@@ -92,44 +98,12 @@ echo Systemic::$os->which('php'); // eg /usr/local/bin/php
 ```
 
 
-### Process launching
-
-Launch new processes:
-
-```php
-use DecodeLabs\Systemic;
-
-// Launch a normal process
-echo Systemic::$process->launch('echo hello', ['-h'])->getOutput(); // hello -h
-
-// Launch a background task
-$process = Systemic::$process->launchBackground('make install');
-
-
-// Launch a PHP script
-$result = Systemic::$process->launchScript('myPhpScript.php');
-
-// Launch a background PHP script
-$result = Systemic::$process->launchBackgroundScript('myPhpScript.php');
-
-// Custom launch something
-Systemic::$process->newLauncher('binary', ['-a1', '--arg2=stuff'], 'working/directory')
-    ->setUser('root')
-
-    ->setOutputWriter(function($outputChunk) {
-        // send the output somewhere else...
-    })
-    ->setInputReader(function(int $chunkSize) {
-        // read from input - usually from fread()
-    })
-
-    ->launch();
-```
-
-
 ## Windows
 Please note, OS and Process support on Windows is currently extremely sketchy - this will be fleshed out soon!
 
+### Locale & Timezone
+
+Looking for Locale and Timezone info? This has moved to [Cosmos](https://github.com/decodelabs/cosmos).
 
 ## Licensing
 Systemic is licensed under the MIT License. See [LICENSE](./LICENSE) for the full license text.

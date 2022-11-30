@@ -7,99 +7,31 @@
 
 declare(strict_types=1);
 
-namespace DecodeLabs\Systemic\Process;
+namespace DecodeLabs\Systemic\ActiveProcess;
 
 use DecodeLabs\Exceptional;
 use DecodeLabs\Systemic;
-use DecodeLabs\Systemic\Process;
-
+use DecodeLabs\Systemic\ActiveProcess;
+use DecodeLabs\Systemic\Process\Unix as UnixBase;
 use Throwable;
 
-class UnixManaged extends Unix implements Managed
+class Unix extends UnixBase implements ActiveProcess
 {
-    use PidFileProviderTrait;
-
-    protected ?int $parentProcessId = null;
-
-    /**
-     * Ensure pid file is removed on kill
-     */
-    public function kill(): bool
-    {
-        if (($output = parent::kill()) && $this->pidFile) {
-            @unlink($this->pidFile);
-        }
-
-        return $output;
-    }
-
     /**
      * Get parent process id
      */
     public function getParentProcessId(): int
     {
-        if ($this->parentProcessId === null) {
-            if (extension_loaded('posix')) {
-                $this->parentProcessId = posix_getppid();
-            } else {
-                exec('ps -o ppid --no-heading --pid ' . escapeshellarg((string)$this->processId), $output);
-
-                if (isset($output[0])) {
-                    $this->parentProcessId = (int)$output[0];
-                } else {
-                    throw Exceptional::Runtime(
-                        'Unable to extract parent process id'
-                    );
-                }
-            }
+        if ($this->parentProcessId !== null) {
+            return $this->parentProcessId;
         }
 
-        return $this->parentProcessId;
-    }
-
-    /**
-     * Set process title
-     */
-    public function setTitle(?string $title): static
-    {
-        $this->title = $title;
-
-        if (
-            $title &&
-            extension_loaded('proctitle') &&
-            function_exists('setproctitle')
-        ) {
-            /** @phpstan-ignore-next-line */
-            \setproctitle($title);
+        if (extension_loaded('posix')) {
+            return $this->parentProcessId = posix_getppid();
         }
 
-        return $this;
+        return parent::getParentProcessId();
     }
-
-    /**
-     * Set process priority
-     */
-    public function setPriority(int $priority): static
-    {
-        if (extension_loaded('pcntl')) {
-            @pcntl_setpriority($priority, $this->processId);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Get process priority
-     */
-    public function getPriority(): int
-    {
-        if (extension_loaded('pcntl')) {
-            return (int)@pcntl_getpriority($this->processId);
-        }
-
-        return 0;
-    }
-
 
     /**
      * Set process identity
@@ -169,10 +101,6 @@ class UnixManaged extends Unix implements Managed
      */
     public function setOwnerId(int $id): static
     {
-        if (!is_numeric($id)) {
-            return $this->setOwnerName($id);
-        }
-
         if (extension_loaded('posix')) {
             if ($id != $this->getOwnerId()) {
                 if ($this->pidFile && is_file($this->pidFile)) {
@@ -208,15 +136,11 @@ class UnixManaged extends Unix implements Managed
             return posix_geteuid();
         }
 
-        exec('ps -o euid --no-heading --pid ' . escapeshellarg((string)$this->processId), $output);
-
-        if (isset($output[0])) {
-            return (int)trim($output[0]);
+        if (false !== ($uid = getmyuid())) {
+            return $uid;
         }
 
-        throw Exceptional::Runtime(
-            'Unable to extract process owner id'
-        );
+        return parent::getOwnerId();
     }
 
     /**
@@ -227,44 +151,12 @@ class UnixManaged extends Unix implements Managed
         return $this->setOwnerId(Systemic::$os->userNameToUserId($name));
     }
 
-    /**
-     * Get current owner name
-     */
-    public function getOwnerName(): string
-    {
-        if (extension_loaded('posix')) {
-            $output = posix_getpwuid($this->getOwnerId());
-
-            if ($output !== false) {
-                return $output['name'];
-            }
-        }
-
-        exec('getent passwd ' . escapeshellarg((string)$this->getOwnerId()), $output);
-
-        if (isset($output[0])) {
-            $parts = explode(':', $output[0]);
-
-            if (null !== ($output = array_shift($parts))) {
-                return $output;
-            }
-        }
-
-        throw Exceptional::Runtime(
-            'Unable to extract process owner name'
-        );
-    }
-
 
     /**
      * Set process group
      */
     public function setGroupId(int $id): static
     {
-        if (!is_numeric($id)) {
-            return $this->setGroupName($id);
-        }
-
         if (extension_loaded('posix')) {
             if ($id != $this->getGroupId()) {
                 if ($this->pidFile && is_file($this->pidFile)) {
@@ -300,15 +192,7 @@ class UnixManaged extends Unix implements Managed
             return posix_getegid();
         }
 
-        exec('ps -o egid --no-heading --pid ' . escapeshellarg((string)$this->processId), $output);
-
-        if (isset($output[0])) {
-            return (int)trim($output[0]);
-        }
-
-        throw Exceptional::Runtime(
-            'Unable to extract process owner id'
-        );
+        return parent::getGroupId();
     }
 
     /**
@@ -317,34 +201,6 @@ class UnixManaged extends Unix implements Managed
     public function setGroupName(string $name): static
     {
         return $this->setGroupId(Systemic::$os->groupNameToGroupId($name));
-    }
-
-    /**
-     * Get process group name
-     */
-    public function getGroupName(): string
-    {
-        if (extension_loaded('posix')) {
-            $output = posix_getgrgid($this->getGroupId());
-
-            if ($output !== false) {
-                return $output['name'];
-            }
-        }
-
-        exec('getent group ' . escapeshellarg((string)$this->getGroupId()), $output);
-
-        if (isset($output[0])) {
-            $parts = explode(':', $output[0]);
-
-            if (null !== ($output = array_shift($parts))) {
-                return $output;
-            }
-        }
-
-        throw Exceptional::Runtime(
-            'Unable to extract process group name'
-        );
     }
 
 
@@ -360,7 +216,7 @@ class UnixManaged extends Unix implements Managed
     /**
      * Fork this process
      */
-    public function fork(): ?Managed
+    public function fork(): ?static
     {
         if (!$this->canFork()) {
             throw Exceptional::ComponentUnavailable(

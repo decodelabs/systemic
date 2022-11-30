@@ -7,11 +7,12 @@
 
 declare(strict_types=1);
 
-namespace DecodeLabs\Systemic\Plugins\Os;
+namespace DecodeLabs\Systemic\Os;
 
 use DecodeLabs\Exceptional;
+use DecodeLabs\Systemic\OsAbstract;
 
-class Unix extends Base
+class Unix extends OsAbstract
 {
     protected ?string $platformType = 'Unix';
 
@@ -148,57 +149,5 @@ class Unix extends Base
         }
 
         return $result;
-    }
-
-    /**
-     * Get connected shell columns
-     */
-    public function getShellWidth(): int
-    {
-        exec('tput cols 2>/dev/null', $result);
-        return (int)($result[0] ?? 80);
-    }
-
-    /**
-     * Get connected shell lines
-     */
-    public function getShellHeight(): int
-    {
-        exec('tput lines 2>/dev/null', $result);
-        return (int)($result[0] ?? 30);
-    }
-
-    /**
-     * Can color shell
-     */
-    public function canColorShell(): bool
-    {
-        static $output;
-
-        if (!isset($output)) {
-            if (!defined('STDOUT')) {
-                return $output = false;
-            }
-
-            if (function_exists('stream_isatty')) {
-                return $output = @stream_isatty(\STDOUT);
-            }
-
-            if (function_exists('posix_isatty')) {
-                return $output = @posix_isatty(\STDOUT);
-            }
-
-            if (($_SERVER['TERM'] ?? null) === 'xterm-256color') {
-                return $output = true;
-            }
-
-            if (($_SERVER['CLICOLOR'] ?? null) === '1') {
-                return $output = true;
-            }
-
-            return $output = false;
-        }
-
-        return $output;
     }
 }

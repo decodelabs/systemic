@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-namespace DecodeLabs\Systemic\Plugins\Os;
+namespace DecodeLabs\Systemic\Os;
 
 class Darwin extends Unix
 {

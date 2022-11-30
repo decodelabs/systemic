@@ -7,64 +7,16 @@
 
 declare(strict_types=1);
 
-namespace DecodeLabs\Systemic\Process;
+namespace DecodeLabs\Systemic\ActiveProcess;
 
 use DecodeLabs\Exceptional;
 use DecodeLabs\Glitch\Proxy as Glitch;
+use DecodeLabs\Systemic\ActiveProcess;
 use DecodeLabs\Systemic\Process;
+use DecodeLabs\Systemic\Process\Windows as WindowsBase;
 
-use Variant;
-
-class WindowsManaged extends Windows implements Managed
+class Windows extends WindowsBase implements ActiveProcess
 {
-    use PidFileProviderTrait;
-
-    protected ?int $parentProcessId = null;
-
-    /**
-     * Get parent process id
-     */
-    public function getParentProcessId(): int
-    {
-        if ($this->parentProcessId === null) {
-            $wmi = $this->getWmi();
-            $procs = $wmi->ExecQuery('SELECT * FROM Win32_Process WHERE ProcessId=\'' . $this->getProcessId() . '\'');
-
-            foreach ($procs as $process) {
-                $this->parentProcessId = $process->ParentProcessId;
-                break;
-            }
-        }
-
-        return $this->parentProcessId;
-    }
-
-    /**
-     * Set process title
-     */
-    public function setTitle(?string $title): static
-    {
-        $this->title = $title;
-        return $this;
-    }
-
-    /**
-     * Set process priority
-     */
-    public function setPriority(int $priority): static
-    {
-        Glitch::incomplete();
-    }
-
-    /**
-     * Get process priority
-     */
-    public function getPriority(): int
-    {
-        Glitch::incomplete();
-    }
-
-
     /**
      * Set process identity
      */
@@ -81,6 +33,7 @@ class WindowsManaged extends Windows implements Managed
     public function setOwnerId(int $id): static
     {
         Glitch::incomplete();
+        return $this;
     }
 
     /**
@@ -89,6 +42,7 @@ class WindowsManaged extends Windows implements Managed
     public function getOwnerId(): int
     {
         Glitch::incomplete();
+        return 0;
     }
 
     /**
@@ -97,6 +51,7 @@ class WindowsManaged extends Windows implements Managed
     public function setOwnerName(string $name): static
     {
         Glitch::incomplete();
+        return $this;
     }
 
     /**
@@ -124,6 +79,7 @@ class WindowsManaged extends Windows implements Managed
     public function setGroupId(int $id): static
     {
         Glitch::incomplete();
+        return $this;
     }
 
     /**
@@ -132,6 +88,7 @@ class WindowsManaged extends Windows implements Managed
     public function getGroupId(): int
     {
         Glitch::incomplete();
+        return 0;
     }
 
     /**
@@ -140,6 +97,7 @@ class WindowsManaged extends Windows implements Managed
     public function setGroupName(string $name): static
     {
         Glitch::incomplete();
+        return $this;
     }
 
     /**
@@ -148,8 +106,8 @@ class WindowsManaged extends Windows implements Managed
     public function getGroupName(): string
     {
         Glitch::incomplete();
+        return 'group';
     }
-
 
     /**
      * Is system capable of forking processes?
@@ -162,7 +120,7 @@ class WindowsManaged extends Windows implements Managed
     /**
      * Fork this process
      */
-    public function fork(): ?Managed
+    public function fork(): ?static
     {
         throw Exceptional::Runtime(
             'PHP on windows is currently not able to fork processes'
