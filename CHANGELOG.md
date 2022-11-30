@@ -1,3 +1,4 @@
+## v0.11.0 (2022-11-30)
 * Added Command interface structure
 * Added Manifold / Controller interface structure
 * Added custom Controller structure
