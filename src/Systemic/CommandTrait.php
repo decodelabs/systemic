@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace DecodeLabs\Systemic;
 
 use DecodeLabs\Coercion;
+use DecodeLabs\Deliverance\Broker\ConnectorTrait as BrokerConnectorTrait;
 use DecodeLabs\Eventful\Signal;
 use DecodeLabs\Exceptional;
 use DecodeLabs\Fluidity\ThenTrait;
@@ -27,6 +28,7 @@ use Stringable;
 
 trait CommandTrait
 {
+    use BrokerConnectorTrait;
     use ThenTrait;
 
     /**

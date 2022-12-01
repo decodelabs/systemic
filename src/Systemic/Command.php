@@ -9,11 +9,14 @@ declare(strict_types=1);
 
 namespace DecodeLabs\Systemic;
 
+use DecodeLabs\Deliverance\Broker\Connector as BrokerConnector;
 use DecodeLabs\Eventful\Signal;
 use DecodeLabs\Fluidity\Then;
 use Stringable;
 
-interface Command extends Then
+interface Command extends
+    BrokerConnector,
+    Then
 {
     /**
      * @param string|Stringable|array<string> $command
