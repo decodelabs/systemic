@@ -1,3 +1,6 @@
+## v0.11.5 (2022-12-01)
+* Disabled 0 byte write error check
+
 ## v0.11.4 (2022-12-01)
 * Allow Stringable in array commands
 * Fixed custom provideInput() ticker
