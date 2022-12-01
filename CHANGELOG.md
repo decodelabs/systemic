@@ -1,4 +1,9 @@
-## v0.11.2 (2022-12-01)
+## v0.11.4 (2022-12-01)
+* Allow Stringable in array commands
+* Fixed custom provideInput() ticker
+* Use /dev/null for background manifold
+
+## v0.11.3 (2022-12-01)
 * Fixed DataReceiver empty write error check
 
 ## v0.11.2 (2022-12-01)

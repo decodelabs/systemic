@@ -93,7 +93,7 @@ class Context
     /**
      * Run process, capture output as Result
      *
-     * @param string|Stringable|array<string>|Command $command
+     * @param string|Stringable|array<string|Stringable>|Command $command
      */
     public function capture(
         string|Stringable|array|Command $command,
@@ -107,7 +107,7 @@ class Context
     /**
      * Run script, capture output as Result
      *
-     * @param string|Stringable|array<string>|Command $command
+     * @param string|Stringable|array<string|Stringable>|Command $command
      */
     public function captureScript(
         string|Stringable|array|Command $command,
@@ -121,7 +121,7 @@ class Context
     /**
      * Run process, capture output as Result and stream to terminal
      *
-     * @param string|Stringable|array<string>|Command $command
+     * @param string|Stringable|array<string|Stringable>|Command $command
      */
     public function liveCapture(
         string|Stringable|array|Command $command,
@@ -135,7 +135,7 @@ class Context
     /**
      * Run script, capture output as Result and stream to terminal
      *
-     * @param string|Stringable|array<string>|Command $command
+     * @param string|Stringable|array<string|Stringable>|Command $command
      */
     public function liveCaptureScript(
         string|Stringable|array|Command $command,
@@ -150,7 +150,7 @@ class Context
     /**
      * Launch background process
      *
-     * @param string|Stringable|array<string>|Command $command
+     * @param string|Stringable|array<string|Stringable>|Command $command
      */
     public function launch(
         string|Stringable|array|Command $command,
@@ -164,7 +164,7 @@ class Context
     /**
      * Launch background script
      *
-     * @param string|Stringable|array<string>|Command $command
+     * @param string|Stringable|array<string|Stringable>|Command $command
      */
     public function launchScript(
         string|Stringable|array|Command $command,
@@ -180,7 +180,7 @@ class Context
     /**
      * Start TTY terminal process
      *
-     * @param string|Stringable|array<string>|Command $command
+     * @param string|Stringable|array<string|Stringable>|Command $command
      */
     public function run(
         string|Stringable|array|Command $command,
@@ -194,7 +194,7 @@ class Context
     /**
      * Start TTY terminal process
      *
-     * @param string|Stringable|array<string>|Command $command
+     * @param string|Stringable|array<string|Stringable>|Command $command
      */
     public function runScript(
         string|Stringable|array|Command $command,
@@ -208,7 +208,7 @@ class Context
     /**
      * Start custom controller process
      *
-     * @param string|Stringable|array<string>|Command $command
+     * @param string|Stringable|array<string|Stringable>|Command $command
      */
     public function start(
         string|Stringable|array|Command $command,
@@ -223,7 +223,7 @@ class Context
     /**
      * Start custom controller script
      *
-     * @param string|Stringable|array<string>|Command $command
+     * @param string|Stringable|array<string|Stringable>|Command $command
      */
     public function startScript(
         string|Stringable|array|Command $command,
@@ -240,7 +240,7 @@ class Context
     /**
      * Prepare command
      *
-     * @param string|Stringable|array<string>|Command $command
+     * @param string|Stringable|array<string|Stringable>|Command $command
      * @param array<string, string|Stringable|int|float> $variables
      */
     public function command(
@@ -258,7 +258,7 @@ class Context
     /**
      * Prepare script command
      *
-     * @param string|Stringable|array<string>|Command $command
+     * @param string|Stringable|array<string|Stringable>|Command $command
      * @param array<string, string|Stringable|int|float> $variables
      */
     public function scriptCommand(
@@ -290,7 +290,7 @@ class Context
     /**
      * Create new command
      *
-     * @param string|Stringable|array<string> $command
+     * @param string|Stringable|array<string|Stringable> $command
      * @param array<string, string|Stringable|int|float> $variables
      */
     protected function newCommand(

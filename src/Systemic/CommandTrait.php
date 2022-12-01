@@ -20,9 +20,9 @@ use DecodeLabs\Systemic\Controller\LiveCapture as LiveCaptureController;
 use DecodeLabs\Systemic\Controller\ResultProvider;
 use DecodeLabs\Systemic\Controller\Severed as SeveredController;
 use DecodeLabs\Systemic\Controller\Terminal as TerminalController;
+use DecodeLabs\Systemic\Manifold\DevNull as DevNullManifold;
 use DecodeLabs\Systemic\Manifold\Pipe as PipeManifold;
 use DecodeLabs\Systemic\Manifold\Pty as PtyManifold;
-use DecodeLabs\Systemic\Manifold\Severed as SeveredManifold;
 use DecodeLabs\Systemic\Manifold\Tty as TtyManifold;
 use Stringable;
 
@@ -52,7 +52,7 @@ trait CommandTrait
     /**
      * Init with raw command and variables
      *
-     * @param string|Stringable|array<string> $command
+     * @param string|Stringable|array<string|Stringable> $command
      * @param array<string, string> $variables
      */
     public function __construct(
@@ -61,6 +61,10 @@ trait CommandTrait
     ) {
         if ($command instanceof Stringable) {
             $command = (string)$command;
+        }
+
+        if (is_array($command)) {
+            $command = array_map('strval', $command);
         }
 
         $this->command = $command;
@@ -89,7 +93,7 @@ trait CommandTrait
     /**
      * Prepend to command
      *
-     * @param string|Stringable|array<string> $prefix
+     * @param string|Stringable|array<string|Stringable> $prefix
      * @return $this
      */
     public function prepend(
@@ -102,6 +106,8 @@ trait CommandTrait
         if (is_array($this->command)) {
             if (!is_array($prefix)) {
                 $prefix = [(string)$prefix];
+            } else {
+                $prefix = array_map('strval', $prefix);
             }
 
             $this->command = array_merge($prefix, $this->command);
@@ -119,7 +125,7 @@ trait CommandTrait
     /**
      * Append to command
      *
-     * @param string|Stringable|array<string> $suffix
+     * @param string|Stringable|array<string|Stringable> $suffix
      * @return $this
      */
     public function append(
@@ -132,6 +138,8 @@ trait CommandTrait
         if (is_array($this->command)) {
             if (!is_array($suffix)) {
                 $suffix = [(string)$suffix];
+            } else {
+                $suffix = array_map('strval', $suffix);
             }
 
             $this->command = array_merge($this->command, $suffix);
@@ -497,7 +505,7 @@ trait CommandTrait
      */
     public function launch(): Process
     {
-        $controller = new SeveredController(new SeveredManifold());
+        $controller = new SeveredController(new DevNullManifold());
         $process = $controller->execute($this);
 
         if (!$process) {

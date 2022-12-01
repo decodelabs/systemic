@@ -107,32 +107,32 @@ trait ControllerTrait
 
 
             // Provide input
-            if (
-                $running &&
-                isset($this->manifold->streams[0])
-            ) {
-                // Controller data iterator
-                $this->writeToReceiver(
-                    $this->manifold->streams[0],
-                    $this->provideInput()
-                );
+            if ($running) {
+                $data = $this->provideInput();
 
-                // Command input providers
-                foreach ($command->getInputProviders() as $provider) {
-                    if (!$provider->isReadable()) {
-                        continue;
-                    }
-
+                if (isset($this->manifold->streams[0])) {
+                    // Controller data iterator
                     $this->writeToReceiver(
                         $this->manifold->streams[0],
-                        $provider->readAll()
+                        $data
                     );
+
+                    // Command input providers
+                    foreach ($command->getInputProviders() as $provider) {
+                        if (!$provider->isReadable()) {
+                            continue;
+                        }
+
+                        $this->writeToReceiver(
+                            $this->manifold->streams[0],
+                            $provider->readAll()
+                        );
+                    }
                 }
             }
 
-
             // Complete process
-            if (!$running) {
+            else {
                 $this->registerCompletion(Coercion::toInt($status['exitcode'] ?? 0));
                 return false;
             }

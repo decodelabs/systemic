@@ -19,7 +19,7 @@ interface Command extends
     Then
 {
     /**
-     * @param string|Stringable|array<string> $command
+     * @param string|Stringable|array<string|Stringable> $command
      * @param array<string, string|Stringable|int|float> $variables
      */
     public function __construct(
@@ -34,7 +34,7 @@ interface Command extends
     public function getRawString(): string;
 
     /**
-     * @param string|Stringable|array<string> $prefix
+     * @param string|Stringable|array<string|Stringable> $prefix
      * @return $this
      */
     public function prepend(
@@ -42,7 +42,7 @@ interface Command extends
     ): static;
 
     /**
-     * @param string|Stringable|array<string> $suffix
+     * @param string|Stringable|array<string|Stringable> $suffix
      * @return $this
      */
     public function append(
