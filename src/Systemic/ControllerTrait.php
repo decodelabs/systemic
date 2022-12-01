@@ -19,6 +19,8 @@ trait ControllerTrait
     protected Manifold $manifold;
     protected SelectDispatcher $dispatcher;
 
+    protected bool $stopping = false;
+
     public function __construct(
         Manifold $manifold
     ) {
@@ -132,8 +134,12 @@ trait ControllerTrait
             }
 
             // Complete process
-            else {
+            elseif (!$this->stopping) {
                 $this->registerCompletion(Coercion::toInt($status['exitcode'] ?? 0));
+
+                // Go round one more time to make sure everything is read
+                $this->stopping = true;
+            } else {
                 return false;
             }
         });
@@ -150,6 +156,7 @@ trait ControllerTrait
 
         // Shutdown
         $this->dispatcher->removeAllBindings();
+        $this->stopping = false;
         $this->manifold->close();
 
         return $process;
@@ -163,14 +170,13 @@ trait ControllerTrait
             return;
         }
 
-        //$error = 0;
+        $error = 0;
 
         while (strlen($data) > 0) {
             $written = $receiver->write($data, 2048);
 
-            /*
             if ($written === 0) {
-                if (++$error > 50) {
+                if (++$error > 500) {
                     throw Exceptional::Runtime('Unable to write to data receiver');
                 }
 
@@ -178,7 +184,6 @@ trait ControllerTrait
             } else {
                 $error = 0;
             }
-            */
 
             $data = substr($data, $written);
         }
