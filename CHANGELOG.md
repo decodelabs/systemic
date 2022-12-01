@@ -1,4 +1,4 @@
-## v0.11.2 (2022-12-01)
+## v0.11.3 (2022-12-01)
 * Fixed DataReceiver empty write error check
 
 ## v0.11.2 (2022-12-01)
