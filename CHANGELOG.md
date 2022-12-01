@@ -1,3 +1,5 @@
+* Allow Stringable in array commands
+
 ## v0.11.3 (2022-12-01)
 * Fixed DataReceiver empty write error check
 
