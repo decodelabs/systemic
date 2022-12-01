@@ -1,3 +1,4 @@
+## v0.11.4 (2022-12-01)
 * Allow Stringable in array commands
 * Fixed custom provideInput() ticker
 * Use /dev/null for background manifold
