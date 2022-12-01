@@ -106,12 +106,10 @@ trait ControllerTrait
         $this->dispatcher->setTickHandler(function () use ($command) {
             $status = $this->manifold->getStatus();
             $running = ($status['running'] ?? false);
-
+            $data = $this->provideInput();
 
             // Provide input
             if ($running) {
-                $data = $this->provideInput();
-
                 if (isset($this->manifold->streams[0])) {
                     // Controller data iterator
                     $this->writeToReceiver(

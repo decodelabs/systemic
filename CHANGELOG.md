@@ -1,3 +1,6 @@
+## v0.11.7 (2022-12-01)
+* Fixed final custom provider loop on shutdown
+
 ## v0.11.6 (2022-12-01)
 * Fixed final packet not read on process terminate
 
