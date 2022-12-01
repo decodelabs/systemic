@@ -20,9 +20,9 @@ use DecodeLabs\Systemic\Controller\LiveCapture as LiveCaptureController;
 use DecodeLabs\Systemic\Controller\ResultProvider;
 use DecodeLabs\Systemic\Controller\Severed as SeveredController;
 use DecodeLabs\Systemic\Controller\Terminal as TerminalController;
+use DecodeLabs\Systemic\Manifold\DevNull as DevNullManifold;
 use DecodeLabs\Systemic\Manifold\Pipe as PipeManifold;
 use DecodeLabs\Systemic\Manifold\Pty as PtyManifold;
-use DecodeLabs\Systemic\Manifold\Severed as SeveredManifold;
 use DecodeLabs\Systemic\Manifold\Tty as TtyManifold;
 use Stringable;
 
@@ -505,7 +505,7 @@ trait CommandTrait
      */
     public function launch(): Process
     {
-        $controller = new SeveredController(new SeveredManifold());
+        $controller = new SeveredController(new DevNullManifold());
         $process = $controller->execute($this);
 
         if (!$process) {

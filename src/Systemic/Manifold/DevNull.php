@@ -12,7 +12,7 @@ namespace DecodeLabs\Systemic\Manifold;
 use DecodeLabs\Systemic\Manifold;
 use DecodeLabs\Systemic\ManifoldTrait;
 
-class Severed implements Manifold
+class DevNull implements Manifold
 {
     use ManifoldTrait;
 
@@ -21,7 +21,14 @@ class Severed implements Manifold
      */
     public function getDescriptors(): array
     {
+        if (!$devNull = fopen('/dev/null', 'c')) {
+            return [];
+        }
+
         return [
+            0 => $devNull,
+            1 => $devNull,
+            2 => $devNull
         ];
     }
 }
