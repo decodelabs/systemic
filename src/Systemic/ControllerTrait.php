@@ -169,11 +169,13 @@ trait ControllerTrait
             $written = $receiver->write($data, 2048);
 
             if ($written === 0) {
-                if (++$error > 5) {
+                if (++$error > 50) {
                     throw Exceptional::Runtime('Unable to write to data receiver');
                 }
 
                 usleep(10000);
+            } else {
+                $error = 0;
             }
 
             $data = substr($data, $written);
