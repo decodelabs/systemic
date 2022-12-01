@@ -1,3 +1,6 @@
+## v0.11.2 (2022-12-01)
+* Added Deliverance Broker interfaces to Commands / Controllers
+
 ## v0.11.1 (2022-11-30)
 * Fixed run() calls over non TTY CLI sapis
 

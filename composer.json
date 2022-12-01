@@ -15,7 +15,7 @@
 
         "decodelabs/archetype": "^0.2.10",
         "decodelabs/coercion": "^0.2",
-        "decodelabs/deliverance": "^0.2.8",
+        "decodelabs/deliverance": "^0.2.9",
         "decodelabs/eventful": "^0.3.4",
         "decodelabs/exceptional": "^0.4",
         "decodelabs/fluidity": "^0.3",
