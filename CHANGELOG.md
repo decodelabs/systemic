@@ -1,3 +1,5 @@
+* Fixed final packet not read on process terminate
+
 ## v0.11.5 (2022-12-01)
 * Disabled 0 byte write error check
 
