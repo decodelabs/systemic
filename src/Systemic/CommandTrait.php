@@ -462,14 +462,19 @@ trait CommandTrait
         if (
             defined('STDIN') &&
             defined('STDOUT') &&
-            is_resource(\STDOUT) &&
-            stream_isatty(\STDOUT)
+            is_resource(\STDOUT)
         ) {
-            if (TtyManifold::isSupported()) {
-                $manifold = new TtyManifold();
-            } elseif (PtyManifold::isSupported()) {
-                $manifold = new PtyManifold();
-            } else {
+            $manifold = null;
+
+            if (stream_isatty(\STDOUT)) {
+                if (TtyManifold::isSupported()) {
+                    $manifold = new TtyManifold();
+                } elseif (PtyManifold::isSupported()) {
+                    $manifold = new PtyManifold();
+                }
+            }
+
+            if ($manifold === null) {
                 $manifold = new PipeManifold();
             }
 
