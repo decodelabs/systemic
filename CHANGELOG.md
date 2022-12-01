@@ -1,3 +1,5 @@
+* Fixed DataReceiver empty write error check
+
 ## v0.11.2 (2022-12-01)
 * Added Deliverance Broker interfaces to Commands / Controllers
 
