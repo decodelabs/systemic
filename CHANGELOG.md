@@ -1,3 +1,4 @@
+## v0.11.1 (2022-11-30)
 * Fixed run() calls over non TTY CLI sapis
 
 ## v0.11.0 (2022-11-30)
