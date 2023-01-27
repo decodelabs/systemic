@@ -22,7 +22,7 @@ class Systemic implements Proxy
 {
     use ProxyTrait;
 
-    const VENEER = 'DecodeLabs\Systemic';
+    const VENEER = 'DecodeLabs\\Systemic';
     const VENEER_TARGET = Inst::class;
 
     public static Inst $instance;
