@@ -1,3 +1,5 @@
+* Converted phpstan doc comments to generic
+
 ## v0.11.7 (2022-12-01)
 * Fixed final custom provider loop on shutdown
 

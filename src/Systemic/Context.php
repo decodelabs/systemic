@@ -21,7 +21,7 @@ use Stringable;
 class Context
 {
     /**
-     * @phpstan-var Os|Wrapper<Os>
+     * @var Os|Wrapper<Os>
      */
     #[Plugin(OsAbstract::class)]
     #[LazyLoad]
@@ -33,7 +33,7 @@ class Context
      */
     public function getProcess(int $pid): Process
     {
-        /** @phpstan-var class-string<Process> */
+        /** @var class-string<Process> */
         $class = $this->getProcessSystemClass();
         return new $class($pid);
     }
@@ -43,7 +43,7 @@ class Context
      */
     public function getCurrentProcess(): ActiveProcess
     {
-        /** @phpstan-var class-string<ActiveProcess> */
+        /** @var class-string<ActiveProcess> */
         $class = $this->getProcessSystemClass(true);
         $pid = $class::getCurrentProcessId();
         return new $class($pid);
@@ -313,7 +313,7 @@ class Context
             );
         }
 
-        /** @phpstan-var class-string<Command> $class */
+        /** @var class-string<Command> $class */
         return new $class($command, $variables);
     }
 }
