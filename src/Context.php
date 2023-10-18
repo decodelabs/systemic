@@ -12,7 +12,9 @@ namespace DecodeLabs\Systemic;
 use DecodeLabs\Archetype;
 use DecodeLabs\Eventful\Signal;
 use DecodeLabs\Exceptional;
+use DecodeLabs\Systemic;
 use DecodeLabs\Systemic\Command\Unix as UnixCommand;
+use DecodeLabs\Veneer;
 use DecodeLabs\Veneer\LazyLoad;
 use DecodeLabs\Veneer\Plugin;
 use DecodeLabs\Veneer\Plugin\Wrapper;
@@ -317,3 +319,7 @@ class Context
         return new $class($command, $variables);
     }
 }
+
+
+// Register the Veneer proxy
+Veneer::register(Context::class, Systemic::class);

@@ -65,10 +65,10 @@ class Systemic implements Proxy
     public static function runScript(Ref3|Ref4|array|string $command, Ref3|string|null $workingDirectory = NULL): bool {
         return static::$instance->runScript(...func_get_args());
     }
-    public static function start(Ref3|Ref4|array|string $command, Ref3|string|null $workingDirectory = NULL, Ref6|callable $controller): Ref5 {
+    public static function start(Ref3|Ref4|array|string $command, Ref3|string|null $workingDirectory, Ref6|callable $controller): Ref5 {
         return static::$instance->start(...func_get_args());
     }
-    public static function startScript(Ref3|Ref4|array|string $command, Ref3|string|null $workingDirectory = NULL, Ref6|callable $controller): Ref5 {
+    public static function startScript(Ref3|Ref4|array|string $command, Ref3|string|null $workingDirectory, Ref6|callable $controller): Ref5 {
         return static::$instance->startScript(...func_get_args());
     }
     public static function command(Ref3|Ref4|array|string $command, array $variables = []): Ref4 {
