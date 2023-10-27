@@ -1,3 +1,4 @@
+## v0.11.9 (2023-10-27)
 * Updated default ENV handling
 * Refactored package file structure
 
