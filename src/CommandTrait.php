@@ -415,8 +415,7 @@ trait CommandTrait
                 $output = [];
             } else {
                 $env = getenv();
-                $env = array_intersect_key($env, $_SERVER);
-                $output = array_merge($_ENV, $env);
+                $output = array_merge($env, $_ENV);
             }
         }
 
