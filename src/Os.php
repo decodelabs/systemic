@@ -24,10 +24,24 @@ interface Os
     public function getRelease(): string;
     public function getHostName(): string;
 
-    public function userIdToUserName(int $id): string;
-    public function userNameToUserId(string $name): int;
-    public function groupIdToGroupName(int $id): string;
-    public function groupNameToGroupId(string $name): int;
+    public function userIdToUserName(
+        int $id
+    ): string;
 
-    public function which(string $binaryName): ?string;
+    public function userNameToUserId(
+        string $name
+    ): int;
+
+    public function groupIdToGroupName(
+        int $id
+    ): string;
+
+    public function groupNameToGroupId(
+        string $name
+    ): int;
+
+
+    public function which(
+        string $binaryName
+    ): ?string;
 }

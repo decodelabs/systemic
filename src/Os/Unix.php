@@ -19,8 +19,9 @@ class Unix extends OsAbstract
     /**
      * Get system user name from id
      */
-    public function userIdToUserName(int $id): string
-    {
+    public function userIdToUserName(
+        int $id
+    ): string {
         if (extension_loaded('posix')) {
             if (!$output = posix_getpwuid($id)) {
                 throw Exceptional::InvalidArgument(
@@ -49,8 +50,9 @@ class Unix extends OsAbstract
     /**
      * Get system user id from name
      */
-    public function userNameToUserId(string $name): int
-    {
+    public function userNameToUserId(
+        string $name
+    ): int {
         if (extension_loaded('posix')) {
             if (!$output = posix_getpwnam($name)) {
                 throw Exceptional::InvalidArgument(
@@ -69,8 +71,9 @@ class Unix extends OsAbstract
     /**
      * Get system group name from id
      */
-    public function groupIdToGroupName(int $id): string
-    {
+    public function groupIdToGroupName(
+        int $id
+    ): string {
         if (extension_loaded('posix')) {
             if (!$output = posix_getgrgid($id)) {
                 throw Exceptional::InvalidArgument(
@@ -99,8 +102,9 @@ class Unix extends OsAbstract
     /**
      * Get system group id from name
      */
-    public function groupNameToGroupId(string $name): int
-    {
+    public function groupNameToGroupId(
+        string $name
+    ): int {
         if (extension_loaded('posix')) {
             if (!$output = posix_getgrnam($name)) {
                 throw Exceptional::InvalidArgument(
@@ -118,8 +122,9 @@ class Unix extends OsAbstract
     /**
      * Lookup system binary location
      */
-    public function which(string $binaryName): string
-    {
+    public function which(
+        string $binaryName
+    ): string {
         if ($binaryName == 'php') {
             $output = dirname(PHP_BINARY) . '/php';
 

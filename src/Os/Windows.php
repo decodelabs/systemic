@@ -23,8 +23,9 @@ class Windows extends OsAbstract
     /**
      * Init with name, instantiate WMI
      */
-    protected function __construct(string $name)
-    {
+    protected function __construct(
+        string $name
+    ) {
         parent::__construct($name);
 
         self::$wmi = new COM("winmgmts:{impersonationLevel=impersonate}!\\\\.\\root\\cimv2");
@@ -69,32 +70,36 @@ class Windows extends OsAbstract
     /**
      * Get system user name from id
      */
-    public function userIdToUserName(int $id): string
-    {
+    public function userIdToUserName(
+        int $id
+    ): string {
         return (string)$id;
     }
 
     /**
      * Get system user id from name
      */
-    public function userNameToUserId(string $name): int
-    {
+    public function userNameToUserId(
+        string $name
+    ): int {
         return (int)$name;
     }
 
     /**
      * Get system group name from id
      */
-    public function groupIdToGroupName(int $id): string
-    {
+    public function groupIdToGroupName(
+        int $id
+    ): string {
         return (string)$id;
     }
 
     /**
      * Get system group id from name
      */
-    public function groupNameToGroupId(string $name): int
-    {
+    public function groupNameToGroupId(
+        string $name
+    ): int {
         return (int)$name;
     }
 
@@ -102,8 +107,9 @@ class Windows extends OsAbstract
     /**
      * Lookup system binary location
      */
-    public function which(string $binaryName): string
-    {
+    public function which(
+        string $binaryName
+    ): string {
         Glitch::incomplete($binaryName);
     }
 }

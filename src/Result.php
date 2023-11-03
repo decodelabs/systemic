@@ -51,8 +51,9 @@ class Result
     /**
      * Set that task has completed
      */
-    public function registerCompletion(int $exit = 0): static
-    {
+    public function registerCompletion(
+        int $exit = 0
+    ): static {
         $this->endTime = microtime(true);
         $this->completed = true;
         $this->exit = $exit;
@@ -90,8 +91,9 @@ class Result
     /**
      * Set main process output
      */
-    public function setOutput(?string $output): static
-    {
+    public function setOutput(
+        ?string $output
+    ): static {
         $this->output = $output;
         return $this;
     }
@@ -99,8 +101,9 @@ class Result
     /**
      * Append to main process output
      */
-    public function appendOutput(?string $output): static
-    {
+    public function appendOutput(
+        ?string $output
+    ): static {
         $this->output .= $output;
         return $this;
     }
@@ -125,8 +128,9 @@ class Result
     /**
      * Set error output
      */
-    public function setError(?string $error): static
-    {
+    public function setError(
+        ?string $error
+    ): static {
         $this->error = $error;
         return $this;
     }
@@ -134,8 +138,9 @@ class Result
     /**
      * Append to error output
      */
-    public function appendError(?string $error): static
-    {
+    public function appendError(
+        ?string $error
+    ): static {
         $this->error .= $error;
         return $this;
     }

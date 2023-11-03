@@ -31,8 +31,9 @@ class Windows implements Process
     /**
      * Check if process under PID is still running
      */
-    public static function isProcessIdLive(int $pid): bool
-    {
+    public static function isProcessIdLive(
+        int $pid
+    ): bool {
         $wmi = self::getWmi();
         $procs = $wmi->ExecQuery('SELECT * FROM Win32_Process WHERE ProcessId=\'' . $pid . '\'');
 

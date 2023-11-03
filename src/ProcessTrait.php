@@ -21,8 +21,9 @@ trait ProcessTrait
     /**
      * Init with PID and title
      */
-    public function __construct(int $processId)
-    {
+    public function __construct(
+        int $processId
+    ) {
         $this->processId = $processId;
     }
 
@@ -47,8 +48,9 @@ trait ProcessTrait
     /**
      * Define a PID file for this process
      */
-    public function setPidFilePath(?string $path): static
-    {
+    public function setPidFilePath(
+        ?string $path
+    ): static {
         if ($path === null) {
             $this->pidFile = null;
             return $this;
@@ -105,8 +107,9 @@ trait ProcessTrait
     /**
      * Set process priority
      */
-    public function setPriority(int $priority): static
-    {
+    public function setPriority(
+        int $priority
+    ): static {
         if (extension_loaded('pcntl')) {
             pcntl_setpriority($priority, $this->processId);
         }

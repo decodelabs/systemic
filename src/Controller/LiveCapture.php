@@ -49,14 +49,16 @@ class LiveCapture implements
         return null;
     }
 
-    public function consumeOutput(string $data): void
-    {
+    public function consumeOutput(
+        string $data
+    ): void {
         $this->output->write($data);
         $this->result->appendOutput($data);
     }
 
-    public function consumeError(string $data): void
-    {
+    public function consumeError(
+        string $data
+    ): void {
         $this->error->write($data);
         $this->result->appendError($data);
     }
@@ -67,8 +69,9 @@ class LiveCapture implements
         $this->result->registerFailure();
     }
 
-    public function registerCompletion(int $exit): void
-    {
+    public function registerCompletion(
+        int $exit
+    ): void {
         $this->result->registerCompletion($exit);
     }
 

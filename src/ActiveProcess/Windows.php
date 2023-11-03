@@ -30,8 +30,9 @@ class Windows extends WindowsBase implements ActiveProcess
     /**
      * Set process owner
      */
-    public function setOwnerId(int $id): static
-    {
+    public function setOwnerId(
+        int $id
+    ): static {
         Glitch::incomplete();
         return $this;
     }
@@ -48,8 +49,9 @@ class Windows extends WindowsBase implements ActiveProcess
     /**
      * Set process owner by name
      */
-    public function setOwnerName(string $name): static
-    {
+    public function setOwnerName(
+        string $name
+    ): static {
         Glitch::incomplete();
         return $this;
     }
@@ -76,8 +78,9 @@ class Windows extends WindowsBase implements ActiveProcess
     /**
      * Set process group
      */
-    public function setGroupId(int $id): static
-    {
+    public function setGroupId(
+        int $id
+    ): static {
         Glitch::incomplete();
         return $this;
     }
@@ -94,8 +97,9 @@ class Windows extends WindowsBase implements ActiveProcess
     /**
      * Set process group by name
      */
-    public function setGroupName(string $name): static
-    {
+    public function setGroupName(
+        string $name
+    ): static {
         Glitch::incomplete();
         return $this;
     }

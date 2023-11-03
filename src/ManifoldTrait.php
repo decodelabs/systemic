@@ -34,8 +34,9 @@ trait ManifoldTrait
     /**
      * Open process command
      */
-    public function open(Command $command): ?Process
-    {
+    public function open(
+        Command $command
+    ): ?Process {
         $this->onOpen($command);
 
         $handle = proc_open(
@@ -68,8 +69,9 @@ trait ManifoldTrait
         return Systemic::getProcess(Coercion::toInt($status['pid']));
     }
 
-    protected function onOpen(Command $command): void
-    {
+    protected function onOpen(
+        Command $command
+    ): void {
     }
 
     /**

@@ -46,8 +46,9 @@ class Pty implements Manifold
         ];
     }
 
-    protected function onOpen(Command $command): void
-    {
+    protected function onOpen(
+        Command $command
+    ): void {
         $this->snapshot = trim((string)`stty -g`);
         $this->setStty('-echo');
         $this->setStty('-icanon');
@@ -61,8 +62,9 @@ class Pty implements Manifold
     /**
      * Set stty config
      */
-    protected function setStty(string $config): void
-    {
+    protected function setStty(
+        string $config
+    ): void {
         system('stty \'' . $config . '\'');
     }
 }

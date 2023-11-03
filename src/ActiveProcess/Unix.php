@@ -99,8 +99,9 @@ class Unix extends UnixBase implements ActiveProcess
     /**
      * Set process owner
      */
-    public function setOwnerId(int $id): static
-    {
+    public function setOwnerId(
+        int $id
+    ): static {
         if (extension_loaded('posix')) {
             if ($id != $this->getOwnerId()) {
                 if ($this->pidFile && is_file($this->pidFile)) {
@@ -146,8 +147,9 @@ class Unix extends UnixBase implements ActiveProcess
     /**
      * Set process owner by name
      */
-    public function setOwnerName(string $name): static
-    {
+    public function setOwnerName(
+        string $name
+    ): static {
         return $this->setOwnerId(Systemic::$os->userNameToUserId($name));
     }
 
@@ -155,8 +157,9 @@ class Unix extends UnixBase implements ActiveProcess
     /**
      * Set process group
      */
-    public function setGroupId(int $id): static
-    {
+    public function setGroupId(
+        int $id
+    ): static {
         if (extension_loaded('posix')) {
             if ($id != $this->getGroupId()) {
                 if ($this->pidFile && is_file($this->pidFile)) {
@@ -198,8 +201,9 @@ class Unix extends UnixBase implements ActiveProcess
     /**
      * Set process group by name
      */
-    public function setGroupName(string $name): static
-    {
+    public function setGroupName(
+        string $name
+    ): static {
         return $this->setGroupId(Systemic::$os->groupNameToGroupId($name));
     }
 
