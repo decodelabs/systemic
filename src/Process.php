@@ -13,7 +13,10 @@ use DecodeLabs\Eventful\Signal;
 
 interface Process
 {
-    public static function isProcessIdLive(int $pid): bool;
+    public static function isProcessIdLive(
+        int $pid
+    ): bool;
+
     public static function getCurrentProcessId(): int;
 
     public function getProcessId(): int;
@@ -32,13 +35,19 @@ interface Process
     /**
      * @return $this
      */
-    public function setPidFilePath(?string $path): static;
+    public function setPidFilePath(
+        ?string $path
+    ): static;
+
     public function getPidFilePath(): ?string;
 
     /**
      * @return $this
      */
-    public function setPriority(int $priority): static;
+    public function setPriority(
+        int $priority
+    ): static;
+
     public function getPriority(): int;
 
     public function getOwnerId(): int;

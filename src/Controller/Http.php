@@ -42,13 +42,15 @@ class Http implements Controller
         return null;
     }
 
-    public function consumeOutput(string $data): void
-    {
+    public function consumeOutput(
+        string $data
+    ): void {
         $this->output->write($data);
     }
 
-    public function consumeError(string $data): void
-    {
+    public function consumeError(
+        string $data
+    ): void {
         $this->output->write($data);
     }
 
@@ -58,8 +60,9 @@ class Http implements Controller
         $this->success = false;
     }
 
-    public function registerCompletion(int $exit): void
-    {
+    public function registerCompletion(
+        int $exit
+    ): void {
         $this->success = $exit === 0;
     }
 

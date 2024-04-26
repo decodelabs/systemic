@@ -28,8 +28,9 @@ trait ControllerTrait
         $this->dispatcher = new SelectDispatcher();
     }
 
-    public function execute(Command $command): ?Process
-    {
+    public function execute(
+        Command $command
+    ): ?Process {
         if (null === ($process = $this->manifold->open($command))) {
             $this->registerFailure();
             return null;

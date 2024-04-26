@@ -23,22 +23,30 @@ interface ActiveProcess extends Process
     /**
      * @return $this
      */
-    public function setOwnerId(int $id): static;
+    public function setOwnerId(
+        int $id
+    ): static;
 
     /**
      * @return $this
      */
-    public function setOwnerName(string $name): static;
+    public function setOwnerName(
+        string $name
+    ): static;
 
     /**
      * @return $this
      */
-    public function setGroupId(int $id): static;
+    public function setGroupId(
+        int $id
+    ): static;
 
     /**
      * @return $this
      */
-    public function setGroupName(string $name): static;
+    public function setGroupName(
+        string $name
+    ): static;
 
 
 

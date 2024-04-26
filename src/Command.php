@@ -53,7 +53,9 @@ interface Command extends
      * @param array<string, string|Stringable|int|float> $variables
      * @return $this
      */
-    public function setVariables(array $variables): static;
+    public function setVariables(
+        array $variables
+    ): static;
 
     /**
      * @return array<string, string>
@@ -72,7 +74,9 @@ interface Command extends
         string $name
     ): string|Stringable|int|float|null;
 
-    public function hasVariable(string $name): bool;
+    public function hasVariable(
+        string $name
+    ): bool;
 
 
 
@@ -100,12 +104,17 @@ interface Command extends
     public function getSignals(): array;
 
     public function hasSignals(): bool;
-    public function hasSignal(Signal|string|int $signal): bool;
+
+    public function hasSignal(
+        Signal|string|int $signal
+    ): bool;
 
     /**
      * @return $this
      */
-    public function removeSignal(Signal|string|int $signal): static;
+    public function removeSignal(
+        Signal|string|int $signal
+    ): static;
 
     /**
      * @return $this
@@ -116,7 +125,9 @@ interface Command extends
     /**
      * @return $this
      */
-    public function setUser(?string $user): static;
+    public function setUser(
+        ?string $user
+    ): static;
 
     public function getUser(): ?string;
 

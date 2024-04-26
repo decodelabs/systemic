@@ -33,8 +33,9 @@ class Context
     /**
      * Wrap process from PID
      */
-    public function getProcess(int $pid): Process
-    {
+    public function getProcess(
+        int $pid
+    ): Process {
         /** @var class-string<Process> */
         $class = $this->getProcessSystemClass();
         return new $class($pid);
@@ -54,8 +55,9 @@ class Context
     /**
      * Get class for current system's managed process
      */
-    protected function getProcessSystemClass(bool $active = false): string
-    {
+    protected function getProcessSystemClass(
+        bool $active = false
+    ): string {
         $prefix = $active ? 'Active' : '';
         $class = '\\DecodeLabs\\Systemic\\' . $prefix . 'Process\\' . $this->os->getName();
 

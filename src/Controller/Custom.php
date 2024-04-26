@@ -86,13 +86,15 @@ class Custom implements
         return $output;
     }
 
-    public function consumeOutput(string $data): void
-    {
+    public function consumeOutput(
+        string $data
+    ): void {
         $this->output .= $data;
     }
 
-    public function consumeError(string $data): void
-    {
+    public function consumeError(
+        string $data
+    ): void {
         $this->error .= $data;
     }
 
@@ -159,8 +161,9 @@ class Custom implements
         $this->result->registerFailure();
     }
 
-    public function registerCompletion(int $exit): void
-    {
+    public function registerCompletion(
+        int $exit
+    ): void {
         $this->result->registerCompletion($exit);
     }
 

@@ -23,7 +23,9 @@ interface Manifold
 
     public function isOpen(): bool;
 
-    public function open(Command $command): ?Process;
+    public function open(
+        Command $command
+    ): ?Process;
 
     /**
      * @return array<Stream>

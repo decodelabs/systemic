@@ -39,8 +39,9 @@ class Unix implements Command
     /**
      * Ensure arguments are quoted
      */
-    protected function escapeArgument(string $argument): string
-    {
+    protected function escapeArgument(
+        string $argument
+    ): string {
         if ($argument === '') {
             return '""';
         }

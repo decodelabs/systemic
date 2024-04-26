@@ -32,8 +32,9 @@ abstract class OsAbstract implements
     /**
      * Load for current OS
      */
-    public static function load(?string $name = null): Os
-    {
+    public static function load(
+        ?string $name = null
+    ): Os {
         if ($name === null) {
             $name = php_uname('s');
 
@@ -51,8 +52,9 @@ abstract class OsAbstract implements
         return new $class($name);
     }
 
-    public static function loadAsVeneerPlugin(object $instance): static
-    {
+    public static function loadAsVeneerPlugin(
+        object $instance
+    ): static {
         /** @var static $output */
         $output = static::load();
         return $output;
@@ -62,8 +64,9 @@ abstract class OsAbstract implements
     /**
      * Init with OS info
      */
-    public function __construct(string $name)
-    {
+    public function __construct(
+        string $name
+    ) {
         $this->name = $name;
         $this->version = php_uname('v');
         $this->release = php_uname('r');

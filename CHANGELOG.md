@@ -1,3 +1,7 @@
+## v0.11.10 (2024-04-26)
+* Updated Archetype dependency
+* Made PHP8.1 minimum version
+
 ## v0.11.9 (2023-10-27)
 * Updated default ENV handling
 * Refactored package file structure

@@ -161,8 +161,9 @@ trait CommandTrait
      * @param array<string, string|Stringable|int|float> $variables
      * @return $this
      */
-    public function setVariables(array $variables): static
-    {
+    public function setVariables(
+        array $variables
+    ): static {
         foreach ($variables as $name => $value) {
             $this->setVariable($name, $value);
         }
@@ -205,16 +206,18 @@ trait CommandTrait
     /**
      * Is a variable set?
      */
-    public function hasVariable(string $name): bool
-    {
+    public function hasVariable(
+        string $name
+    ): bool {
         return isset($this->variables[$name]);
     }
 
     /**
      * Get final value for variable
      */
-    protected function resolveVariable(string $name): string
-    {
+    protected function resolveVariable(
+        string $name
+    ): string {
         if (isset($this->variables[$name])) {
             return $this->variables[$name];
         }
@@ -323,8 +326,9 @@ trait CommandTrait
     /**
      * Set process owner
      */
-    public function setUser(?string $user): static
-    {
+    public function setUser(
+        ?string $user
+    ): static {
         $this->user = $user;
         return $this;
     }
@@ -388,7 +392,9 @@ trait CommandTrait
         );
     }
 
-    abstract protected function escapeArgument(string $argument): string;
+    abstract protected function escapeArgument(
+        string $argument
+    ): string;
 
 
 
