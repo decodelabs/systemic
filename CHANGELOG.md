@@ -1,3 +1,4 @@
+## v0.11.10 (2024-04-26)
 * Updated Archetype dependency
 * Made PHP8.1 minimum version
 
