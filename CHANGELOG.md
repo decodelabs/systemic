@@ -1,3 +1,6 @@
+## v0.11.12 (2024-07-17)
+* Updated Veneer dependency
+
 ## v0.11.11 (2024-04-29)
 * Fixed Veneer stubs in gitattributes
 
