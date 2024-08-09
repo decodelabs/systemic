@@ -1,3 +1,4 @@
+## v0.11.13 (2024-08-09)
 * Fixed Manifold property in PHP8.2+
 
 ## v0.11.12 (2024-07-17)
