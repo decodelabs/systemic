@@ -9,13 +9,10 @@ declare(strict_types=1);
 
 namespace DecodeLabs\Systemic\Manifold;
 
-use DecodeLabs\Systemic\Manifold;
-use DecodeLabs\Systemic\ManifoldTrait;
+use DecodeLabs\Systemic\ManifoldAbstract;
 
-class DevNull implements Manifold
+class DevNull extends ManifoldAbstract
 {
-    use ManifoldTrait;
-
     /**
      * @return array<int, resource|array<string>>
      */

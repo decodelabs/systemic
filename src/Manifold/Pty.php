@@ -10,13 +10,10 @@ declare(strict_types=1);
 namespace DecodeLabs\Systemic\Manifold;
 
 use DecodeLabs\Systemic\Command;
-use DecodeLabs\Systemic\Manifold;
-use DecodeLabs\Systemic\ManifoldTrait;
+use DecodeLabs\Systemic\ManifoldAbstract;
 
-class Pty implements Manifold
+class Pty extends ManifoldAbstract
 {
-    use ManifoldTrait;
-
     protected ?string $snapshot = null;
 
     public static function isSupported(): bool
