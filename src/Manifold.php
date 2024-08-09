@@ -12,7 +12,8 @@ namespace DecodeLabs\Systemic;
 use DecodeLabs\Deliverance\Channel\Stream;
 
 /**
- * @property array<int, Stream> $streams
+ * @phpstan-require-extends ManifoldAbstract
+ * @property array<int,Stream> $streams
  */
 interface Manifold
 {

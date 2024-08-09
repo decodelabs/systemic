@@ -1,3 +1,5 @@
+* Fixed Manifold property in PHP8.2+
+
 ## v0.11.12 (2024-07-17)
 * Updated Veneer dependency
 

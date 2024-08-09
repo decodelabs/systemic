@@ -216,7 +216,7 @@ class Context
      */
     public function start(
         string|Stringable|array|Command $command,
-        string|Stringable|null $workingDirectory = null,
+        string|Stringable|null $workingDirectory,
         callable|Controller $controller
     ): Result {
         return $this->command($command)
@@ -231,7 +231,7 @@ class Context
      */
     public function startScript(
         string|Stringable|array|Command $command,
-        string|Stringable|null $workingDirectory = null,
+        string|Stringable|null $workingDirectory,
         callable|Controller $controller
     ): Result {
         return $this->scriptCommand($command)

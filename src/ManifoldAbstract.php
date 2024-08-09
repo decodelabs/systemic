@@ -14,7 +14,7 @@ use DecodeLabs\Deliverance\Channel\Stream;
 use DecodeLabs\Exceptional;
 use DecodeLabs\Systemic;
 
-trait ManifoldTrait
+abstract class ManifoldAbstract implements Manifold
 {
     /**
      * @var resource|null

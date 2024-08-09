@@ -9,13 +9,10 @@ declare(strict_types=1);
 
 namespace DecodeLabs\Systemic\Manifold;
 
-use DecodeLabs\Systemic\Manifold;
-use DecodeLabs\Systemic\ManifoldTrait;
+use DecodeLabs\Systemic\ManifoldAbstract;
 
-class Tty implements Manifold
+class Tty extends ManifoldAbstract
 {
-    use ManifoldTrait;
-
     public static function isSupported(): bool
     {
         static $output;
