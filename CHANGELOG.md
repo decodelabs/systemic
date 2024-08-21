@@ -1,3 +1,5 @@
+* Updated Veneer dependency and Stub
+
 ## v0.11.13 (2024-08-09)
 * Fixed Manifold property in PHP8.2+
 
