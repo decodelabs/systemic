@@ -11,7 +11,7 @@ namespace DecodeLabs\Systemic\Os;
 
 class Linux extends Unix
 {
-    public const DISTRIBUTIONS = [
+    protected const Distributions = [
         'Debian' => ['/etc/debian_release', '/etc/debian_version'],
         'SuSE' => ['/etc/SuSE-release', '/etc/UnitedLinux-release'],
         'Mandrake' => '/etc/mandrake-release',
@@ -63,7 +63,7 @@ class Linux extends Unix
             }
         }
 
-        foreach (self::DISTRIBUTIONS as $name => $files) {
+        foreach (self::Distributions as $name => $files) {
             if (!is_array($files)) {
                 $files = [$files];
             }

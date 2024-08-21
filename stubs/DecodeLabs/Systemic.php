@@ -22,8 +22,8 @@ class Systemic implements Proxy
 {
     use ProxyTrait;
 
-    const VENEER = 'DecodeLabs\\Systemic';
-    const VENEER_TARGET = Inst::class;
+    const Veneer = 'DecodeLabs\\Systemic';
+    const VeneerTarget = Inst::class;
 
     public static Inst $instance;
     /** @var OsPlugin|PluginWrapper<OsPlugin> $os */

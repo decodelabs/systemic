@@ -21,12 +21,12 @@ class Windows implements Process
 {
     use ProcessTrait;
 
-    public const EXIT_SUCCESS = 0;
-    public const EXIT_ACCESS_DENIED = 2;
-    public const EXIT_PRIVILEGES = 3;
-    public const EXIT_UNKNOWN_FAILURE = 8;
-    public const EXIT_PATH_NOT_FOUND = 9;
-    public const EXIT_INVALID_PARAMETER = 21;
+    public const ExitSuccess = 0;
+    public const ExitAccessDenied = 2;
+    public const ExitPrivileges = 3;
+    public const ExitUnknownFailure = 8;
+    public const ExitPathNotFound = 9;
+    public const ExitInvalidParameter = 21;
 
     /**
      * Check if process under PID is still running
