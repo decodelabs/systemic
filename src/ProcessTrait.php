@@ -12,6 +12,9 @@ namespace DecodeLabs\Systemic;
 use DecodeLabs\Exceptional;
 use Throwable;
 
+/**
+ * @phpstan-require-implements Process
+ */
 trait ProcessTrait
 {
     protected int $processId;

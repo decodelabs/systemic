@@ -26,6 +26,9 @@ use DecodeLabs\Systemic\Manifold\Pty as PtyManifold;
 use DecodeLabs\Systemic\Manifold\Tty as TtyManifold;
 use Stringable;
 
+/**
+ * @phpstan-require-implements Command
+ */
 trait CommandTrait
 {
     use BrokerConnectorTrait;

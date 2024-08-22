@@ -14,6 +14,9 @@ use DecodeLabs\Deliverance\DataReceiver;
 use DecodeLabs\Eventful\Dispatcher\Select as SelectDispatcher;
 use DecodeLabs\Exceptional;
 
+/**
+ * @phpstan-require-implements Controller
+ */
 trait ControllerTrait
 {
     protected Manifold $manifold;
