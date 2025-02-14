@@ -11,7 +11,7 @@ namespace DecodeLabs\Systemic\Os;
 
 class Linux extends Unix
 {
-    protected const Distributions = [
+    protected const array Distributions = [
         'Debian' => ['/etc/debian_release', '/etc/debian_version'],
         'SuSE' => ['/etc/SuSE-release', '/etc/UnitedLinux-release'],
         'Mandrake' => '/etc/mandrake-release',
@@ -52,7 +52,7 @@ class Linux extends Unix
     {
         exec('lsb_release -a', $result);
 
-        if (!empty($result) && is_array($result)) {
+        if (!empty($result)) {
             foreach ($result as $line) {
                 $parts = explode(':', $line, 2);
                 $key = trim((string)array_shift($parts));

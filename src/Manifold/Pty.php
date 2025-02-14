@@ -9,26 +9,21 @@ declare(strict_types=1);
 
 namespace DecodeLabs\Systemic\Manifold;
 
+use DecodeLabs\Coercion;
 use DecodeLabs\Systemic\Command;
 use DecodeLabs\Systemic\ManifoldAbstract;
 
 class Pty extends ManifoldAbstract
 {
+    private static ?bool $supported = null;
     protected ?string $snapshot = null;
 
     public static function isSupported(): bool
     {
-        static $output;
-
-        if (isset($output)) {
-            return $output;
-        }
-
-        if (\DIRECTORY_SEPARATOR === '\\') {
-            return $output = false;
-        }
-
-        return $output = (bool)proc_open('echo 1 >/dev/null', [['pty'], ['pty'], ['pty']], $pipes);
+        return self::$supported ??= (
+            \DIRECTORY_SEPARATOR !== '\\' &&
+            (bool)proc_open('echo 1 >/dev/null', [['pty'], ['pty'], ['pty']], $pipes)
+        );
     }
 
     /**
@@ -46,7 +41,7 @@ class Pty extends ManifoldAbstract
     protected function onOpen(
         Command $command
     ): void {
-        $this->snapshot = trim((string)`stty -g`);
+        $this->snapshot = trim(Coercion::toString(`stty -g`));
         $this->setStty('-echo');
         $this->setStty('-icanon');
     }

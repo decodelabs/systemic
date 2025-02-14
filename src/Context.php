@@ -15,19 +15,15 @@ use DecodeLabs\Exceptional;
 use DecodeLabs\Systemic;
 use DecodeLabs\Systemic\Command\Unix as UnixCommand;
 use DecodeLabs\Veneer;
-use DecodeLabs\Veneer\LazyLoad;
 use DecodeLabs\Veneer\Plugin;
-use DecodeLabs\Veneer\Plugin\Wrapper;
 use Stringable;
 
 class Context
 {
-    /**
-     * @var Os|Wrapper<Os>
-     */
-    #[Plugin(OsAbstract::class)]
-    #[LazyLoad]
-    public Os|Wrapper $os;
+    #[Plugin(type: OsAbstract::class)]
+    public Os $os {
+        get => $this->os ??= OsAbstract::load();
+    }
 
 
     /**
@@ -66,7 +62,7 @@ class Context
 
             if (!class_exists($class)) {
                 throw Exceptional::ComponentUnavailable(
-                    'Processes aren\'t currently supported on this platform!'
+                    message: 'Processes aren\'t currently supported on this platform!'
                 );
             }
         }
@@ -90,7 +86,7 @@ class Context
     public function normalizeSignal(
         Signal|string|int $signal
     ): int {
-        return Signal::create($signal)->getNumber();
+        return Signal::create($signal)->number;
     }
 
 
@@ -324,4 +320,7 @@ class Context
 
 
 // Register the Veneer proxy
-Veneer::register(Context::class, Systemic::class);
+Veneer\Manager::getGlobalManager()->register(
+    Context::class,
+    Systemic::class
+);

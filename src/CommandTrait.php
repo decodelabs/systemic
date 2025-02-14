@@ -26,6 +26,9 @@ use DecodeLabs\Systemic\Manifold\Pty as PtyManifold;
 use DecodeLabs\Systemic\Manifold\Tty as TtyManifold;
 use Stringable;
 
+/**
+ * @phpstan-require-implements Command
+ */
 trait CommandTrait
 {
     use BrokerConnectorTrait;
@@ -37,7 +40,7 @@ trait CommandTrait
     protected string|array $command;
 
     /**
-     * @var array<string, string>
+     * @var array<string,string>
      */
     protected array $variables = [];
 
@@ -48,6 +51,13 @@ trait CommandTrait
      * @var array<string, Signal>
      */
     protected array $signals = [];
+
+
+    /**
+     * @var array<string,string|int|float|null>
+     */
+    private static ?array $defaultEnv = null;
+    private static ?bool $sigChildEnabled = null;
 
     /**
      * Init with raw command and variables
@@ -222,12 +232,8 @@ trait CommandTrait
             return $this->variables[$name];
         }
 
-        if (isset($this->env[$name])) {
-            return $this->env[$name];
-        }
-
         throw Exceptional::InvalidArgumentException(
-            'No value available for variable "' . $name . '"'
+            message: 'No value available for variable "' . $name . '"'
         );
     }
 
@@ -268,7 +274,7 @@ trait CommandTrait
     ): static {
         foreach ($signals as $signal) {
             $signal = Signal::create($signal);
-            $this->signals[$signal->getName()] = $signal;
+            $this->signals[$signal->name] = $signal;
         }
 
         return $this;
@@ -299,7 +305,7 @@ trait CommandTrait
         Signal|string|int $signal
     ): bool {
         $signal = Signal::create($signal);
-        return isset($this->signals[$signal->getName()]);
+        return isset($this->signals[$signal->name]);
     }
 
     /**
@@ -309,7 +315,7 @@ trait CommandTrait
         Signal|string|int $signal
     ): static {
         $signal = Signal::create($signal);
-        unset($this->signals[$signal->getName()]);
+        unset($this->signals[$signal->name]);
         return $this;
     }
 
@@ -410,22 +416,16 @@ trait CommandTrait
     }
 
     /**
-     * @return array<string, string|int|float|null>
+     * @return array<string,string|int|float|null>
      */
     protected function getDefaultEnv(): array
     {
-        static $output;
-
-        if (!isset($output)) {
-            if (isset($_SERVER['HTTP_HOST'])) {
-                $output = [];
-            } else {
-                $env = getenv();
-                $output = array_merge($env, $_ENV);
-            }
-        }
-
-        return $output;
+        // @phpstan-ignore-next-line
+        return self::$defaultEnv ??= (
+            isset($_SERVER['HTTP_HOST']) ?
+                [] :
+                array_merge(getenv(), $_ENV)
+        );
     }
 
 
@@ -434,15 +434,16 @@ trait CommandTrait
      */
     protected function isSigChildEnabled(): bool
     {
-        static $output;
-
-        if (!isset($output)) {
+        if (!isset(self::$sigChildEnabled)) {
             ob_start();
             phpinfo(\INFO_GENERAL);
-            $output = str_contains((string)ob_get_clean(), '--enable-sigchild');
+            self::$sigChildEnabled = str_contains(
+                (string)ob_get_clean(),
+                '--enable-sigchild'
+            );
         }
 
-        return $output;
+        return self::$sigChildEnabled;
     }
 
 
@@ -514,7 +515,9 @@ trait CommandTrait
         $process = $controller->execute($this);
 
         if (!$process) {
-            throw Exceptional::Runtime('Unable to launch command: ' . $this->getRawString());
+            throw Exceptional::Runtime(
+                message: 'Unable to launch command: ' . $this->getRawString()
+            );
         }
 
         return $process;

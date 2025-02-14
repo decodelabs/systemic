@@ -47,7 +47,9 @@ class Unix implements Process
             return posix_getpid();
         } else {
             if (false === ($output = getmypid())) {
-                throw Exceptional::UnexpectedValue('Unable to get current PID');
+                throw Exceptional::UnexpectedValue(
+                    message: 'Unable to get current PID'
+                );
             }
 
             return $output;
@@ -68,7 +70,7 @@ class Unix implements Process
 
         if (!isset($output[0])) {
             throw Exceptional::Runtime(
-                'Unable to extract parent process id'
+                message: 'Unable to extract parent process id'
             );
         }
 
@@ -101,15 +103,15 @@ class Unix implements Process
         $signal = Signal::create($signal);
 
         if (extension_loaded('posix')) {
-            $output = posix_kill($this->processId, $signal->getNumber());
+            $output = posix_kill($this->processId, $signal->number);
         } else {
-            exec('kill -' . $signal->getNumber() . ' ' . $this->processId);
+            exec('kill -' . $signal->number . ' ' . $this->processId);
             $output = true;
         }
 
         if (
             $output &&
-            in_array($signal->getName(), ['SIGINT', 'SIGTERM', 'SIGQUIT']) &&
+            in_array($signal->name, ['SIGINT', 'SIGTERM', 'SIGQUIT']) &&
             $this->pidFile &&
             file_exists($this->pidFile)
         ) {
@@ -133,7 +135,7 @@ class Unix implements Process
         }
 
         throw Exceptional::Runtime(
-            'Unable to extract process owner id'
+            message: 'Unable to extract process owner id'
         );
     }
 
@@ -153,15 +155,11 @@ class Unix implements Process
         exec('getent passwd ' . escapeshellarg((string)$this->getOwnerId()), $output);
 
         if (isset($output[0])) {
-            $parts = explode(':', $output[0]);
-
-            if (null !== ($output = array_shift($parts))) {
-                return $output;
-            }
+            return explode(':', $output[0])[0];
         }
 
         throw Exceptional::Runtime(
-            'Unable to extract process owner name'
+            message: 'Unable to extract process owner name'
         );
     }
 
@@ -177,7 +175,7 @@ class Unix implements Process
         }
 
         throw Exceptional::Runtime(
-            'Unable to extract process owner id'
+            message: 'Unable to extract process owner id'
         );
     }
 
@@ -197,15 +195,11 @@ class Unix implements Process
         exec('getent group ' . escapeshellarg((string)$this->getGroupId()), $output);
 
         if (isset($output[0])) {
-            $parts = explode(':', $output[0]);
-
-            if (null !== ($output = array_shift($parts))) {
-                return $output;
-            }
+            return explode(':', $output[0])[0];
         }
 
         throw Exceptional::Runtime(
-            'Unable to extract process group name'
+            message: 'Unable to extract process group name'
         );
     }
 

@@ -53,7 +53,7 @@ class Unix extends UnixBase implements ActiveProcess
 
         if (!extension_loaded('posix')) {
             throw Exceptional::Runtime(
-                'Unable to set process identity - posix not available'
+                message: 'Unable to set process identity - posix not available'
             );
         }
 
@@ -80,7 +80,7 @@ class Unix extends UnixBase implements ActiveProcess
         if ($doGid) {
             if (!posix_setgid($gid)) {
                 throw Exceptional::Runtime(
-                    'Set group failed'
+                    message: 'Set group failed'
                 );
             }
         }
@@ -88,7 +88,7 @@ class Unix extends UnixBase implements ActiveProcess
         if ($doUid) {
             if (!posix_setuid($uid)) {
                 throw Exceptional::Runtime(
-                    'Set owner failed'
+                    message: 'Set owner failed'
                 );
             }
         }
@@ -112,16 +112,14 @@ class Unix extends UnixBase implements ActiveProcess
                     posix_setuid($id);
                 } catch (Throwable $e) {
                     throw Exceptional::Runtime(
-                        'Set owner failed',
-                        [
-                            'previous' => $e
-                        ]
+                        message: 'Set owner failed',
+                        previous: $e
                     );
                 }
             }
         } else {
             throw Exceptional::Runtime(
-                'Unable to set owner id - posix not available'
+                message: 'Unable to set owner id - posix not available'
             );
         }
 
@@ -170,16 +168,14 @@ class Unix extends UnixBase implements ActiveProcess
                     posix_setgid($id);
                 } catch (Throwable $e) {
                     throw Exceptional::Runtime(
-                        'Set group failed',
-                        [
-                            'previous' => $e
-                        ]
+                        message: 'Set group failed',
+                        previous: $e
                     );
                 }
             }
         } else {
             throw Exceptional::Runtime(
-                'Unable to set group id - posix not available'
+                message: 'Unable to set group id - posix not available'
             );
         }
 
@@ -224,7 +220,7 @@ class Unix extends UnixBase implements ActiveProcess
     {
         if (!$this->canFork()) {
             throw Exceptional::ComponentUnavailable(
-                'This process is not capable of forking'
+                message: 'This process is not capable of forking'
             );
         }
 
@@ -232,7 +228,7 @@ class Unix extends UnixBase implements ActiveProcess
 
         if ($pid === -1) {
             throw Exceptional::Runtime(
-                'The process did not fork successfully'
+                message: 'The process did not fork successfully'
             );
         } elseif ($pid) {
             // Parent
