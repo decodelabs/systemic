@@ -136,8 +136,13 @@ class Custom implements
             $this->result->appendOutput($output = $this->read());
             $this->result->appendError($error = $this->readError());
 
-            $writtenNow = $output !== null || $error !== null;
-            $written = $written || $writtenNow;
+            $writtenNow =
+                $output !== null ||
+                $error !== null;
+
+            $written =
+                $written ||
+                $writtenNow;
 
             if (
                 (

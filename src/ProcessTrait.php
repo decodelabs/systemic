@@ -75,7 +75,7 @@ trait ProcessTrait
                 $write = false;
             } elseif (self::isProcessIdLive($oldPid)) {
                 throw Exceptional::Runtime(
-                    'PID file ' . basename($path) . ' already exists and is live with pid of ' . $oldPid
+                    message: 'PID file ' . basename($path) . ' already exists and is live with pid of ' . $oldPid
                 );
             }
         }
@@ -86,10 +86,8 @@ trait ProcessTrait
                 file_put_contents($path, $pid);
             } catch (Throwable $e) {
                 throw Exceptional::Runtime(
-                    'Unable to write PID file',
-                    [
-                        'previous' => $e
-                    ]
+                    message: 'Unable to write PID file',
+                    previous: $e
                 );
             }
         }

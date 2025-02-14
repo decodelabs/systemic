@@ -13,11 +13,11 @@ use DecodeLabs\Systemic\ManifoldAbstract;
 
 class Tty extends ManifoldAbstract
 {
+    private static ?bool $supported = null;
+
     public static function isSupported(): bool
     {
-        static $output;
-
-        return $output ??= (
+        return self::$supported ??= (
             \DIRECTORY_SEPARATOR === '/' &&
             stream_isatty(\STDOUT)
         );

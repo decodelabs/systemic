@@ -15,11 +15,9 @@ use DecodeLabs\Systemic\Os\Darwin;
 use DecodeLabs\Systemic\Os\Linux;
 use DecodeLabs\Systemic\Os\Unix;
 use DecodeLabs\Systemic\Os\Windows;
-use DecodeLabs\Veneer\Plugin\SelfLoader;
 
 abstract class OsAbstract implements
     Os,
-    SelfLoader,
     Dumpable
 {
     protected string $name;
@@ -50,14 +48,6 @@ abstract class OsAbstract implements
         );
 
         return new $class($name);
-    }
-
-    public static function loadAsVeneerPlugin(
-        object $instance
-    ): static {
-        /** @var static $output */
-        $output = static::load();
-        return $output;
     }
 
 

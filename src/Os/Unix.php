@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace DecodeLabs\Systemic\Os;
 
+use DecodeLabs\Coercion;
 use DecodeLabs\Exceptional;
 use DecodeLabs\Systemic\OsAbstract;
 
@@ -35,15 +36,11 @@ class Unix extends OsAbstract
         exec('getent passwd ' . escapeshellarg((string)$id), $output);
 
         if (isset($output[0])) {
-            $parts = explode(':', $output[0]);
-
-            if (null !== ($output = array_shift($parts))) {
-                return $output;
-            }
+            return explode(':', $output[0])[0];
         }
 
         throw Exceptional::Runtime(
-            'Unable to extract owner name'
+            message: 'Unable to extract owner name'
         );
     }
 
@@ -60,11 +57,11 @@ class Unix extends OsAbstract
                 );
             }
 
-            return $output['uid'];
+            return Coercion::toInt($output['uid']);
         }
 
         throw Exceptional::ComponentUnavailable(
-            'POSIX extension is not available'
+            message: 'POSIX extension is not available'
         );
     }
 
@@ -87,15 +84,11 @@ class Unix extends OsAbstract
         exec('getent group ' . escapeshellarg((string)$id), $output);
 
         if (isset($output[0])) {
-            $parts = explode(':', $output[0]);
-
-            if (null !== ($output = array_shift($parts))) {
-                return $output;
-            }
+            return explode(':', $output[0])[0];
         }
 
         throw Exceptional::Runtime(
-            'Unable to extract process group name'
+            message: 'Unable to extract process group name'
         );
     }
 
@@ -115,7 +108,7 @@ class Unix extends OsAbstract
         }
 
         throw Exceptional::ComponentUnavailable(
-            'POSIX extension is not available'
+            message: 'POSIX extension is not available'
         );
     }
 

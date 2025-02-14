@@ -10,8 +10,10 @@ declare(strict_types=1);
 namespace DecodeLabs\Systemic;
 
 use DecodeLabs\Coercion;
+use DecodeLabs\Deliverance\Channel\Stream;
 use DecodeLabs\Deliverance\DataReceiver;
 use DecodeLabs\Eventful\Dispatcher\Select as SelectDispatcher;
+use DecodeLabs\Eventful\Signal;
 use DecodeLabs\Exceptional;
 
 /**
@@ -55,14 +57,20 @@ trait ControllerTrait
         ) {
             $input->setReadBlocking(false);
 
-            $this->dispatcher->bindStreamRead($input, function ($input) {
-                $this->manifold->streams[0]->write($input->read(2048));
+            $this->dispatcher->bindStreamRead($input, function (
+                Stream $input
+            ) {
+                $this->manifold->streams[0]->write(
+                    $input->read(2048)
+                );
             });
         }
 
         // Output stream
         if (isset($streams[1])) {
-            $this->dispatcher->bindStreamRead($streams[1], function ($out) use ($command) {
+            $this->dispatcher->bindStreamRead($streams[1], function (
+                Stream $out
+            ) use ($command) {
                 if (null === ($data = $out->readAll())) {
                     return;
                 }
@@ -82,7 +90,9 @@ trait ControllerTrait
 
         // Error
         if (isset($streams[2])) {
-            $this->dispatcher->bindStreamRead($streams[2], function ($err) use ($command) {
+            $this->dispatcher->bindStreamRead($streams[2], function (
+                Stream $err
+            ) use ($command) {
                 if (null === ($data = $err->readAll())) {
                     return;
                 }
@@ -101,7 +111,9 @@ trait ControllerTrait
 
         // Signals
         if (!empty($signals = $command->getSignals())) {
-            $this->dispatcher->bindSignal('passthrough', $signals, function ($signal) use ($process) {
+            $this->dispatcher->bindSignal('passthrough', $signals, function (
+                Signal|string|int $signal
+            ) use ($process) {
                 $process->sendSignal($signal);
             });
         }
@@ -179,7 +191,9 @@ trait ControllerTrait
 
             if ($written === 0) {
                 if (++$error > 500) {
-                    throw Exceptional::Runtime('Unable to write to data receiver');
+                    throw Exceptional::Runtime(
+                        message: 'Unable to write to data receiver'
+                    );
                 }
 
                 usleep(10000);

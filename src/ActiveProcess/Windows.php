@@ -71,7 +71,7 @@ class Windows extends WindowsBase implements ActiveProcess
         }
 
         throw Exceptional::Runtime(
-            'Owner name could not be found for process'
+            message: 'Owner name could not be found for process'
         );
     }
 
@@ -127,7 +127,7 @@ class Windows extends WindowsBase implements ActiveProcess
     public function fork(): ?static
     {
         throw Exceptional::Runtime(
-            'PHP on windows is currently not able to fork processes'
+            message: 'PHP on windows is currently not able to fork processes'
         );
     }
 }

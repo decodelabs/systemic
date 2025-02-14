@@ -52,7 +52,9 @@ class Windows implements Process
     public static function getCurrentProcessId(): int
     {
         if (false === ($output = getmypid())) {
-            throw Exceptional::UnexpectedValue('Unable to get current PID');
+            throw Exceptional::UnexpectedValue(
+                message: 'Unable to get current PID'
+            );
         }
 
         return $output;

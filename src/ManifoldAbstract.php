@@ -57,13 +57,16 @@ abstract class ManifoldAbstract implements Manifold
 
         $this->handle = $handle;
 
+        /** @var array<int,resource> $pipes */
         foreach ($pipes as $i => $pipe) {
             $this->streams[Coercion::toInt($i)] = (new Stream($pipe))->setReadBlocking(false);
         }
 
         if (!$status = $this->getStatus()) {
             $this->close();
-            throw Exceptional::Runtime('Unable to get process statuc');
+            throw Exceptional::Runtime(
+                message: 'Unable to get process statuc'
+            );
         }
 
         return Systemic::getProcess(Coercion::toInt($status['pid']));
