@@ -57,7 +57,7 @@ class Custom implements
             if (is_array($data)) {
                 $data = new ArrayIterator($data);
             } else {
-                $data = new ArrayIterator([Coercion::toString($data)]);
+                $data = new ArrayIterator([Coercion::asString($data)]);
             }
         }
 
