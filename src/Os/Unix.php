@@ -57,7 +57,7 @@ class Unix extends OsAbstract
                 );
             }
 
-            return Coercion::toInt($output['uid']);
+            return Coercion::asInt($output['uid']);
         }
 
         throw Exceptional::ComponentUnavailable(

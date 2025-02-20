@@ -244,7 +244,7 @@ trait CommandTrait
     public function setWorkingDirectory(
         string|Stringable|null $path
     ): static {
-        $this->workingDirectory = Coercion::toStringOrNull($path);
+        $this->workingDirectory = Coercion::tryString($path);
         return $this;
     }
 
@@ -389,7 +389,7 @@ trait CommandTrait
      */
     protected function prepareAsString(): string
     {
-        return Coercion::toString(
+        return Coercion::asString(
             preg_replace_callback('/"\$\{:([_a-zA-Z]++[_a-zA-Z0-9]*+)\}"/', function ($matches) {
                 return $this->escapeArgument(
                     $this->resolveVariable($matches[1])

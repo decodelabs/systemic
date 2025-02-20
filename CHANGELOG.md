@@ -1,3 +1,6 @@
+## v0.11.16 (2025-02-14)
+* Upgraded Coercion dependency
+
 ## v0.11.15 (2025-02-14)
 * Upgraded PHPStan to v2
 * Added @phpstan-require-implements constraints

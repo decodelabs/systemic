@@ -149,7 +149,7 @@ trait ControllerTrait
 
             // Complete process
             elseif (!$this->stopping) {
-                $this->registerCompletion(Coercion::toInt($status['exitcode'] ?? 0));
+                $this->registerCompletion(Coercion::asInt($status['exitcode'] ?? 0));
 
                 // Go round one more time to make sure everything is read
                 $this->stopping = true;

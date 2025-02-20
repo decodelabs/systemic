@@ -59,7 +59,7 @@ abstract class ManifoldAbstract implements Manifold
 
         /** @var array<int,resource> $pipes */
         foreach ($pipes as $i => $pipe) {
-            $this->streams[Coercion::toInt($i)] = (new Stream($pipe))->setReadBlocking(false);
+            $this->streams[Coercion::asInt($i)] = (new Stream($pipe))->setReadBlocking(false);
         }
 
         if (!$status = $this->getStatus()) {
@@ -69,7 +69,7 @@ abstract class ManifoldAbstract implements Manifold
             );
         }
 
-        return Systemic::getProcess(Coercion::toInt($status['pid']));
+        return Systemic::getProcess(Coercion::asInt($status['pid']));
     }
 
     protected function onOpen(

@@ -41,7 +41,7 @@ class Pty extends ManifoldAbstract
     protected function onOpen(
         Command $command
     ): void {
-        $this->snapshot = trim(Coercion::toString(`stty -g`));
+        $this->snapshot = trim(Coercion::asString(`stty -g`));
         $this->setStty('-echo');
         $this->setStty('-icanon');
     }

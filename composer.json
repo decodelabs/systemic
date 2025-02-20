@@ -14,7 +14,7 @@
         "symfony/polyfill-mbstring": "^1.31",
 
         "decodelabs/archetype": "^0.3.8",
-        "decodelabs/coercion": "^0.2.15",
+        "decodelabs/coercion": "^0.3",
         "decodelabs/deliverance": "^0.2.14",
         "decodelabs/eventful": "^0.4",
         "decodelabs/exceptional": "^0.5.2",
