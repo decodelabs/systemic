@@ -11,8 +11,6 @@
 
 Systemic offers an easy to use frontend to launching and controlling processes and accessing system information.
 
-_Get news and updates on the [DecodeLabs blog](https://blog.decodelabs.com)._
-
 ---
 
 
