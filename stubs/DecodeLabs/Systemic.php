@@ -8,7 +8,7 @@ namespace DecodeLabs;
 use DecodeLabs\Veneer\Proxy as Proxy;
 use DecodeLabs\Veneer\ProxyTrait as ProxyTrait;
 use DecodeLabs\Systemic\Context as Inst;
-use DecodeLabs\Systemic\OsAbstract as OsPlugin;
+use DecodeLabs\Systemic\Os as OsPlugin;
 use DecodeLabs\Veneer\Plugin\Wrapper as PluginWrapper;
 use DecodeLabs\Systemic\Process as Ref0;
 use DecodeLabs\Systemic\ActiveProcess as Ref1;

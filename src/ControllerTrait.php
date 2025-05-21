@@ -45,8 +45,8 @@ trait ControllerTrait
 
 
         // Prepare broker data
-        foreach ($command->getInputProviders() as $provider) {
-            $provider->setReadBlocking(false);
+        foreach ($command->inputProviders as $provider) {
+            $provider->readBlocking = false;
         }
 
 
@@ -55,7 +55,7 @@ trait ControllerTrait
             isset($this->manifold->streams[0]) &&
             $input = $this->getInputStream()
         ) {
-            $input->setReadBlocking(false);
+            $input->readBlocking = false;
 
             $this->dispatcher->bindStreamRead($input, function (
                 Stream $input
@@ -77,7 +77,7 @@ trait ControllerTrait
 
                 $this->consumeOutput($data);
 
-                foreach ($command->getOutputReceivers() as $receiver) {
+                foreach ($command->outputReceivers as $receiver) {
                     if (!$receiver->isWritable()) {
                         continue;
                     }
@@ -99,7 +99,7 @@ trait ControllerTrait
 
                 $this->consumeError($data);
 
-                foreach ($command->getErrorReceivers() as $receiver) {
+                foreach ($command->errorReceivers as $receiver) {
                     if (!$receiver->isWritable()) {
                         continue;
                     }
@@ -134,7 +134,7 @@ trait ControllerTrait
                     );
 
                     // Command input providers
-                    foreach ($command->getInputProviders() as $provider) {
+                    foreach ($command->inputProviders as $provider) {
                         if (!$provider->isReadable()) {
                             continue;
                         }

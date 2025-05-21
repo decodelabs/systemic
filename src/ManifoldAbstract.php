@@ -59,7 +59,9 @@ abstract class ManifoldAbstract implements Manifold
 
         /** @var array<int,resource> $pipes */
         foreach ($pipes as $i => $pipe) {
-            $this->streams[Coercion::asInt($i)] = (new Stream($pipe))->setReadBlocking(false);
+            $stream = new Stream($pipe);
+            $stream->readBlocking = false;
+            $this->streams[Coercion::asInt($i)] = $stream;
         }
 
         if (!$status = $this->getStatus()) {
