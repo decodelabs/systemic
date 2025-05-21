@@ -5,7 +5,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Unreleased
+--
+
+---
+
+### [v0.11.17](https://github.com/decodelabs/systemic/commits/v0.11.17) - 21st May 2025
+
 - Upgraded Deliverance to v0.3
+
+[Full list of changes](https://github.com/decodelabs/systemic/compare/v0.11.16...v0.11.17)
 
 ---
 
