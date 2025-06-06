@@ -11,4 +11,4 @@ parameters:
     excludePaths:
         - src/Os/Windows.php
         - src/Process/Windows.php
-        - src/ActiveProcess/Windows.php
+        #- src/ActiveProcess/Windows.php

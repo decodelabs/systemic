@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace DecodeLabs\Systemic\Os;
 
 use COM;
-use DecodeLabs\Glitch\Proxy as Glitch;
+use DecodeLabs\Exceptional;
 use DecodeLabs\Systemic\OsAbstract;
 
 class Windows extends OsAbstract
@@ -110,6 +110,6 @@ class Windows extends OsAbstract
     public function which(
         string $binaryName
     ): string {
-        Glitch::incomplete($binaryName);
+        throw Exceptional::ComponentUnavailable('Which on Windows is not available yet: '.$binaryName);
     }
 }

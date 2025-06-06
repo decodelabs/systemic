@@ -10,7 +10,8 @@ declare(strict_types=1);
 namespace DecodeLabs\Systemic;
 
 use DecodeLabs\Archetype;
-use DecodeLabs\Glitch\Dumpable;
+use DecodeLabs\Nuance\Dumpable;
+use DecodeLabs\Nuance\Entity\NativeObject as NuanceEntity;
 use DecodeLabs\Systemic\Os\Darwin;
 use DecodeLabs\Systemic\Os\Linux;
 use DecodeLabs\Systemic\Os\Unix;
@@ -144,19 +145,17 @@ abstract class OsAbstract implements
         return $this->hostName;
     }
 
-
-    /**
-     * Export for dump inspection
-     */
-    public function glitchDump(): iterable
+    public function toNuanceEntity(): NuanceEntity
     {
-        yield 'properties' => [
-            '*name' => $this->getName(),
-            '*platformType' => $this->getPlatformType(),
-            '*distribution' => $this->getDistribution(),
-            '*version' => $this->getVersion(),
-            '*release' => $this->getRelease(),
-            '*hostName' => $this->getHostName()
-        ];
+        $entity = new NuanceEntity($this);
+
+        $entity->setProperty('name', $this->getName(), 'protected');
+        $entity->setProperty('platformType', $this->getPlatformType(), 'protected');
+        $entity->setProperty('distribution', $this->getDistribution(), 'protected');
+        $entity->setProperty('version', $this->getVersion(), 'protected');
+        $entity->setProperty('release', $this->getRelease(), 'protected');
+        $entity->setProperty('hostName', $this->getHostName(), 'protected');
+
+        return $entity;
     }
 }
