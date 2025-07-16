@@ -110,6 +110,6 @@ class Windows extends OsAbstract
     public function which(
         string $binaryName
     ): string {
-        throw Exceptional::ComponentUnavailable('Which on Windows is not available yet: '.$binaryName);
+        throw Exceptional::ComponentUnavailable('Which on Windows is not available yet: ' . $binaryName);
     }
 }
