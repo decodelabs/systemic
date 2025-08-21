@@ -41,11 +41,11 @@ class Unix extends UnixBase implements ActiveProcess
         string|int $gid
     ): static {
         if (!is_numeric($uid)) {
-            $uid = Systemic::$os->userNameToUserId($uid);
+            $uid = Systemic::getOs()->userNameToUserId($uid);
         }
 
         if (!is_numeric($gid)) {
-            $gid = Systemic::$os->groupNameToGroupId($gid);
+            $gid = Systemic::getOs()->groupNameToGroupId($gid);
         }
 
         $uid = (int)$uid;
@@ -148,7 +148,7 @@ class Unix extends UnixBase implements ActiveProcess
     public function setOwnerName(
         string $name
     ): static {
-        return $this->setOwnerId(Systemic::$os->userNameToUserId($name));
+        return $this->setOwnerId(Systemic::getOs()->userNameToUserId($name));
     }
 
 
@@ -200,7 +200,7 @@ class Unix extends UnixBase implements ActiveProcess
     public function setGroupName(
         string $name
     ): static {
-        return $this->setGroupId(Systemic::$os->groupNameToGroupId($name));
+        return $this->setGroupId(Systemic::getOs()->groupNameToGroupId($name));
     }
 
 

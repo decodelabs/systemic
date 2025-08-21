@@ -42,7 +42,7 @@ class Custom implements
      * @param callable(Custom): iterable<string> $callback
      */
     public function __construct(
-        callable $callback
+        callable $callback,
     ) {
         $this->traitConstruct(new PipeManifold());
         $this->result = new Result();

@@ -13,24 +13,23 @@
         "ext-intl": "*",
         "symfony/polyfill-mbstring": "^1.32",
 
-        "decodelabs/archetype": "^0.3.10",
         "decodelabs/coercion": "^0.3.3",
         "decodelabs/deliverance": "^0.3.3",
         "decodelabs/eventful": "^0.4.3",
         "decodelabs/exceptional": "^0.6.1",
         "decodelabs/fluidity": "^0.3.6",
-        "decodelabs/nuance": "^0.1.2",
-        "decodelabs/veneer": "^0.12.8"
+        "decodelabs/kingdom": "^0.1",
+        "decodelabs/nuance": "^0.1.2"
     },
     "require-dev": {
         "decodelabs/phpstan-decodelabs": "^0.7"
     },
     "autoload": {
         "psr-4": {
-            "DecodeLabs\\Systemic\\": "src/"
+            "DecodeLabs\\Systemic\\": "src/Systemic/"
         },
-        "files": [
-            "src/Context.php"
+        "classmap": [
+            "src/Systemic.php"
         ]
     },
     "extra": {

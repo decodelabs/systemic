@@ -7,82 +7,107 @@
 
 declare(strict_types=1);
 
-namespace DecodeLabs\Systemic;
+namespace DecodeLabs;
 
-use DecodeLabs\Archetype;
 use DecodeLabs\Eventful\Signal;
-use DecodeLabs\Exceptional;
-use DecodeLabs\Systemic;
+use DecodeLabs\Kingdom\PureService;
+use DecodeLabs\Kingdom\PureServiceTrait;
+use DecodeLabs\Systemic\ActiveProcess;
+use DecodeLabs\Systemic\Command;
 use DecodeLabs\Systemic\Command\Unix as UnixCommand;
-use DecodeLabs\Veneer;
-use DecodeLabs\Veneer\Plugin;
+use DecodeLabs\Systemic\Controller;
+use DecodeLabs\Systemic\Os;
+use DecodeLabs\Systemic\Process;
+use DecodeLabs\Systemic\Result;
 use Stringable;
 
-class Context
+class Systemic implements PureService
 {
-    #[Plugin(type: OsAbstract::class)]
+    use PureServiceTrait;
+
+    private static Os $osInstance;
+
     public Os $os {
-        get => $this->os ??= OsAbstract::load();
+        get => self::getOs();
+    }
+
+    public static function getOs(): Os
+    {
+        if (isset(self::$osInstance)) {
+            return self::$osInstance;
+        }
+
+        $name = php_uname('s');
+
+        if (substr(strtolower($name), 0, 3) == 'win') {
+            $name = 'Windows';
+        }
+
+        $class = match ($name) {
+            'Darwin' => Os\Darwin::class,
+            'Linux' => Os\Linux::class,
+            'Windows' => Os\Windows::class,
+            default => Os\Unix::class,
+        };
+
+        return self::$osInstance = new $class($name);
+    }
+
+    public function __construct()
+    {
     }
 
 
-    /**
-     * Wrap process from PID
-     */
-    public function getProcess(
+
+    public static function getProcess(
         int $pid
     ): Process {
         /** @var class-string<Process> */
-        $class = $this->getProcessSystemClass();
+        $class = self::getProcessSystemClass();
         return new $class($pid);
     }
 
-    /**
-     * Get current process
-     */
-    public function getCurrentProcess(): ActiveProcess
+
+    public static function getActiveProcess(): ActiveProcess
     {
         /** @var class-string<ActiveProcess> */
-        $class = $this->getProcessSystemClass(true);
+        $class = self::getProcessSystemClass(true);
         $pid = $class::getCurrentProcessId();
         return new $class($pid);
     }
 
-    /**
-     * Get class for current system's managed process
-     */
-    protected function getProcessSystemClass(
+
+    protected static function getProcessSystemClass(
         bool $active = false
     ): string {
+        $os = self::getOs();
         $prefix = $active ? 'Active' : '';
-        $class = '\\DecodeLabs\\Systemic\\' . $prefix . 'Process\\' . $this->os->getName();
 
-        if (!class_exists($class)) {
-            $class = '\\DecodeLabs\\Systemic\\' . $prefix . 'Process\\' . $this->os->getPlatformType();
+        $classes = [
+            '\\DecodeLabs\\Systemic\\' . $prefix . 'Process\\' . $os->name,
+            '\\DecodeLabs\\Systemic\\' . $prefix . 'Process\\' . $os->platformType,
+        ];
 
-            if (!class_exists($class)) {
-                throw Exceptional::ComponentUnavailable(
-                    message: 'Processes aren\'t currently supported on this platform!'
-                );
+        foreach ($classes as $class) {
+            if (class_exists($class)) {
+                return $class;
             }
         }
 
-        return $class;
+        throw Exceptional::ComponentUnavailable(
+            message: 'Processes aren\'t currently supported on this platform!'
+        );
     }
 
 
-    /**
-     * New signal object
-     */
+
     public function newSignal(
         Signal|string|int $signal
     ): Signal {
         return Signal::create($signal);
     }
 
-    /**
-     * Normalize signal id
-     */
+
     public function normalizeSignal(
         Signal|string|int $signal
     ): int {
@@ -91,8 +116,6 @@ class Context
 
 
     /**
-     * Run process, capture output as Result
-     *
      * @param string|Stringable|array<string|Stringable>|Command $command
      */
     public function capture(
@@ -105,8 +128,6 @@ class Context
     }
 
     /**
-     * Run script, capture output as Result
-     *
      * @param string|Stringable|array<string|Stringable>|Command $command
      */
     public function captureScript(
@@ -119,8 +140,6 @@ class Context
     }
 
     /**
-     * Run process, capture output as Result and stream to terminal
-     *
      * @param string|Stringable|array<string|Stringable>|Command $command
      */
     public function liveCapture(
@@ -133,8 +152,6 @@ class Context
     }
 
     /**
-     * Run script, capture output as Result and stream to terminal
-     *
      * @param string|Stringable|array<string|Stringable>|Command $command
      */
     public function liveCaptureScript(
@@ -148,8 +165,6 @@ class Context
 
 
     /**
-     * Launch background process
-     *
      * @param string|Stringable|array<string|Stringable>|Command $command
      */
     public function launch(
@@ -162,8 +177,6 @@ class Context
     }
 
     /**
-     * Launch background script
-     *
      * @param string|Stringable|array<string|Stringable>|Command $command
      */
     public function launchScript(
@@ -178,8 +191,6 @@ class Context
 
 
     /**
-     * Start TTY terminal process
-     *
      * @param string|Stringable|array<string|Stringable>|Command $command
      */
     public function run(
@@ -192,8 +203,6 @@ class Context
     }
 
     /**
-     * Start TTY terminal process
-     *
      * @param string|Stringable|array<string|Stringable>|Command $command
      */
     public function runScript(
@@ -206,8 +215,6 @@ class Context
     }
 
     /**
-     * Start custom controller process
-     *
      * @param string|Stringable|array<string|Stringable>|Command $command
      */
     public function start(
@@ -221,8 +228,6 @@ class Context
     }
 
     /**
-     * Start custom controller script
-     *
      * @param string|Stringable|array<string|Stringable>|Command $command
      */
     public function startScript(
@@ -238,8 +243,6 @@ class Context
 
 
     /**
-     * Prepare command
-     *
      * @param string|Stringable|array<string|Stringable>|Command $command
      * @param array<string, string|Stringable|int|float> $variables
      */
@@ -256,8 +259,6 @@ class Context
     }
 
     /**
-     * Prepare script command
-     *
      * @param string|Stringable|array<string|Stringable>|Command $command
      * @param array<string, string|Stringable|int|float> $variables
      */
@@ -270,9 +271,7 @@ class Context
     }
 
 
-    /**
-     * Get PHP binary path
-     */
+
     protected function getPhpPath(): string
     {
         $binaryPath = $this->os->which('php');
@@ -288,8 +287,6 @@ class Context
     }
 
     /**
-     * Create new command
-     *
      * @param string|Stringable|array<string|Stringable> $command
      * @param array<string, string|Stringable|int|float> $variables
      */
@@ -303,24 +300,16 @@ class Context
             $name = php_uname('s');
 
             if (substr(strtolower($name), 0, 3) == 'win') {
-                $name = 'Windows';
+                //$name = 'Windows';
+                throw Exceptional::ComponentUnavailable(
+                    message: 'Windows is not supported yet'
+                );
             }
 
-            $class = Archetype::resolve(
-                Command::class,
-                $name,
-                UnixCommand::class
-            );
+            $class = UnixCommand::class;
         }
 
         /** @var class-string<Command> $class */
         return new $class($command, $variables);
     }
 }
-
-
-// Register the Veneer proxy
-Veneer\Manager::getGlobalManager()->register(
-    Context::class,
-    Systemic::class
-);

@@ -11,33 +11,23 @@ namespace DecodeLabs\Systemic\Os;
 
 use COM;
 use DecodeLabs\Exceptional;
-use DecodeLabs\Systemic\OsAbstract;
+use DecodeLabs\Nuance\Dumpable;
+use DecodeLabs\Systemic\Os;
+use DecodeLabs\Systemic\OsTrait;
 
-class Windows extends OsAbstract
+class Windows implements
+    Os,
+    Dumpable
 {
-    protected static COM $wmi;
+    use OsTrait;
 
-    protected ?string $platformType = 'Windows';
-    protected ?string $distribution = null;
-
-    /**
-     * Init with name, instantiate WMI
-     */
-    protected function __construct(
-        string $name
-    ) {
-        parent::__construct($name);
-
-        self::$wmi = new COM("winmgmts:{impersonationLevel=impersonate}!\\\\.\\root\\cimv2");
+    public protected(set) COM $wmi {
+        get => $this->wmi ??= new COM("winmgmts:{impersonationLevel=impersonate}!\\\\.\\root\\cimv2");
     }
 
-    /**
-     * Get active WMI COM
-     */
-    public function getWmi(): COM
-    {
-        return self::$wmi;
-    }
+    public protected(set) ?string $platformType = 'Windows';
+    public protected(set) ?string $distribution = null;
+
 
     /**
      * Get specific OS distribution
@@ -56,7 +46,7 @@ class Windows extends OsAbstract
      */
     private function lookupDistribution(): string
     {
-        $res = self::$wmi->ExecQuery('SELECT * FROM Win32_OperatingSystem');
+        $res = $this->wmi->ExecQuery('SELECT * FROM Win32_OperatingSystem');
 
         foreach ($res as $os) {
             return $os->Caption;

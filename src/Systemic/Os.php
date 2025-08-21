@@ -11,18 +11,17 @@ namespace DecodeLabs\Systemic;
 
 interface Os
 {
-    public function getName(): string;
-    public function getPlatformType(): string;
-    public function getDistribution(): string;
+    public string $name { get; }
+    public string $platformType { get; }
+    public string $distribution { get; }
+    public string $version { get; }
+    public string $release { get; }
+    public string $hostName { get; }
 
     public function isWindows(): bool;
     public function isUnix(): bool;
     public function isLinux(): bool;
     public function isMac(): bool;
-
-    public function getVersion(): string;
-    public function getRelease(): string;
-    public function getHostName(): string;
 
     public function userIdToUserName(
         int $id

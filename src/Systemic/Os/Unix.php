@@ -11,11 +11,24 @@ namespace DecodeLabs\Systemic\Os;
 
 use DecodeLabs\Coercion;
 use DecodeLabs\Exceptional;
-use DecodeLabs\Systemic\OsAbstract;
+use DecodeLabs\Nuance\Dumpable;
+use DecodeLabs\Systemic\Os;
+use DecodeLabs\Systemic\OsTrait;
 
-class Unix extends OsAbstract
+class Unix implements
+    Os,
+    Dumpable
 {
-    protected ?string $platformType = 'Unix';
+    use OsTrait {
+        OsTrait::__construct as __parentConstruct;
+    }
+
+    public function __construct(
+        string $name
+    ) {
+        $this->__parentConstruct($name);
+        $this->platformType = 'Unix';
+    }
 
     /**
      * Get system user name from id

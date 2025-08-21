@@ -24,52 +24,48 @@ composer require decodelabs/systemic
 
 ## Usage
 
-### Importing
-
-Systemic uses [Veneer](https://github.com/decodelabs/veneer) to provide a unified frontage under <code>DecodeLabs\Systemic</code>.
-You can access all the primary functionality via this static frontage without compromising testing and dependency injection.
-
-
-
 ### Process launching
 
 Launch new processes:
 
 ```php
+use DecodeLabs\Monarch;
 use DecodeLabs\Systemic;
+
+$systemic = Monarch::getService(Systemic::class);
 
 $dir = 'path/to/working-directory';
 
 // Launch and capture output of a process
-echo Systemic::capture(['ls', '-al'], $dir)->getOutput();
+echo $systemic->capture(['ls', '-al'], $dir)->getOutput();
 
 // Launch and capture output of a process with raw string command (not escaped)
-echo Systemic::capture('ls -al', $dir)->getOutput();
+echo $systemic->capture('ls -al', $dir)->getOutput();
 
 // Launch and capture output of a script
-echo Systemic::capture(['myPhpScript.php'], $dir)->getOutput();
+echo $systemic->capture(['myPhpScript.php'], $dir)->getOutput();
 
 // Launch a background task
-$process = Systemic::launch(['make', 'install']);
+$process = $systemic->launch(['make', 'install']);
 
 // Launch a background script
-$process = Systemic::launchScript(['myPhpScript.php'], $dir);
+$process = $systemic->launchScript(['myPhpScript.php'], $dir);
 
 // Run a piped pseudo terminal process
-$success = Systemic::run(['interactive-app', '--arg1'], $dir);
+$success = $systemic->run(['interactive-app', '--arg1'], $dir);
 
 // Run a piped pseudo terminal script
-$success = Systemic::runScript(['myPhpScript.php', '--arg1'], $dir);
+$success = $systemic->runScript(['myPhpScript.php', '--arg1'], $dir);
 
 // Custom escaped command
-$success = Systemic::command(['escaped', 'arguments'])
+$success = $systemic->command(['escaped', 'arguments'])
     ->setWorkingDirectory($dir)
     ->addSignal('SIGSTOP') // Pass SIGSTOP through when caught
     ->setUser('someuser') // Attempt to use sudo to run as user
     ->run();
 
 // Custom raw command with env arguments
-$result = Systemic::command('echo ${:VARIABLE} | unescaped-command', [
+$result = $systemic->command('echo ${:VARIABLE} | unescaped-command', [
         'VARIABLE' => 'Hello world'
     ])
     ->setWorkingDirectory($dir)
@@ -81,18 +77,16 @@ $result = Systemic::command('echo ${:VARIABLE} | unescaped-command', [
 Get information about the current OS:
 
 ```php
-use DecodeLabs\Systemic;
-
 // OS info
-echo Systemic::$os->getName(); // Linux | Windows | Darwin
-echo Systemic::$os->getPlatformType(); // Unix | Windows
-echo Systemic::$os->getDistribution(); // eg Ubuntu or High Sierra, etc
-echo Systemic::$os->getVersion(); // System version info
-echo Systemic::$os->getRelease(); // System version number
-echo Systemic::$os->getHostName(); // System hostname
+echo $systemic->os->name; // Linux | Windows | Darwin
+echo $systemic->os->platformType; // Unix | Windows
+echo $systemic->os->distribution; // eg Ubuntu or High Sierra, etc
+echo $systemic->os->version; // System version info
+echo $systemic->os->release; // System version number
+echo $systemic->os->hostName; // System hostname
 
 // Find binaries on the system
-echo Systemic::$os->which('php'); // eg /usr/local/bin/php
+echo $systemic->os->which('php'); // eg /usr/local/bin/php
 ```
 
 

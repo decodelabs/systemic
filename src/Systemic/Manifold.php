@@ -18,7 +18,7 @@ use DecodeLabs\Deliverance\Channel\Stream;
 interface Manifold
 {
     /**
-     * @return array<int, resource|array<string>>
+     * @return array<int,resource|array<string>>
      */
     public function getDescriptors(): array;
 

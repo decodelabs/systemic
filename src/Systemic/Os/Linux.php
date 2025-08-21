@@ -31,24 +31,8 @@ class Linux extends Unix
         'Synology' => '/etc/synoinfo.conf'
     ];
 
-    protected ?string $distribution = null;
 
-    /**
-     * Get OS distribution
-     */
-    public function getDistribution(): string
-    {
-        if ($this->distribution === null) {
-            $this->distribution = $this->lookupDistribution();
-        }
-
-        return $this->distribution;
-    }
-
-    /**
-     * Extract distribution info
-     */
-    private function lookupDistribution(): string
+    protected function lookupDistribution(): string
     {
         exec('lsb_release -a', $result);
 

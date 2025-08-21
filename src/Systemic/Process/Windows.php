@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace DecodeLabs\Systemic\Process;
 
 use COM;
-
 use DecodeLabs\Eventful\Signal;
 use DecodeLabs\Exceptional;
 use DecodeLabs\Systemic;
@@ -135,7 +134,9 @@ class Windows implements Process
 
     protected static function getWmi(): COM
     {
+        $os = Systemic::getOs();
+
         /** @phpstan-ignore-next-line */
-        return Systemic::$os->getWmi();
+        return $os->wmi;
     }
 }
