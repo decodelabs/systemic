@@ -5,11 +5,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Unreleased
+--
+
+---
+
+### [v0.12.0](https://github.com/decodelabs/systemic/commits/v0.12.0) - 21st August 2025
+
 - Added Kingdom Service support
 - Refactored OS interface
 - Removed Veneer dependency
 - Removed Archetype dependency
 - Renamed getCurrentProcess() to getActiveProcess()
+
+[Full list of changes](https://github.com/decodelabs/systemic/compare/v0.11.19...v0.12.0)
 
 ---
 
