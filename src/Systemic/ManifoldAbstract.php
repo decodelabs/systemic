@@ -31,9 +31,6 @@ abstract class ManifoldAbstract implements Manifold
         return $this->handle !== null;
     }
 
-    /**
-     * Open process command
-     */
     public function open(
         Command $command
     ): ?Process {

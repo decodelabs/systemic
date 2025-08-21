@@ -27,9 +27,6 @@ class Windows implements Process
     public const ExitPathNotFound = 9;
     public const ExitInvalidParameter = 21;
 
-    /**
-     * Check if process under PID is still running
-     */
     public static function isProcessIdLive(
         int $pid
     ): bool {
@@ -45,9 +42,6 @@ class Windows implements Process
         return false;
     }
 
-    /**
-     * Get PID of current process
-     */
     public static function getCurrentProcessId(): int
     {
         if (false === ($output = getmypid())) {
@@ -60,9 +54,6 @@ class Windows implements Process
     }
 
 
-    /**
-     * Get parent process id
-     */
     public function getParentProcessId(): int
     {
         if ($this->parentProcessId !== null) {
@@ -81,9 +72,6 @@ class Windows implements Process
     }
 
 
-    /**
-     * Check if process is still running
-     */
     public function isAlive(): bool
     {
         $wmi = $this->getWmi();
@@ -98,9 +86,6 @@ class Windows implements Process
         return false;
     }
 
-    /**
-     * Send kill signal
-     */
     public function kill(): bool
     {
         $wmi = $this->getWmi();
@@ -115,18 +100,12 @@ class Windows implements Process
         return $output == 0;
     }
 
-    /**
-     * Send a signal to this process
-     */
     public function sendSignal(
         Signal|string|int $signal
     ): bool {
         return false;
     }
 
-    /**
-     * Is this process running as root?
-     */
     public function isPrivileged(): bool
     {
         return true;

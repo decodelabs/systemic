@@ -51,9 +51,6 @@ class Pty extends ManifoldAbstract
         $this->setStty((string)$this->snapshot);
     }
 
-    /**
-     * Set stty config
-     */
     protected function setStty(
         string $config
     ): void {

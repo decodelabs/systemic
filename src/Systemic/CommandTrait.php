@@ -60,8 +60,6 @@ trait CommandTrait
     private static ?bool $sigChildEnabled = null;
 
     /**
-     * Init with raw command and variables
-     *
      * @param string|Stringable|array<string|Stringable> $command
      * @param array<string, string> $variables
      */
@@ -82,8 +80,6 @@ trait CommandTrait
     }
 
     /**
-     * Get raw string or array representation
-     *
      * @return string|array<string>
      */
     public function getRaw(): string|array
@@ -101,8 +97,6 @@ trait CommandTrait
     }
 
     /**
-     * Prepend to command
-     *
      * @param string|Stringable|array<string|Stringable> $prefix
      * @return $this
      */
@@ -133,8 +127,6 @@ trait CommandTrait
     }
 
     /**
-     * Append to command
-     *
      * @param string|Stringable|array<string|Stringable> $suffix
      * @return $this
      */
@@ -166,8 +158,6 @@ trait CommandTrait
 
 
     /**
-     * Set list of variables
-     *
      * @param array<string, string|Stringable|int|float> $variables
      * @return $this
      */
@@ -182,8 +172,6 @@ trait CommandTrait
     }
 
     /**
-     * Get all variables
-     *
      * @return array<string, string>
      */
     public function getVariables(): array
@@ -192,8 +180,6 @@ trait CommandTrait
     }
 
     /**
-     * Set single variable
-     *
      * @return $this
      */
     public function setVariable(
@@ -204,27 +190,18 @@ trait CommandTrait
         return $this;
     }
 
-    /**
-     * Get single variable if exists
-     */
     public function getVariable(
         string $name
     ): ?string {
         return $this->variables[$name] ?? null;
     }
 
-    /**
-     * Is a variable set?
-     */
     public function hasVariable(
         string $name
     ): bool {
         return isset($this->variables[$name]);
     }
 
-    /**
-     * Get final value for variable
-     */
     protected function resolveVariable(
         string $name
     ): string {
@@ -238,9 +215,6 @@ trait CommandTrait
     }
 
 
-    /**
-     * Set working directory
-     */
     public function setWorkingDirectory(
         string|Stringable|null $path
     ): static {
@@ -248,9 +222,6 @@ trait CommandTrait
         return $this;
     }
 
-    /**
-     * Get working directory
-     */
     public function getWorkingDirectory(): ?string
     {
         $workingDirectory = $this->workingDirectory !== null ?
@@ -266,9 +237,6 @@ trait CommandTrait
 
 
 
-    /**
-     * Add signal(s) to be passed to process if caught
-     */
     public function addSignal(
         Signal|string|int ...$signals
     ): static {
@@ -281,8 +249,6 @@ trait CommandTrait
     }
 
     /**
-     * Get list of registered signals
-     *
      * @return array<string, Signal>
      */
     public function getSignals(): array
@@ -290,17 +256,11 @@ trait CommandTrait
         return $this->signals;
     }
 
-    /**
-     * Are any signals registered?
-     */
     public function hasSignals(): bool
     {
         return !empty($this->signals);
     }
 
-    /**
-     * Is this particular signal registered?
-     */
     public function hasSignal(
         Signal|string|int $signal
     ): bool {
@@ -308,9 +268,6 @@ trait CommandTrait
         return isset($this->signals[$signal->name]);
     }
 
-    /**
-     * Remove signal if registered
-     */
     public function removeSignal(
         Signal|string|int $signal
     ): static {
@@ -319,9 +276,6 @@ trait CommandTrait
         return $this;
     }
 
-    /**
-     * Remove all signals
-     */
     public function clearSignals(): static
     {
         $this->signals = [];
@@ -329,9 +283,6 @@ trait CommandTrait
     }
 
 
-    /**
-     * Set process owner
-     */
     public function setUser(
         ?string $user
     ): static {
@@ -339,9 +290,7 @@ trait CommandTrait
         return $this;
     }
 
-    /**
-     * Get process owner
-     */
+
     public function getUser(): ?string
     {
         return $this->user;
@@ -349,9 +298,7 @@ trait CommandTrait
 
 
 
-    /**
-     * Convert command to string for launch
-     */
+
     public function __toString(): string
     {
         if (is_array($this->command)) {
@@ -361,9 +308,7 @@ trait CommandTrait
         }
     }
 
-    /**
-     * Prepare array representation
-     */
+
     protected function prepareAsArray(): string
     {
         $output = [];
@@ -384,9 +329,7 @@ trait CommandTrait
         return implode(' ', $output);
     }
 
-    /**
-     * Prepare string representation
-     */
+
     protected function prepareAsString(): string
     {
         return Coercion::asString(
@@ -429,9 +372,7 @@ trait CommandTrait
     }
 
 
-    /**
-     * Has PHP been compiled with --enable-sigchild
-     */
+
     protected function isSigChildEnabled(): bool
     {
         if (!isset(self::$sigChildEnabled)) {
@@ -450,9 +391,7 @@ trait CommandTrait
 
 
 
-    /**
-     * Run and capture result
-     */
+
     public function capture(): Result
     {
         $controller = new BlindCaptureController(new PipeManifold());
@@ -460,9 +399,7 @@ trait CommandTrait
         return $controller->getResult();
     }
 
-    /**
-     * Run and capture result
-     */
+
     public function liveCapture(): Result
     {
         $controller = new LiveCaptureController(new PipeManifold());
@@ -470,9 +407,7 @@ trait CommandTrait
         return $controller->getResult();
     }
 
-    /**
-     * Run as interactive terminal
-     */
+
     public function run(): bool
     {
         if (
@@ -506,9 +441,7 @@ trait CommandTrait
         return $controller->wasSuccessful();
     }
 
-    /**
-     * Run background
-     */
+
     public function launch(): Process
     {
         $controller = new SeveredController(new DevNullManifold());
@@ -523,9 +456,7 @@ trait CommandTrait
         return $process;
     }
 
-    /**
-     * Start custom controller
-     */
+
     public function start(
         callable|Controller $controller
     ): Result {

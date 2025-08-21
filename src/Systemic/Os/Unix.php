@@ -30,9 +30,6 @@ class Unix implements
         $this->platformType = 'Unix';
     }
 
-    /**
-     * Get system user name from id
-     */
     public function userIdToUserName(
         int $id
     ): string {
@@ -57,9 +54,6 @@ class Unix implements
         );
     }
 
-    /**
-     * Get system user id from name
-     */
     public function userNameToUserId(
         string $name
     ): int {
@@ -78,9 +72,6 @@ class Unix implements
         );
     }
 
-    /**
-     * Get system group name from id
-     */
     public function groupIdToGroupName(
         int $id
     ): string {
@@ -105,9 +96,6 @@ class Unix implements
         );
     }
 
-    /**
-     * Get system group id from name
-     */
     public function groupNameToGroupId(
         string $name
     ): int {
@@ -125,9 +113,6 @@ class Unix implements
         );
     }
 
-    /**
-     * Lookup system binary location
-     */
     public function which(
         string $binaryName
     ): string {

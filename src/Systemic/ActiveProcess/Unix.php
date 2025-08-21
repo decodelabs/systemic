@@ -17,9 +17,6 @@ use Throwable;
 
 class Unix extends UnixBase implements ActiveProcess
 {
-    /**
-     * Get parent process id
-     */
     public function getParentProcessId(): int
     {
         if ($this->parentProcessId !== null) {
@@ -33,9 +30,7 @@ class Unix extends UnixBase implements ActiveProcess
         return parent::getParentProcessId();
     }
 
-    /**
-     * Set process identity
-     */
+
     public function setIdentity(
         string|int $uid,
         string|int $gid
@@ -96,9 +91,7 @@ class Unix extends UnixBase implements ActiveProcess
         return $this;
     }
 
-    /**
-     * Set process owner
-     */
+
     public function setOwnerId(
         int $id
     ): static {
@@ -126,9 +119,7 @@ class Unix extends UnixBase implements ActiveProcess
         return $this;
     }
 
-    /**
-     * Get current process owner
-     */
+
     public function getOwnerId(): int
     {
         if (extension_loaded('posix')) {
@@ -142,9 +133,7 @@ class Unix extends UnixBase implements ActiveProcess
         return parent::getOwnerId();
     }
 
-    /**
-     * Set process owner by name
-     */
+
     public function setOwnerName(
         string $name
     ): static {
@@ -152,9 +141,7 @@ class Unix extends UnixBase implements ActiveProcess
     }
 
 
-    /**
-     * Set process group
-     */
+
     public function setGroupId(
         int $id
     ): static {
@@ -182,9 +169,7 @@ class Unix extends UnixBase implements ActiveProcess
         return $this;
     }
 
-    /**
-     * Get process group id
-     */
+
     public function getGroupId(): int
     {
         if (extension_loaded('posix')) {
@@ -194,9 +179,7 @@ class Unix extends UnixBase implements ActiveProcess
         return parent::getGroupId();
     }
 
-    /**
-     * Set process group by name
-     */
+
     public function setGroupName(
         string $name
     ): static {
@@ -205,17 +188,13 @@ class Unix extends UnixBase implements ActiveProcess
 
 
 
-    /**
-     * Is system capable of forking processes?
-     */
+
     public function canFork(): bool
     {
         return extension_loaded('pcntl');
     }
 
-    /**
-     * Fork this process
-     */
+
     public function fork(): ?static
     {
         if (!$this->canFork()) {

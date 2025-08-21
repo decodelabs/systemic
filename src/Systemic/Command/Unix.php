@@ -36,9 +36,6 @@ class Unix implements Command
         return $output;
     }
 
-    /**
-     * Ensure arguments are quoted
-     */
     protected function escapeArgument(
         string $argument
     ): string {

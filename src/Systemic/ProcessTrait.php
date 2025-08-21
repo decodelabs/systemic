@@ -21,18 +21,12 @@ trait ProcessTrait
     protected ?int $parentProcessId = null;
     protected ?string $pidFile = null;
 
-    /**
-     * Init with PID and title
-     */
     public function __construct(
         int $processId
     ) {
         $this->processId = $processId;
     }
 
-    /**
-     * Get current PID
-     */
     public function getProcessId(): int
     {
         return $this->processId;
@@ -40,17 +34,11 @@ trait ProcessTrait
 
 
 
-    /**
-     * Has a PID file been defined for this process?
-     */
     public function hasPidFile(): bool
     {
         return $this->pidFile !== null;
     }
 
-    /**
-     * Define a PID file for this process
-     */
     public function setPidFilePath(
         ?string $path
     ): static {
@@ -96,18 +84,12 @@ trait ProcessTrait
         return $this;
     }
 
-    /**
-     * Get PID file path
-     */
     public function getPidFilePath(): ?string
     {
         return $this->pidFile;
     }
 
 
-    /**
-     * Set process priority
-     */
     public function setPriority(
         int $priority
     ): static {
@@ -118,9 +100,6 @@ trait ProcessTrait
         return $this;
     }
 
-    /**
-     * Get process priority
-     */
     public function getPriority(): int
     {
         if (extension_loaded('pcntl')) {

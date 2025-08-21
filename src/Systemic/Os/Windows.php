@@ -29,9 +29,6 @@ class Windows implements
     public protected(set) ?string $distribution = null;
 
 
-    /**
-     * Get specific OS distribution
-     */
     public function getDistribution(): string
     {
         if ($this->distribution === null) {
@@ -41,9 +38,6 @@ class Windows implements
         return $this->distribution;
     }
 
-    /**
-     * Lookup version of windows
-     */
     private function lookupDistribution(): string
     {
         $res = $this->wmi->ExecQuery('SELECT * FROM Win32_OperatingSystem');
@@ -57,36 +51,24 @@ class Windows implements
 
 
 
-    /**
-     * Get system user name from id
-     */
     public function userIdToUserName(
         int $id
     ): string {
         return (string)$id;
     }
 
-    /**
-     * Get system user id from name
-     */
     public function userNameToUserId(
         string $name
     ): int {
         return (int)$name;
     }
 
-    /**
-     * Get system group name from id
-     */
     public function groupIdToGroupName(
         int $id
     ): string {
         return (string)$id;
     }
 
-    /**
-     * Get system group id from name
-     */
     public function groupNameToGroupId(
         string $name
     ): int {
@@ -94,9 +76,6 @@ class Windows implements
     }
 
 
-    /**
-     * Lookup system binary location
-     */
     public function which(
         string $binaryName
     ): string {

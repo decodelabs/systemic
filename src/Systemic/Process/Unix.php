@@ -18,9 +18,6 @@ class Unix implements Process
 {
     use ProcessTrait;
 
-    /**
-     * Check if process under PID is still running
-     */
     public static function isProcessIdLive(
         int $pid
     ): bool {
@@ -38,9 +35,6 @@ class Unix implements Process
         }
     }
 
-    /**
-     * Get PID of current process
-     */
     public static function getCurrentProcessId(): int
     {
         if (extension_loaded('posix')) {
@@ -57,9 +51,6 @@ class Unix implements Process
     }
 
 
-    /**
-     * Get parent process id
-     */
     public function getParentProcessId(): int
     {
         if ($this->parentProcessId !== null) {
@@ -78,25 +69,16 @@ class Unix implements Process
     }
 
 
-    /**
-     * Check if process is still running
-     */
     public function isAlive(): bool
     {
         return self::isProcessIdLive($this->processId);
     }
 
-    /**
-     * Send kill signal
-     */
     public function kill(): bool
     {
         return $this->sendSignal('SIGTERM');
     }
 
-    /**
-     * Send a signal to this process
-     */
     public function sendSignal(
         Signal|string|int $signal
     ): bool {
@@ -123,9 +105,6 @@ class Unix implements Process
 
 
 
-    /**
-     * Get current process owner
-     */
     public function getOwnerId(): int
     {
         exec('ps -o euid --no-heading --pid ' . escapeshellarg((string)$this->processId), $output);
@@ -139,9 +118,6 @@ class Unix implements Process
         );
     }
 
-    /**
-     * Get current owner name
-     */
     public function getOwnerName(): string
     {
         if (extension_loaded('posix')) {
@@ -163,9 +139,6 @@ class Unix implements Process
         );
     }
 
-    /**
-     * Get process group id
-     */
     public function getGroupId(): int
     {
         exec('ps -o egid --no-heading --pid ' . escapeshellarg((string)$this->processId), $output);
@@ -179,9 +152,6 @@ class Unix implements Process
         );
     }
 
-    /**
-     * Get process group name
-     */
     public function getGroupName(): string
     {
         if (extension_loaded('posix')) {
@@ -203,9 +173,6 @@ class Unix implements Process
         );
     }
 
-    /**
-     * Is this process running as root?
-     */
     public function isPrivileged(): bool
     {
         $uid = $this->getOwnerId();
