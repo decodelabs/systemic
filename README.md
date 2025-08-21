@@ -93,9 +93,6 @@ echo $systemic->os->which('php'); // eg /usr/local/bin/php
 ## Windows
 Please note, OS and Process support on Windows is currently extremely sketchy - this will be fleshed out soon!
 
-### Locale & Timezone
-
-Looking for Locale and Timezone info? This has moved to [Cosmos](https://github.com/decodelabs/cosmos).
 
 ## Licensing
 Systemic is licensed under the MIT License. See [LICENSE](./LICENSE) for the full license text.
