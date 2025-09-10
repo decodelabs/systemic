@@ -18,7 +18,7 @@
         "decodelabs/eventful": "^0.4.5",
         "decodelabs/exceptional": "^0.6.3",
         "decodelabs/fluidity": "^0.3.7",
-        "decodelabs/kingdom": "^0.1",
+        "decodelabs/kingdom": "^0.2",
         "decodelabs/nuance": "^0.1.9"
     },
     "require-dev": {
