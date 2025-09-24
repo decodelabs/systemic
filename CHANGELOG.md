@@ -5,8 +5,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Unreleased
+--
+
+---
+
+### [v0.12.2](https://github.com/decodelabs/systemic/commits/v0.12.2) - 24th September 2025
+
 - Fixed error stream read buffer in custom controller
 - Simplified CI workflow
+
+[Full list of changes](https://github.com/decodelabs/systemic/compare/v0.12.1...v0.12.2)
 
 ---
 
