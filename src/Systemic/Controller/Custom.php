@@ -116,7 +116,7 @@ class Custom implements
         }
 
         $output = $this->error;
-        $this->output = '';
+        $this->error = '';
         return $output;
     }
 
