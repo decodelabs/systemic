@@ -16,6 +16,8 @@ Systemic offers an easy to use frontend to launching and controlling processes a
 
 ## Installation
 
+This package requires PHP 8.4 or higher.
+
 Install via composer:
 
 ```bash
