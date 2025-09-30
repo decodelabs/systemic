@@ -24,7 +24,7 @@ class Tty extends ManifoldAbstract
     }
 
     /**
-     * @return array<int, resource|array<string>>
+     * @return array<int,resource|list<string>>
      */
     public function getDescriptors(): array
     {
