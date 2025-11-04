@@ -1,8 +1,8 @@
 <?php
 
 /**
- * @package Systemic
- * @license http://opensource.org/licenses/MIT
+ * Systemic
+ * @license https://opensource.org/licenses/MIT
  */
 
 declare(strict_types=1);
