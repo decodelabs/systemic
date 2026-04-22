@@ -59,6 +59,7 @@ class Unix extends UnixBase implements ActiveProcess
         if (
             $doGid &&
             $doPidFile &&
+            // @phpstan-ignore-next-line
             $this->pidFile !== null
         ) {
             chgrp($this->pidFile, $gid);
@@ -67,6 +68,7 @@ class Unix extends UnixBase implements ActiveProcess
         if (
             $doUid &&
             $doPidFile &&
+            // @phpstan-ignore-next-line
             $this->pidFile !== null
         ) {
             chown($this->pidFile, $uid);
