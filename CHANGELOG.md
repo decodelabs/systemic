@@ -5,11 +5,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Unreleased
+--
+
+---
+
+### [v0.12.5](https://github.com/decodelabs/systemic/commits/v0.12.5) - 16th November 2026
+
 - Replaced deprecated backtick operator with shell_exec() for PTY snapshots
 - Clarified cached environment array typing for PHPStan
 - Improved doc comment headers
 - Added AGENTS.md
 - Integrated Chorus dev dependency
+
+[Full list of changes](https://github.com/decodelabs/systemic/compare/v0.12.4...v0.12.5)
 
 ---
 
@@ -523,4 +531,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added locale plugin
 - Added timezone plugin
 - Added process launcher and manager system
-
