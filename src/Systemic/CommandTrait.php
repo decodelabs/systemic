@@ -363,12 +363,18 @@ trait CommandTrait
      */
     protected function getDefaultEnv(): array
     {
-        // @phpstan-ignore-next-line
-        return self::$defaultEnv ??= (
+        if (self::$defaultEnv !== null) {
+            return self::$defaultEnv;
+        }
+
+        /** @var array<string,string|int|float|null> $env */
+        $env = (
             isset($_SERVER['HTTP_HOST']) ?
                 [] :
                 array_merge(getenv(), $_ENV)
         );
+
+        return self::$defaultEnv = $env;
     }
 
 
